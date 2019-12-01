@@ -8,6 +8,8 @@ Comments are welcome, it's my first project using Phoenix :)
 You need Elixir and node.js
 `make build-and-serve`
 
+it will be visible at localhost:4000
+
 ## development diary
 These notes are here so I can remember how I built this in the future.
 
@@ -26,6 +28,8 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [ ] understand what exactly the `only` parameter of Plug.Static does and configure it properly
 - [ ] tests, maybe try TDD?
 - [ ] multiple days in same app
+
+## default Phoenix readme:
 
 To start your Phoenix server:
 
