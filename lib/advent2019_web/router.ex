@@ -5,6 +5,11 @@ defmodule Advent2019Web.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", Advent2019Web do
+    # send to the proper index.html
+    get "/", AppController, :index
+  end
+
   scope "/day01", Advent2019Web do
     pipe_through :api
     post "/1", Day01Controller, :solve1
