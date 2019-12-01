@@ -24,7 +24,8 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 ## TODO
 - [ ] find a way to serve the app using `yarn serve` and its reload in development
 - [ ] understand what exactly the `only` parameter of Plug.Static does and configure it properly
-
+- [ ] tests, maybe try TDD?
+- [ ] multiple days in same app
 
 To start your Phoenix server:
 
