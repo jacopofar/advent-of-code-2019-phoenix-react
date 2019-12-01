@@ -1,5 +1,13 @@
 # Advent2019
 
+Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a React frontend written in Typescript.
+
+Comments are welcome, it's my first project using Phoenix :)
+
+## How to run
+You need Elixir and node.js
+`make build-and-serve`
+
 ## development diary
 These notes are here so I can remember how I built this in the future.
 
