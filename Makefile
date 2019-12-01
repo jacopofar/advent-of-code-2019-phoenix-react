@@ -1,3 +1,3 @@
 build-and-serve:
-	cd assets && yarn install && build
+	cd assets && yarn install && yarn build
 	mix phx.server
