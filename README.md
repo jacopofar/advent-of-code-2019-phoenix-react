@@ -29,6 +29,7 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [x] tests, maybe try TDD?
 - [x] tests are executed only when the file is specified to `mix test`, why are they not mounted? (solution: because I wrote `text`, not `test` -_-)
 - [x] multiple days in same app
+- [ ] error management in case of weitd API call content
 
 ## default Phoenix readme:
 
