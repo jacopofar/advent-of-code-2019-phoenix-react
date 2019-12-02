@@ -5,8 +5,9 @@ Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a
 Comments are welcome, it's my first project using Phoenix :)
 
 ## How to run
-You need Elixir and node.js
-`make build-and-serve`
+You need a recent Elixir and Node.js. Then run:
+
+    `make build-and-serve`
 
 it will be visible at localhost:4000
 
