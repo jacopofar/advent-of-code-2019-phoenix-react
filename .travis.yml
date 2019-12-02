@@ -11,7 +11,6 @@ before_script:
   - mix deps.get
 script:
   - mix test
-  - cd installer && elixir -S mix test
   - cd ../assets && npm install && npm test
 # not really used now, but good to remember:
 cache:

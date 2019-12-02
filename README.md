@@ -1,4 +1,5 @@
 # Advent2019
+[![Build Status](https://travis-ci.org/jacopofar/advent-of-code-2019-phoenix-react.svg?branch=master)](https://travis-ci.org/jacopofar/advent-of-code-2019-phoenix-react)
 
 Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a React frontend written in Typescript.
 
@@ -36,3 +37,10 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [x] tests are executed only when the file is specified to `mix test`, why are they not mounted? (solution: because I wrote `text`, not `test` -_-)
 - [x] multiple days in same app
 - [ ] error management in case of weird API call content
+- [ ] make it responsive (it breaks on phone)
+- [ ] improve a11y
+
+
+## License
+
+This is MIT licensed, please do pretty much whatever you want with it
