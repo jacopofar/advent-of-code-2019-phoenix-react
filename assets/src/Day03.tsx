@@ -44,11 +44,10 @@ const Day02: React.FC = () => {
     return (
         <div className={classes.root}>
         <header>
-        <h2>Day 02 - 1202 Program Alarm</h2>
+        <h2>Day 03 - TBD</h2>
         </header>
         <Typography component="div">
-          <Box>Day 02, execute a "program" with opcodes and arithmetical instructions.</Box>
-          <Box>Opcode 1 adds, opcode 2 multiplies, and 99 halts. 1 and 2 are followed by the addresses of the two inputs and then the address where to store the output.</Box>
+          <Box>This problem has not been published yet</Box>
         </Typography>
         <TextField
           id="outlined-multiline-static"
