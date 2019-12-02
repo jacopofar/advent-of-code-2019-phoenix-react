@@ -5,7 +5,6 @@ defmodule Advent2019Web.Day01Controller do
         IO.inspect params["_json"]
         result = params["_json"]
         |> Stream.map(fn i -> trunc(i / 3) - 2 end)
-        |> IO.inspect
         |> Enum.sum
 
         IO.puts "Day 01.1 result: #{result}"
@@ -27,7 +26,6 @@ defmodule Advent2019Web.Day01Controller do
         IO.inspect params["_json"]
         result = params["_json"]
         |> Stream.map(fn i -> fuelCost(trunc(i)) end)
-        |> IO.inspect
         |> Enum.sum
 
         IO.puts "Day 01.2 result: #{result}"
