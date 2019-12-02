@@ -31,7 +31,7 @@ Then in the folder I create the boilerplate react app:
 The normal build with `yarn build` can be then exposed by modifying `plug Plug.Static` in `lib/advent2019_web/endpoint.ex`.
 
 ## TODO
-- [ ] find a way to serve the app using `yarn serve` and its reload in development
+- [x] find a way to serve the app using `yarn serve` and its reload in development
 - [ ] understand what exactly the `only` parameter of Plug.Static does and configure it properly
 - [x] tests, maybe try TDD?
 - [x] tests are executed only when the file is specified to `mix test`, why are they not mounted? (solution: because I wrote `text`, not `test` -_-)
