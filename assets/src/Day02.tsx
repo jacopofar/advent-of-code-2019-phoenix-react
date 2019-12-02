@@ -33,7 +33,7 @@ const Day02: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const values = problemInput.split('\n').filter(k=>k.length).map(Number)
+            const values = problemInput.split(',').filter(k=>k.length).map(Number)
             const solution: {data: {result: number}} = await axios.post('/day02/' + part, values);
             setProblemSolution(solution.data.result)
         };
