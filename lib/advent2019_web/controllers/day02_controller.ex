@@ -23,7 +23,8 @@ defmodule Advent2019Web.Day02Controller do
                 op: "add",
                 target_pos: target_pos,
                 input_pos: [op1_pos, op2_pos],
-                current_state: op_data_map
+                current_state: op_data_map,
+                position: position
               }
             ]
         )
@@ -42,7 +43,8 @@ defmodule Advent2019Web.Day02Controller do
                 op: "mul",
                 target_pos: target_pos,
                 input_pos: [op1_pos, op2_pos],
-                current_state: op_data_map
+                current_state: op_data_map,
+                position: position
               }
             ]
         )
