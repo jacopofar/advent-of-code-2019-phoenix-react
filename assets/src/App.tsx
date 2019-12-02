@@ -16,38 +16,38 @@ interface TabPanelProps {
     children?: React.ReactNode;
     index: any;
     value: any;
-  }
+}
 
-  function TabPanel(props: TabPanelProps) {
+function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
 
     return (
-      <Box
-        component="div"
-        role="tabpanel"
-        hidden={value !== index}
-        id={`vertical-tabpanel-${index}`}
-        aria-labelledby={`vertical-tab-${index}`}
-        {...other}
-      >
-        {children}
-      </Box>
+        <Box
+            component="div"
+            role="tabpanel"
+            hidden={value !== index}
+            id={`vertical-tabpanel-${index}`}
+            aria-labelledby={`vertical-tab-${index}`}
+            {...other}
+        >
+            {children}
+        </Box>
     );
-  }
+}
 
 
 //styling function for material-ui theme
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
-      flexGrow: 1,
-      backgroundColor: theme.palette.background.paper,
-      display: 'flex',
-      height: 224,
+        flexGrow: 1,
+        backgroundColor: theme.palette.background.paper,
+        display: 'flex',
+        height: 224,
     },
     tabs: {
-      borderRight: `1px solid ${theme.palette.divider}`,
+        borderRight: `1px solid ${theme.palette.divider}`,
     },
-  }));
+}));
 
 const App: React.FC = () => {
     const [day, setDay] = React.useState(1);
@@ -55,33 +55,33 @@ const App: React.FC = () => {
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
         setDay(newValue);
-      };
+    };
 
     return (
         <div className={classes.root}>
             <Tabs
-            orientation="vertical"
-            variant="scrollable"
-            value={day}
-            onChange={handleChange}
-            aria-label="Vertical tabs example"
-            className={classes.tabs}
-        >
-        <Tab label="Day 1"/>
-        <Tab label="Day 2"/>
-        <Tab label="Day 3"/>
+                orientation="vertical"
+                variant="scrollable"
+                value={day}
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                className={classes.tabs}
+            >
+                <Tab label="Day 1" />
+                <Tab label="Day 2" />
+                <Tab label="Day 3" />
 
-        </Tabs>
-        <TabPanel value={day} index={0}>
-            <Day01></Day01>
-        </TabPanel>
+            </Tabs>
+            <TabPanel value={day} index={0}>
+                <Day01></Day01>
+            </TabPanel>
 
-        <TabPanel value={day} index={1}>
-            <Day02></Day02>
-        </TabPanel>
-        <TabPanel value={day} index={2}>
-            <Day03></Day03>
-        </TabPanel>
+            <TabPanel value={day} index={1}>
+                <Day02></Day02>
+            </TabPanel>
+            <TabPanel value={day} index={2}>
+                <Day03></Day03>
+            </TabPanel>
 
         </div>
     );

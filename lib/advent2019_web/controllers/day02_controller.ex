@@ -17,7 +17,15 @@ defmodule Advent2019Web.Day02Controller do
             op_data_map[op1_pos] + op_data_map[op2_pos]
           ),
           position + 4,
-          history ++ [%{op: "add", target_pos: target_pos, input_pos: [op1_pos, op2_pos]}]
+          history ++
+            [
+              %{
+                op: "add",
+                target_pos: target_pos,
+                input_pos: [op1_pos, op2_pos],
+                current_state: op_data_map
+              }
+            ]
         )
 
       2 ->
@@ -28,7 +36,15 @@ defmodule Advent2019Web.Day02Controller do
             op_data_map[op1_pos] * op_data_map[op2_pos]
           ),
           position + 4,
-          history ++ [%{op: "mul", target_pos: target_pos, input_pos: [op1_pos, op2_pos]}]
+          history ++
+            [
+              %{
+                op: "mul",
+                target_pos: target_pos,
+                input_pos: [op1_pos, op2_pos],
+                current_state: op_data_map
+              }
+            ]
         )
 
       99 ->
@@ -37,19 +53,15 @@ defmodule Advent2019Web.Day02Controller do
   end
 
   def solve1(conn, params) do
-    IO.inspect(params["_json"])
-
     result =
       params["_json"]
       # equivalent to enumerate in Python
       |> Enum.with_index()
       |> Enum.map(fn {v, k} -> {k, v} end)
       |> Map.new()
-      |> IO.inspect()
 
     {processed_map, _, history} = execute1(result, 0, [])
-    # IO.puts "Day 02.1 result: #{result}"
-    IO.inspect(history)
-    json(conn, %{result: processed_map[0], history: history})
+    IO.puts("Day 02.1 result: #{processed_map[0]}")
+    json(conn, %{result: processed_map[0], final_map: processed_map, history: history})
   end
 end
