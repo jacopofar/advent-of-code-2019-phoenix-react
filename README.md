@@ -2,7 +2,10 @@
 
 Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a React frontend written in Typescript.
 
-Comments are welcome, it's my first project using Phoenix :)
+Current state: __everything OK__ (up to day 2 part 2)
+
+👌Comments are welcome, it's my first project using Phoenix and also Typescript :)
+
 
 ## How to run
 You need a recent Elixir and Node.js. Then run:
@@ -13,7 +16,7 @@ it will be visible at localhost:4000
 
 To run in dev mode (that is, the frontend reloads on the fly), use `yarn start` in the `assets` folder (will expose the app at port 3000) and `mix phx.server` to run the backend at port 4000. The `proxy` option in the package.json will redirect requests to port 3000 to the actual backend.
 
-## development diary
+## 📓 development notes
 These notes are here so I can remember how I built this in the future.
 
 This app was created with:
@@ -33,22 +36,3 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [x] tests are executed only when the file is specified to `mix test`, why are they not mounted? (solution: because I wrote `text`, not `test` -_-)
 - [x] multiple days in same app
 - [ ] error management in case of weird API call content
-
-## default Phoenix readme:
-
-To start your Phoenix server:
-
-  * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server`
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: http://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
