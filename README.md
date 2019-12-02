@@ -27,7 +27,7 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [ ] find a way to serve the app using `yarn serve` and its reload in development
 - [ ] understand what exactly the `only` parameter of Plug.Static does and configure it properly
 - [x] tests, maybe try TDD?
-- [ ] tests are executed only when the file is specified to `mix test`, why are they not mounted?
+- [x] tests are executed only when the file is specified to `mix test`, why are they not mounted? (solution: because I wrote `text`, not `test` -_-)
 - [x] multiple days in same app
 
 ## default Phoenix readme:
