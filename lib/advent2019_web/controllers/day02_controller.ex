@@ -75,7 +75,7 @@ defmodule Advent2019Web.Day02Controller do
       |> Enum.map(fn {v, k} -> {k, v} end)
       |> Map.new()
 
-      solution =
+    solution =
       for a <- 0..99, b <- 0..99 do
         IO.puts("Testing input (#{a},#{b})")
         replaced = input_program |> Map.replace!(1, a) |> Map.replace!(2, b)
@@ -91,6 +91,5 @@ defmodule Advent2019Web.Day02Controller do
 
     {a, b, _} = solution
     json(conn, %{a: a, b: b})
-
   end
 end
