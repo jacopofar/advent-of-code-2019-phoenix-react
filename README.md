@@ -11,6 +11,8 @@ You need a recent Elixir and Node.js. Then run:
 
 it will be visible at localhost:4000
 
+To run in dev mode (that is, the frontend reloads on the fly), use `yarn start` in the `assets` folder (will expose the app at port 3000) and `mix phx.server` to run the backend at port 4000. The `proxy` option in the package.json will redirect requests to port 3000 to the actual backend.
+
 ## development diary
 These notes are here so I can remember how I built this in the future.
 
@@ -30,7 +32,7 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [x] tests, maybe try TDD?
 - [x] tests are executed only when the file is specified to `mix test`, why are they not mounted? (solution: because I wrote `text`, not `test` -_-)
 - [x] multiple days in same app
-- [ ] error management in case of weitd API call content
+- [ ] error management in case of weird API call content
 
 ## default Phoenix readme:
 
