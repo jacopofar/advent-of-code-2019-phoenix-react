@@ -1,6 +1,9 @@
 defmodule Advent2019Web.Day02Controller do
     use Advent2019Web, :controller
 
+    def execute1(array, position, history) do
+
+    end
     def solve1(conn, params) do
         IO.inspect params["_json"]
         result = params["_json"]
