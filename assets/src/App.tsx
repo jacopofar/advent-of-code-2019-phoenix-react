@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Day01 from './Day01';
 import Day02 from './Day02';
 import Day03 from './Day03';
+import Day04 from './Day04';
 
 
 // interface for the single day element
@@ -70,6 +71,7 @@ const App: React.FC = () => {
                 <Tab label="Day 1" />
                 <Tab label="Day 2" />
                 <Tab label="Day 3" />
+                <Tab label="Day 4" />
 
             </Tabs>
             <TabPanel value={day} index={0}>
@@ -81,6 +83,9 @@ const App: React.FC = () => {
             </TabPanel>
             <TabPanel value={day} index={2}>
                 <Day03></Day03>
+            </TabPanel>
+            <TabPanel value={day} index={3}>
+                <Day04></Day04>
             </TabPanel>
 
         </div>

@@ -44,7 +44,7 @@ const Day02: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 03 - TBD</h2>
+                <h2>Day 04 - TBD</h2>
             </header>
             <Typography component="div">
                 <Box>This problem has not been published yet</Box>
