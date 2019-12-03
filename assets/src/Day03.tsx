@@ -97,7 +97,7 @@ const Day03: React.FC = () => {
             <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
             <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
 
-            <div>{problemOneSolution ? `Solution: ${problemOneSolution}` : 'Press Solve to get the solution'}</div>
+            <Typography variant="h5">{problemOneSolution ? `Solution: ${problemOneSolution}` : 'Press Solve to get the solution'}</Typography>
             <GridDisplay
                 gridData={gridRepresentation}
                 height={600}

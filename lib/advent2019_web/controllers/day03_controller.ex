@@ -133,12 +133,19 @@ defmodule Advent2019Web.Day03Controller do
     segments_a = segments_from_path(params["a"])
     segments_b = segments_from_path(params["b"])
     intersections = intersections_from_segments(segments_a, segments_b)
+
+    closest =
+      intersections
+      |> Enum.filter(fn %{:x => x, :y => y} -> x != 0 or y != 0 end)
+      |> Enum.min_by(fn %{:x => x, :y => y} -> abs(x) + abs(y) end)
+
     # IO.puts("Day 03.1 result: #{processed_map[0]}")
     json(conn, %{
-      result: "to be defined",
+      result: abs(closest[:x]) + abs(closest[:y]),
       segments_a: segments_a,
       segments_b: segments_b,
-      intersections: intersections
+      intersections: intersections,
+      closest: closest
     })
   end
 end
