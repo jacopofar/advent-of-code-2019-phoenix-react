@@ -67,7 +67,7 @@ defmodule Advent2019Web.Day03Controller do
 
   """
   def intersections_from_segments(segments_a, segments_b) do
-    for sa <- segmentsA, sb <- segmentsB do
+    for sa <- segments_a, sb <- segments_b do
       # TODO use ortho_segment_intersection
       # then filter and return
     end
