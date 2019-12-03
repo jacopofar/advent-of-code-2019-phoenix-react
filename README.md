@@ -3,10 +3,12 @@
 
 Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a React frontend written in Typescript.
 
-Current state: __everything OK__ (up to day 2 part 2)
+Current state: __everything OK__ (up to day 3 part 2)
 
 👌Comments are welcome, it's my first project using Phoenix and also Typescript :)
 
+## Screenshot
+![How it looks like](screenshot.png)
 
 ## How to run
 You need a recent Elixir and Node.js. Then run:
