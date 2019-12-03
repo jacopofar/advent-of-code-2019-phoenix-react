@@ -11,7 +11,7 @@ defmodule Advent2019Web.Day03Controller do
   The coordinates are defined using cartesian plane axes.
   """
   def segments_from_path(path) do
-    Enum.reduce(path, %{position: {0, 0}, distance: 0, segments: []}, fn mov, acc ->
+    Enum.reduce(path, %{position: {0, 0}, distance: 0, order: 0, segments: []}, fn mov, acc ->
       direction = String.at(mov, 0)
       step = String.slice(mov, 1..-1) |> String.to_integer()
       # current position, the "head" of the circuit so far
@@ -37,6 +37,7 @@ defmodule Advent2019Web.Day03Controller do
       %{
         position: {cur_x + off_x, cur_y + off_y},
         distance: acc[:distance] + abs(off_x) + abs(off_y),
+        order: acc[:order] + 1,
         segments:
           acc[:segments] ++
             [
@@ -45,7 +46,8 @@ defmodule Advent2019Web.Day03Controller do
                 y1: cur_y,
                 x2: cur_x + off_x,
                 y2: cur_y + off_y,
-                distance_in_path: acc[:distance]
+                distance_in_path: acc[:distance],
+                order: acc[:order]
               }
             ]
       }
@@ -75,6 +77,7 @@ defmodule Advent2019Web.Day03Controller do
     min_ya = Enum.min([y1a, y2a])
 
     case {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} do
+      # a is vertical, b horizontal
       {x1a, _, x2a, _, _, y1b, _, y2b} when x1a == x2a and y1b == y2b ->
         if min_xb <= x1a and x1a <= max_xb and
              min_ya <= y1b and y1b <= max_ya do
@@ -83,6 +86,7 @@ defmodule Advent2019Web.Day03Controller do
           nil
         end
 
+      # a is horizontal, b vertical
       {_, y1a, _, y2a, x1b, _, x2b, _} when x1b == x2b and y1a == y2a ->
         if min_xa <= x1b and x1b <= max_xa and
              min_yb <= y1a and y1a <= max_yb do
@@ -92,13 +96,13 @@ defmodule Advent2019Web.Day03Controller do
         end
 
       # special case, same vertical line and one ends when the other starts
-      {x1a, _, x2a, _, x1b, _, x2b, _} when x1b == x2b and x1a == x2a ->
+      {x1a, _, x2a, _, x1b, _, x2b, _} when x1b == x2b and x1a == x2a and x1a == x1b ->
         # a is before b except the intersection
         if min_yb == max_ya and
              max_yb != max_ya do
           %{x: x1b, y: min_yb}
         else
-          # a is before b except the intersection
+          # a is after b except the intersection
           if min_ya == max_yb and
                max_ya != max_yb do
             %{x: x1b, y: min_ya}
@@ -108,13 +112,13 @@ defmodule Advent2019Web.Day03Controller do
         end
 
       # special case, but horizontal
-      {_, y1a, _, _, _, y1b, _, _} when y1b == y2b and y1a == y2a ->
+      {_, y1a, _, _, _, y1b, _, _} when y1b == y2b and y1a == y2a and y1b == y1a ->
         # a is before b except the intersection
         if min_xb == max_xa and
              max_xb != max_xa do
           %{x: min_xb, y: y1b}
         else
-          # a is before b except the intersection
+          # a is after b except the intersection
           if min_xa == max_xb and
                max_xa != max_xb do
             %{x: min_xa, y: y1b}
@@ -144,10 +148,26 @@ defmodule Advent2019Web.Day03Controller do
       if int_coord == nil do
         nil
       else
-        Map.merge(int_coord, %{sa: sa, sb: sb})
+        int = Map.merge(int_coord, %{sa: sa, sb: sb})
+        Map.merge(int, %{distance_sum: partial_distance(int)})
       end
     end
     |> Enum.filter(fn x -> x != nil end)
+  end
+
+  @doc """
+  Calculate the distance of an intersection from the origin, across the path
+  The intersection already contains the two segments with their initial
+  distance. This function adds the offset from that initial distance to the
+  actual intersection
+
+  """
+  def partial_distance(intersection) do
+    intersection[:sa][:distance_in_path] + intersection[:sb][:distance_in_path] +
+      abs(intersection[:sa][:x1] - intersection[:x]) +
+      abs(intersection[:sa][:y1] - intersection[:y]) +
+      abs(intersection[:sb][:x1] - intersection[:x]) +
+      abs(intersection[:sb][:y1] - intersection[:y])
   end
 
   def solve1(conn, params) do
@@ -178,7 +198,7 @@ defmodule Advent2019Web.Day03Controller do
     closest =
       intersections
       |> Enum.filter(fn %{:x => x, :y => y} -> x != 0 or y != 0 end)
-      |> Enum.min_by(fn %{:x => x, :y => y} -> abs(x) + abs(y) end)
+      |> Enum.min_by(&partial_distance/1)
 
     # IO.puts("Day 03.1 result: #{processed_map[0]}")
     json(conn, %{

@@ -79,6 +79,22 @@ defmodule Advent2019Web.Day03ControllerTest do
              }
            ) == nil
 
+    # no intersection but same height
+    assert ortho_segment_intersection(
+             %{
+               x1: 75,
+               y1: 0,
+               x2: 75,
+               y2: -30
+             },
+             %{
+               x1: 0,
+               y1: 0,
+               x2: 0,
+               y2: 62
+             }
+           ) == nil
+
     # one point in common
     assert ortho_segment_intersection(
              %{
