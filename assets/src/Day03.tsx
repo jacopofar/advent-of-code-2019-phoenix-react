@@ -7,6 +7,9 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import axios from 'axios';
 
+import { Segment, GridRepr } from './util/GridRepresentation';
+import GridDisplay from './util/GridDisplay';
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -22,9 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Day02: React.FC = () => {
-    const [problemInput, setProblemInput] = useState('');
-    const [problemSolution, setProblemSolution] = useState<null | number>(null);
+const Day03: React.FC = () => {
+    const [problemInput, setProblemInput] = useState(`R75,D30,R83,U83,L12,D49,R71,U7,L72
+    U62,R66,U55,R34,D71,R55,D58,R83`);
+    const [problemOneSolution, setProblemOneSolution] = useState<null | number>(null);
+    const [gridRepresentation, setGridRepresentation] = useState<null | GridRepr>(null);
+
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,10 +39,30 @@ const Day02: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
-            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
-            //setProblemSolution(solution.data.result)
-            setProblemSolution(42)
+            const [pathA, pathB] = problemInput.split('\n').filter(k => k.length).map(p => p.trim().split(','))
+            const solution: {
+                data: {
+                    result: number,
+                    segments_a: Segment[],
+                    segments_b: Segment[],
+                }
+            } = await axios.post('/day03/' + part, {
+                a: pathA,
+                b: pathB
+            });
+            setProblemOneSolution(solution.data.result);
+            setGridRepresentation({
+                paths: [
+                    {
+                        segments: solution.data.segments_a,
+                        color: 'red'
+                    },
+                    {
+                        segments: solution.data.segments_b,
+                        color: 'blue'
+                    }
+                ]
+            });
         };
         sendInput();
     };
@@ -69,10 +95,10 @@ const Day02: React.FC = () => {
             <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
             <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
 
-            <div>{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</div>
-
+            <div>{problemOneSolution ? `Solution: ${problemOneSolution}` : 'Press Solve to get the solution'}</div>
+            <GridDisplay gridData={gridRepresentation}></GridDisplay>
         </div>
     );
 };
 
-export default Day02;
+export default Day03;

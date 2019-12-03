@@ -3,7 +3,7 @@ defmodule Advent2019Web.Day03Controller do
 
   @doc """
   Calculate the list of the segments from the path description.
-  Segments are defined as a tuple of 4 values: x1, y1, x2, y2
+  Segments are defined as a list of 4 values: x1, y1, x2, y2
   The origin is at 0, 0 so the values can be negative.
 
   The coordinates are defined using cartesian plane axes.
@@ -37,11 +37,11 @@ defmodule Advent2019Web.Day03Controller do
         segments:
           acc[:segments] ++
             [
-              {
-                cur_x,
-                cur_y,
-                cur_x + off_x,
-                cur_y + off_y
+              %{
+                x1: cur_x,
+                y1: cur_y,
+                x2: cur_x + off_x,
+                y2: cur_y + off_y
               }
             ]
       }
@@ -49,8 +49,8 @@ defmodule Advent2019Web.Day03Controller do
   end
 
   def solve1(conn, params) do
-    segments_a = segments_from_path(params["_json"]["a"])
-    segments_b = segments_from_path(params["_json"]["b"])
+    segments_a = segments_from_path(params["a"])
+    segments_b = segments_from_path(params["b"])
     # IO.puts("Day 03.1 result: #{processed_map[0]}")
     json(conn, %{result: "to be defined", segments_a: segments_a, segments_b: segments_b})
   end
