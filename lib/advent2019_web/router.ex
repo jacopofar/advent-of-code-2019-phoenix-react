@@ -21,4 +21,9 @@ defmodule Advent2019Web.Router do
     post "/1", Day02Controller, :solve1
     post "/2", Day02Controller, :solve2
   end
+
+  scope "/day03", Advent2019Web do
+    pipe_through :api
+    post "/1", Day03Controller, :solve1
+  end
 end
