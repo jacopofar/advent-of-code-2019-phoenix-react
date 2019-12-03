@@ -202,7 +202,7 @@ defmodule Advent2019Web.Day03Controller do
 
     # IO.puts("Day 03.1 result: #{processed_map[0]}")
     json(conn, %{
-      result: abs(closest[:x]) + abs(closest[:y]),
+      result: closest[:distance_sum],
       segments_a: segments_a,
       segments_b: segments_b,
       intersections: intersections,
