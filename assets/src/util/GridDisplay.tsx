@@ -26,7 +26,8 @@ const representPath = (p: PathRepr, key: number) => {
             y2={s.y2}
             style={{
                 stroke: p.color,
-                strokeWidth: 1.5
+                // estimation of the stroke size based on the scale
+                strokeWidth: p.segments.length / 40
             }} />)}
     </g>
 };
