@@ -98,8 +98,8 @@ const Day03: React.FC = () => {
             <div>{problemOneSolution ? `Solution: ${problemOneSolution}` : 'Press Solve to get the solution'}</div>
             <GridDisplay
                 gridData={gridRepresentation}
-                height={300}
-                width={400}></GridDisplay>
+                height={600}
+                width={800}></GridDisplay>
         </div>
     );
 };
