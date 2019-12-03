@@ -75,6 +75,9 @@ defmodule Advent2019Web.Day03Controller do
         else
           nil
         end
+
+      _ ->
+        nil
     end
   end
 
@@ -86,15 +89,21 @@ defmodule Advent2019Web.Day03Controller do
   """
   def intersections_from_segments(segments_a, segments_b) do
     for sa <- segments_a, sb <- segments_b do
-      # TODO use ortho_segment_intersection
-      # then filter and return
+      ortho_segment_intersection(sa, sb)
     end
+    |> Enum.filter(fn x -> x != nil end)
   end
 
   def solve1(conn, params) do
     segments_a = segments_from_path(params["a"])
     segments_b = segments_from_path(params["b"])
+    intersections = intersections_from_segments(segments_a, segments_b)
     # IO.puts("Day 03.1 result: #{processed_map[0]}")
-    json(conn, %{result: "to be defined", segments_a: segments_a, segments_b: segments_b})
+    json(conn, %{
+      result: "to be defined",
+      segments_a: segments_a,
+      segments_b: segments_b,
+      intersections: intersections
+    })
   end
 end

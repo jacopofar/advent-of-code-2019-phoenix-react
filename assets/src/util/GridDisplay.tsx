@@ -1,5 +1,5 @@
 import React from 'react';
-import { GridRepr, PathRepr } from './GridRepresentation';
+import { GridRepr, PathRepr, Intersection } from './GridRepresentation';
 import Box from '@material-ui/core/Box';
 
 interface GridProps {
@@ -28,6 +28,22 @@ const representPath = (p: PathRepr, key: number) => {
                 stroke: p.color,
                 // estimation of the stroke size based on the scale
                 strokeWidth: p.segments.length / 40
+            }} />)}
+    </g>
+};
+
+
+const representIntersections = (ints: Intersection[]) => {
+    const size = ints.length / 3;
+    return <g key="intersections">
+        {ints.map((int, i) => <rect
+            key={i}
+            x={int.x - size}
+            y={int.y - size}
+            height={size * 2}
+            width={size * 2}
+            style={{
+                stroke: "black",
             }} />)}
     </g>
 };
@@ -75,6 +91,8 @@ const GridDisplay: React.FC<GridProps> = (props) => {
             height={props.height}
             viewBox={`${minMax.minX - FRAME_MARGIN} ${minMax.minY - FRAME_MARGIN} ${minMax.maxX - minMax.minX + FRAME_MARGIN} ${minMax.maxY - minMax.minY + FRAME_MARGIN}`}>
             {props.gridData ? props.gridData.paths.map((p, i) => representPath(p, i)) : null}
+            {props.gridData ? representIntersections(props.gridData.intersections) : null}
+
             {/*
             Disabled because not performant
              {props.gridData ? representGrid(minMax) : null} */}

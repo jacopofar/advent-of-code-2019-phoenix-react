@@ -5,6 +5,11 @@ export type Segment = {
     y2: number,
 };
 
+export type Intersection = {
+    x: number,
+    y: number,
+};
+
 export type PathRepr = {
     segments: Segment[],
     color: string,
@@ -12,4 +17,5 @@ export type PathRepr = {
 
 export type GridRepr = {
     paths: PathRepr[],
+    intersections: Intersection[]
 };

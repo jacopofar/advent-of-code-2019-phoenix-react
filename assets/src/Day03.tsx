@@ -7,7 +7,7 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import axios from 'axios';
 
-import { Segment, GridRepr } from './util/GridRepresentation';
+import { Segment, GridRepr, Intersection } from './util/GridRepresentation';
 import GridDisplay from './util/GridDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -45,6 +45,7 @@ const Day03: React.FC = () => {
                     result: number,
                     segments_a: Segment[],
                     segments_b: Segment[],
+                    intersections: Intersection[],
                 }
             } = await axios.post('/day03/' + part, {
                 a: pathA,
@@ -61,7 +62,8 @@ const Day03: React.FC = () => {
                         segments: solution.data.segments_b,
                         color: 'blue'
                     }
-                ]
+                ],
+                intersections: solution.data.intersections,
             });
         };
         sendInput();
