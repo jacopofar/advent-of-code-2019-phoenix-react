@@ -27,6 +27,7 @@ defmodule Advent2019Web.Day03ControllerTest do
   end
 
   test "segment intersection" do
+    # vanilla intersection
     assert ortho_segment_intersection(
              %{
                x1: 12,
@@ -42,6 +43,7 @@ defmodule Advent2019Web.Day03ControllerTest do
              }
            ) == %{x: 13, y: 7}
 
+    # no intersection
     assert ortho_segment_intersection(
              %{
                x1: 12,
@@ -56,5 +58,53 @@ defmodule Advent2019Web.Day03ControllerTest do
                y2: 11
              }
            ) == nil
+
+    # one point in common
+    assert ortho_segment_intersection(
+             %{
+               x1: 12,
+               y1: 5,
+               x2: 14,
+               y2: 5
+             },
+             %{
+               x1: 12,
+               y1: 5,
+               x2: 12,
+               y2: 11
+             }
+           ) == %{x: 12, y: 5}
+
+    # special case: parallel but only 1 point in common
+    assert ortho_segment_intersection(
+             %{
+               x1: 1,
+               y1: 7,
+               x2: 10,
+               y2: 7
+             },
+             %{
+               x1: 10,
+               y1: 7,
+               x2: 21,
+               y2: 7
+             }
+           ) == %{x: 10, y: 7}
+
+    # same but vertical
+    assert ortho_segment_intersection(
+             %{
+               x1: 4,
+               y1: 3,
+               x2: 4,
+               y2: 5
+             },
+             %{
+               x1: 4,
+               y1: 5,
+               x2: 4,
+               y2: 11
+             }
+           ) == %{x: 4, y: 5}
   end
 end
