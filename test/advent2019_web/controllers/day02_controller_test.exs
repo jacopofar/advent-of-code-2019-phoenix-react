@@ -3,7 +3,7 @@ defmodule Advent2019Web.Day02ControllerTest do
 
   test "POST /day02/1", %{conn: conn} do
     conn =
-      build_conn()
+      conn
       |> put_req_header("accept", "application/json")
       |> post("/day02/1", %{_json: [1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50]})
 

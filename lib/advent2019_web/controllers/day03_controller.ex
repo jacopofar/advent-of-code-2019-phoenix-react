@@ -56,8 +56,26 @@ defmodule Advent2019Web.Day03Controller do
 
   """
   def ortho_segment_intersection(segment_a, segment_b) do
-    # TODO implement this
-    # todo write a test!
+    %{:x1 => x1a, :x2 => x2a, :y1 => y1a, :y2 => y2a} = segment_a
+    %{:x1 => x1b, :x2 => x2b, :y1 => y1b, :y2 => y2b} = segment_b
+
+    case {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} do
+      {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} when x1a == x2a and y1b == y2b ->
+        if Enum.min([x1b, x2b]) < x1a and x1a < Enum.max([x1b, x2b]) and
+             Enum.min([y1a, y2a]) < y1b and y1b < Enum.max([y1a, y2a]) do
+          %{x: x1a, y: y1b}
+        else
+          nil
+        end
+
+      {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} when x1b == x2b and y1a == y2a ->
+        if Enum.min([x1a, x2a]) < x1b and x1b < Enum.max([x1a, x2a]) and
+             Enum.min([y1b, y2b]) < y1a and y1a < Enum.max([y1b, y2b]) do
+          %{x: x1b, y: y1a}
+        else
+          nil
+        end
+    end
   end
 
   @doc """
