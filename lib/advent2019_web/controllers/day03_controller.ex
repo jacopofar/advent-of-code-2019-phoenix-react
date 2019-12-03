@@ -3,13 +3,15 @@ defmodule Advent2019Web.Day03Controller do
 
   @doc """
   Calculate the list of the segments from the path description.
-  Segments are defined as a list of 4 values: x1, y1, x2, y2
+  Segments are defined as a map of 5 values: x1, y1, x2, y2 and distance
+  distance is the distance traveled across this path from the origin until the
+  beginning of this segment, which is the coordinate (x1, y1)
   The origin is at 0, 0 so the values can be negative.
 
   The coordinates are defined using cartesian plane axes.
   """
   def segments_from_path(path) do
-    Enum.reduce(path, %{position: {0, 0}, segments: []}, fn mov, acc ->
+    Enum.reduce(path, %{position: {0, 0}, distance: 0, segments: []}, fn mov, acc ->
       direction = String.at(mov, 0)
       step = String.slice(mov, 1..-1) |> String.to_integer()
       # current position, the "head" of the circuit so far
@@ -34,6 +36,7 @@ defmodule Advent2019Web.Day03Controller do
 
       %{
         position: {cur_x + off_x, cur_y + off_y},
+        distance: acc[:distance] + abs(off_x) + abs(off_y),
         segments:
           acc[:segments] ++
             [
@@ -41,7 +44,8 @@ defmodule Advent2019Web.Day03Controller do
                 x1: cur_x,
                 y1: cur_y,
                 x2: cur_x + off_x,
-                y2: cur_y + off_y
+                y2: cur_y + off_y,
+                distance_in_path: acc[:distance]
               }
             ]
       }
@@ -126,18 +130,47 @@ defmodule Advent2019Web.Day03Controller do
 
   @doc """
   Calculate the coordinates of every intersection between paths.
-  The two paths are defined as a list of segments, every segment is a map containing
-  x1, y1, y1, y2
+  The two paths are defined as a list of segments, every segment is a map
+  containing x1, y1, y1, y2
+
+  Returns a map containing coords (coordinates of the intersection) and the
+  two segments sa and sb
 
   """
   def intersections_from_segments(segments_a, segments_b) do
     for sa <- segments_a, sb <- segments_b do
-      ortho_segment_intersection(sa, sb)
+      int_coord = ortho_segment_intersection(sa, sb)
+
+      if int_coord == nil do
+        nil
+      else
+        Map.merge(int_coord, %{sa: sa, sb: sb})
+      end
     end
     |> Enum.filter(fn x -> x != nil end)
   end
 
   def solve1(conn, params) do
+    segments_a = segments_from_path(params["a"])
+    segments_b = segments_from_path(params["b"])
+    intersections = intersections_from_segments(segments_a, segments_b)
+
+    closest =
+      intersections
+      |> Enum.filter(fn %{:x => x, :y => y} -> x != 0 or y != 0 end)
+      |> Enum.min_by(fn %{:x => x, :y => y} -> abs(x) + abs(y) end)
+
+    # IO.puts("Day 03.1 result: #{processed_map[0]}")
+    json(conn, %{
+      result: abs(closest[:x]) + abs(closest[:y]),
+      segments_a: segments_a,
+      segments_b: segments_b,
+      intersections: intersections,
+      closest: closest
+    })
+  end
+
+  def solve2(conn, params) do
     segments_a = segments_from_path(params["a"])
     segments_b = segments_from_path(params["b"])
     intersections = intersections_from_segments(segments_a, segments_b)
