@@ -55,57 +55,65 @@ defmodule Advent2019Web.Day03Controller do
   If they don't, return nil
 
   It's quite verbose, probably there's a nicer way but didn't look into it.
-  NOTE: can be more concise by moving max and min operations in separate variables
 
   """
   def ortho_segment_intersection(segment_a, segment_b) do
     %{:x1 => x1a, :x2 => x2a, :y1 => y1a, :y2 => y2a} = segment_a
     %{:x1 => x1b, :x2 => x2b, :y1 => y1b, :y2 => y2b} = segment_b
 
+    max_ya = Enum.max([y1a, y2a])
+    max_xb = Enum.max([x1b, x2b])
+    max_xa = Enum.max([x1a, x2a])
+    max_yb = Enum.max([y1b, y2b])
+    min_xa = Enum.min([x1a, x2a])
+    min_xb = Enum.min([x1b, x2b])
+    min_yb = Enum.min([y1b, y2b])
+    min_ya = Enum.min([y1a, y2a])
+
     case {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} do
-      {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} when x1a == x2a and y1b == y2b ->
-        if Enum.min([x1b, x2b]) <= x1a and x1a <= Enum.max([x1b, x2b]) and
-             Enum.min([y1a, y2a]) <= y1b and y1b <= Enum.max([y1a, y2a]) do
+      {x1a, _, x2a, _, _, y1b, _, y2b} when x1a == x2a and y1b == y2b ->
+        if min_xb <= x1a and x1a <= max_xb and
+             min_ya <= y1b and y1b <= max_ya do
           %{x: x1a, y: y1b}
         else
           nil
         end
 
-      {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} when x1b == x2b and y1a == y2a ->
-        if Enum.min([x1a, x2a]) <= x1b and x1b <= Enum.max([x1a, x2a]) and
-             Enum.min([y1b, y2b]) <= y1a and y1a <= Enum.max([y1b, y2b]) do
+      {_, y1a, _, y2a, x1b, _, x2b, _} when x1b == x2b and y1a == y2a ->
+        if min_xa <= x1b and x1b <= max_xa and
+             min_yb <= y1a and y1a <= max_yb do
           %{x: x1b, y: y1a}
         else
           nil
         end
 
       # special case, same vertical line and one ends when the other starts
-      {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} when x1b == x2b and x1a == x2a ->
+      {x1a, _, x2a, _, x1b, _, x2b, _} when x1b == x2b and x1a == x2a ->
         # a is before b except the intersection
-        if Enum.min([y1b, y2b]) == Enum.max([y1a, y2a]) and
-             Enum.max([y1b, y2b]) != Enum.max([y1a, y2a]) do
-          %{x: x1b, y: Enum.min([y1b, y2b])}
+        if min_yb == max_ya and
+             max_yb != max_ya do
+          %{x: x1b, y: min_yb}
         else
           # a is before b except the intersection
-          if Enum.min([y1a, y2a]) == Enum.max([y1b, y2b]) and
-               Enum.max([y1a, y2a]) != Enum.max([y1b, y2b]) do
-            %{x: x1b, y: Enum.min([y1a, y2a])}
+          if min_ya == max_yb and
+               max_ya != max_yb do
+            %{x: x1b, y: min_ya}
           else
             nil
           end
         end
 
       # special case, but horizontal
-      {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} when y1b == y2b and y1a == y2a ->
+      {_, y1a, _, _, _, y1b, _, _} when y1b == y2b and y1a == y2a ->
         # a is before b except the intersection
-        if Enum.min([x1b, x2b]) == Enum.max([x1a, x2a]) and
-             Enum.max([x1b, x2b]) != Enum.max([x1a, x2a]) do
-          %{x: Enum.min([x1b, x2b]), y: y1b}
+        if min_xb == max_xa and
+             max_xb != max_xa do
+          %{x: min_xb, y: y1b}
         else
           # a is before b except the intersection
-          if Enum.min([x1a, x2a]) == Enum.max([x1b, x2b]) and
-               Enum.max([x1a, x2a]) != Enum.max([x1b, x2b]) do
-            %{x: Enum.min([x1a, x2a]), y: y1b}
+          if min_xa == max_xb and
+               max_xa != max_xb do
+            %{x: min_xa, y: y1b}
           else
             nil
           end
