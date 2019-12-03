@@ -44,10 +44,13 @@ const Day02: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 03 - TBD</h2>
+                <h2>Day 03 - Crossed Wires</h2>
             </header>
             <Typography component="div">
-                <Box>This problem has not been published yet</Box>
+                <Box>There are two wires following two circuits over an orthogonal grid, starting at the same origin point.</Box>
+                <Box>Each circuit is described as a sequence of movements on the grid, for example U12,L23 means up 13 cells and then left 23 cells.</Box>
+                <Box>The first part asks to find the point closest (manhattan distance) to the origin where they intersect, origin excluded.</Box>
+
             </Typography>
             <TextField
                 id="outlined-multiline-static"
