@@ -48,6 +48,31 @@ defmodule Advent2019Web.Day03Controller do
     end)[:segments]
   end
 
+  @doc """
+  Calculate the intersection between two segments which are assumed to
+  be vertical or horizontal and have at most 1 point in common.
+
+  If they don't, return nil
+
+  """
+  def ortho_segment_intersection(segment_a, segment_b) do
+    # TODO implement this
+    # todo write a test!
+  end
+
+  @doc """
+  Calculate the coordinates of every intersection between paths.
+  The two paths are defined as a list of segments, every segment is a map containing
+  x1, y1, y1, y2
+
+  """
+  def intersections_from_segments(segments_a, segments_b) do
+    for sa <- segmentsA, sb <- segmentsB do
+      # TODO use ortho_segment_intersection
+      # then filter and return
+    end
+  end
+
   def solve1(conn, params) do
     segments_a = segments_from_path(params["a"])
     segments_b = segments_from_path(params["b"])
