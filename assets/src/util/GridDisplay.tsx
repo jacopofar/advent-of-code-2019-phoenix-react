@@ -48,19 +48,6 @@ const representIntersections = (ints: Intersection[]) => {
     </g>
 };
 
-const representGrid = (minMax: BoundingBox) => {
-    //TODO too many points, this doesn't work and is not used
-    let pointsCord = [];
-    for (let x = minMax.minX; x < minMax.maxX; x += 50) {
-        for (let y = minMax.minY; x < minMax.maxY; y += 50) {
-            pointsCord.push({ x, y })
-        }
-    }
-    return (<g>
-        {pointsCord.map((pc) => <rect x={pc.x} y={pc.y} width="1" height="1" />)}
-    </g>);
-};
-
 const GridDisplay: React.FC<GridProps> = (props) => {
     const minMax = {
         minX: 0,

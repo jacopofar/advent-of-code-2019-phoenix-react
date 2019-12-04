@@ -33,10 +33,9 @@ const Day02: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
-            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
-            //setProblemSolution(solution.data.result)
-            setProblemSolution(42)
+            const [start, end] = problemInput.split('-').map(Number)
+            const solution: { data: { result: number } } = await axios.post('/day04/' + part, { start, end });
+            setProblemSolution(solution.data.result)
         };
         sendInput();
     };
@@ -53,7 +52,6 @@ const Day02: React.FC = () => {
             </Typography>
             <TextField
                 id="outlined-multiline-static"
-                multiline
                 fullWidth
                 rows="2"
                 className={classes.textField}

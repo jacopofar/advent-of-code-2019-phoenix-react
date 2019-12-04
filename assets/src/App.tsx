@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: 224,
+        height: 424,
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const App: React.FC = () => {
-    const [day, setDay] = React.useState(2);
+    const [day, setDay] = React.useState(3);
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
