@@ -19,6 +19,35 @@ defmodule Advent2019Web.Day04Controller do
   end
 
   @doc """
+  Tell whether a number contains two adjacent digits at least once, ignoring
+  digits that appear more than 2 times consecutively
+  """
+  def adjacent_alone_digits?(num) do
+    result =
+      String.graphemes("#{num}")
+      |> Enum.reduce(%{previous: "fake", number_so_far: 0, found: false}, fn c, acc ->
+        # we are in a matching group, increment the counter
+        if c == acc[:previous] do
+          %{previous: c, found: acc[:found], number_so_far: 1 + acc[:number_so_far]}
+        else
+          # we found something new, but was the previous one part of a match?
+          if acc[:number_so_far] == 2 do
+            %{previous: c, found: true, number_so_far: 1}
+          else
+            %{previous: c, found: acc[:found], number_so_far: 1}
+          end
+        end
+      end)
+
+    # check for the state in case the matching was at the end
+    if result[:found] do
+      true
+    else
+      result[:number_so_far] == 2
+    end
+  end
+
+  @doc """
   Tell whether a number digits are never decreasing from left to right
   """
   def no_decreasing_digits?(num) do
