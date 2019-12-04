@@ -17,4 +17,12 @@ defmodule Advent2019Web.Day04ControllerTest do
     assert not no_decreasing_digits?(121_345)
     assert not no_decreasing_digits?(123_787)
   end
+
+  test "adjacent digits are alone" do
+    assert adjacent_alone_digits?(112_233)
+    assert not adjacent_alone_digits?(123_444)
+    assert adjacent_alone_digits?(111_122)
+    assert adjacent_alone_digits?(221_111)
+    assert not adjacent_alone_digits?(444_123)
+  end
 end
