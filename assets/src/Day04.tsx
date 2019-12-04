@@ -48,6 +48,7 @@ const Day02: React.FC = () => {
             <Typography component="div">
                 <Box>There is a range of numbers of 6 digits, and we have some criteria to filter them, for example the digits are never decreasing going left to right and there is a repeated digit.</Box>
                 <Box>The goal is to count how many numbers in the given range satisfy the conditions.</Box>
+                <Box>In the second part, the rule about two consecutive digits is made stricter because they have to be exactly 2.</Box>
 
             </Typography>
             <TextField
