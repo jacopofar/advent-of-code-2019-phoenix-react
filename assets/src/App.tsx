@@ -72,6 +72,7 @@ const App: React.FC = () => {
                 <Tab label="Day 2" />
                 <Tab label="Day 3" />
                 <Tab label="Day 4" />
+                <Tab label="Day 5" />
 
             </Tabs>
             <TabPanel value={day} index={0}>
@@ -86,6 +87,9 @@ const App: React.FC = () => {
             </TabPanel>
             <TabPanel value={day} index={3}>
                 <Day04></Day04>
+            </TabPanel>
+            <TabPanel value={day} index={4}>
+                <Day05></Day05>
             </TabPanel>
 
         </div>

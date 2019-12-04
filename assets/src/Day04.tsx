@@ -44,10 +44,12 @@ const Day02: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 04 - TBD</h2>
+                <h2>Day 04 - Secure Container</h2>
             </header>
             <Typography component="div">
-                <Box>This problem has not been published yet</Box>
+                <Box>There is a range of numbers of 6 digits, and we have some criteria to filter them, for example the digits are never decreasing going left to right and there is a repeated digit.</Box>
+                <Box>The goal is to count how many numbers in the given range satisfy the conditions.</Box>
+
             </Typography>
             <TextField
                 id="outlined-multiline-static"
