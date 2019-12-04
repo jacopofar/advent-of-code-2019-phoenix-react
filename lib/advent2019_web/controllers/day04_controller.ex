@@ -34,4 +34,20 @@ defmodule Advent2019Web.Day04Controller do
 
     result[:valid]
   end
+
+  def solve1(conn, params) do
+    {start_val, end_val} = {params["start"], params["end"]}
+
+    matches =
+      for num <- start_val..end_val do
+        num
+      end
+      |> Enum.filter(&adjacent_digits?/1)
+      |> Enum.filter(&no_decreasing_digits?/1)
+
+    json(conn, %{
+      result: length(matches),
+      matches: matches
+    })
+  end
 end
