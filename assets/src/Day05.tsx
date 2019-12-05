@@ -33,10 +33,9 @@ const Day05: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
-            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
-            //setProblemSolution(solution.data.result)
-            setProblemSolution(42)
+            const values = problemInput.split(',').filter(k => k.length).map(Number);
+            const solution: {data: {result: number}} = await axios.post('/day05/' + part, values);
+            setProblemSolution(solution.data.result)
         };
         sendInput();
     };
@@ -44,10 +43,10 @@ const Day05: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 05 - TBD</h2>
+                <h2>Day 05 - Sunny with a Chance of Asteroids</h2>
             </header>
             <Typography component="div">
-                <Box>This problem has not been published yet</Box>
+                <Box>The computing tool implemented at day 2 is expanded with some I/O instruction and "immediate mode", that is, parameters can be passed as value and not only as a reference.</Box>
             </Typography>
             <TextField
                 id="outlined-multiline-static"
