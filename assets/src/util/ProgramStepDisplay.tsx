@@ -52,7 +52,7 @@ const ProgramStepDisplay: React.FC<StepProps> = (props) => {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
             >
-                <Typography className={classes.heading}>Operation: {s.op} from {s.input_pos[0]}, {s.input_pos[1]}  to {s.target_pos}</Typography>
+                <Typography className={classes.heading}>Operation: {s.op} {s.input_pos[0] ? `from ${s.input_pos[0]}` : null} {s.input_pos[0] ? `to ${s.input_pos[0]}` : null}  to {s.target_pos}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <Typography>

@@ -67,7 +67,7 @@ const Day04: React.FC = () => {
             <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
             <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
 
-            <div>{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</div>
+            <Typography variant="h5">{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</Typography>
 
         </div>
     );

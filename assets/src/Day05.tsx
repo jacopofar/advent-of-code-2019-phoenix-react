@@ -4,8 +4,17 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-
 import axios from 'axios';
+
+import { ProgramStepRepr, StateRepr } from './util/ProgramStepRepresentation';
+import ProgramStepDisplay from './util/ProgramStepDisplay';
+
+
+type ResponseRepr = {
+    history: [ProgramStepRepr],
+    final_map: StateRepr,
+    result: number
+};
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -25,6 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Day05: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
+    const [resolutionHistory, setResolutionHistory] = useState<null | ResponseRepr>(null);
+
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,8 +45,9 @@ const Day05: React.FC = () => {
     const solve = (part: number) => {
         const sendInput = async () => {
             const values = problemInput.split(',').filter(k => k.length).map(Number);
-            const solution: {data: {result: number}} = await axios.post('/day05/' + part, values);
-            setProblemSolution(solution.data.result)
+            const solution: { data: ResponseRepr } = await axios.post('/day05/' + part, values);
+            setProblemSolution(solution.data.result);
+            setResolutionHistory(solution.data);
         };
         sendInput();
     };
@@ -66,6 +78,7 @@ const Day05: React.FC = () => {
             <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
 
             <div>{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</div>
+            <Typography variant="h5">{resolutionHistory ? resolutionHistory.history.map(step => <ProgramStepDisplay step={step}></ProgramStepDisplay>) : null}</Typography>
 
         </div>
     );
