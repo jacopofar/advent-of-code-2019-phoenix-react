@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Day04: React.FC = () => {
+const Day06: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const classes = useStyles();
@@ -33,9 +33,10 @@ const Day04: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const [start, end] = problemInput.split('-').map(Number)
-            const solution: { data: { result: number } } = await axios.post('/day04/' + part, { start, end });
-            setProblemSolution(solution.data.result)
+            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
+            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
+            //setProblemSolution(solution.data.result)
+            setProblemSolution(42)
         };
         sendInput();
     };
@@ -43,16 +44,14 @@ const Day04: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 04 - Secure Container</h2>
+                <h2>Day 06 - TBD</h2>
             </header>
             <Typography component="div">
-                <Box>There is a range of numbers of 6 digits, and we have some criteria to filter them, for example the digits are never decreasing going left to right and there is a repeated digit.</Box>
-                <Box>The goal is to count how many numbers in the given range satisfy the conditions.</Box>
-                <Box>In the second part, the rule about two consecutive digits is made stricter because they have to be exactly 2.</Box>
-
+                <Box>This problem has not been published yet</Box>
             </Typography>
             <TextField
                 id="outlined-multiline-static"
+                multiline
                 fullWidth
                 rows="2"
                 className={classes.textField}
@@ -73,4 +72,4 @@ const Day04: React.FC = () => {
     );
 };
 
-export default Day04;
+export default Day06;

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Day02: React.FC = () => {
+const Day05: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const classes = useStyles();
@@ -72,4 +72,4 @@ const Day02: React.FC = () => {
     );
 };
 
-export default Day02;
+export default Day05;
