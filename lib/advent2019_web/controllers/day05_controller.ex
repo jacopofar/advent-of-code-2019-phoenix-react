@@ -2,12 +2,6 @@ defmodule Advent2019Web.Day05Controller do
   use Advent2019Web, :controller
 
   def execute1(op_data_map, position, input, output, history) do
-    IO.puts(
-      "At position #{position}, seeing #{op_data_map[position]} #{op_data_map[position + 1]} #{
-        op_data_map[position + 2]
-      } #{op_data_map[position + 3]}"
-    )
-
     op_str = String.pad_leading("#{op_data_map[position]}", 5, "0")
     # the three modes
     [_m3, m2, m1 | _] = String.codepoints(op_str)
@@ -86,8 +80,6 @@ defmodule Advent2019Web.Day05Controller do
 
       3 ->
         # input
-        IO.puts("Put value #{input} in position #{arg1_imm}")
-
         execute1(
           Map.replace!(
             op_data_map,
@@ -127,21 +119,145 @@ defmodule Advent2019Web.Day05Controller do
             ]
         )
 
+      5 ->
+        # jump-if-true
+        next_position =
+          if arg1_use != 0 do
+            arg2_use
+          else
+            position + 3
+          end
+
+        execute1(
+          op_data_map,
+          next_position,
+          input,
+          output,
+          history ++
+            [
+              %{
+                op: "jump-if-true",
+                target_pos: nil,
+                input_pos: [pos1, pos2],
+                current_state: op_data_map,
+                position: position
+              }
+            ]
+        )
+
+      6 ->
+        # jump-if-false
+        next_position =
+          if arg1_use == 0 do
+            arg2_use
+          else
+            position + 3
+          end
+
+        execute1(
+          op_data_map,
+          next_position,
+          input,
+          output,
+          history ++
+            [
+              %{
+                op: "jump-if-false",
+                target_pos: nil,
+                input_pos: [pos1, pos2],
+                current_state: op_data_map,
+                position: position
+              }
+            ]
+        )
+
+      7 ->
+        # less than
+        to_store =
+          if arg1_use < arg2_use do
+            1
+          else
+            0
+          end
+
+        execute1(
+          Map.replace!(
+            op_data_map,
+            arg3_imm,
+            to_store
+          ),
+          position + 4,
+          input,
+          output,
+          history ++
+            [
+              %{
+                op: "less than",
+                target_pos: arg3_imm,
+                input_pos: [pos1, pos2],
+                current_state: op_data_map,
+                position: position
+              }
+            ]
+        )
+
+      8 ->
+        # equals
+        to_store =
+          if arg1_use == arg2_use do
+            1
+          else
+            0
+          end
+
+        execute1(
+          Map.replace!(
+            op_data_map,
+            arg3_imm,
+            to_store
+          ),
+          position + 4,
+          input,
+          output,
+          history ++
+            [
+              %{
+                op: "less than",
+                target_pos: arg3_imm,
+                input_pos: [pos1, pos2],
+                current_state: op_data_map,
+                position: position
+              }
+            ]
+        )
+
       99 ->
         {op_data_map, position, output, history}
     end
   end
 
-  def solve1(conn, params) do
-    result =
-      params["_json"]
-      # equivalent to enumerate in Python
-      |> Enum.with_index()
-      |> Enum.map(fn {v, k} -> {k, v} end)
-      |> Map.new()
+  def list_to_map(l) do
+    l
+    |> Enum.with_index()
+    |> Enum.map(fn {v, k} -> {k, v} end)
+    |> Map.new()
+  end
 
-    {processed_map, _, output, history} = execute1(result, 0, 1, [], [])
+  def solve1(conn, params) do
+    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, 1, [], [])
     IO.puts("Day 05.1 result: #{processed_map[0]}")
+
+    json(conn, %{
+      result: List.last(output),
+      final_map: processed_map,
+      history: history,
+      output: output
+    })
+  end
+
+  def solve2(conn, params) do
+    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, 5, [], [])
+    IO.puts("Day 05.2 result: #{processed_map[0]}")
 
     json(conn, %{
       result: List.last(output),
