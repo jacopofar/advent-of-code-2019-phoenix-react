@@ -46,22 +46,25 @@ const useStyles = makeStyles((theme: Theme) =>
 
 
 const ChartDisplay: React.FC<GraphProps> = (props) => {
-    //return (<p>hello {JSON.stringify(props)}</p>);
-    const graphVisRef = useRef<HTMLDivElement>(null);
+    //NOTE trying to draw this chart basically breaks the browser
+    //so it's commented out
 
-    useEffect(() => {
-        if (graphVisRef.current) {
-            console.log(props.graph.edges);
-            const nodesWithDuplicates = props.graph.edges.map(e => e.from);
+    return <div></div>
+    // const graphVisRef = useRef<HTMLDivElement>(null);
 
-            const nodes = new vis.DataSet(nodesWithDuplicates.filter(
-                (value, index, list) => list.indexOf(value) === index).map(
-                    n => ({ id: n, label: n })));
-            const edges = new vis.DataSet(props.graph.edges);
-            new vis.Network(graphVisRef.current, { nodes, edges }, {})
-        }
-    }, [graphVisRef])
-    return (<div ref={graphVisRef}></div>);
+    // useEffect(() => {
+    //     if (graphVisRef.current) {
+    //         const nodesWithDuplicates = props.graph.edges.map(e => e.from);
+
+    //         const nodes = new vis.DataSet(nodesWithDuplicates.filter(
+    //             (value, index, list) => list.indexOf(value) === index).map(
+    //                 n => ({ id: n, label: n })));
+    //         // edges appear twice, keep only one of them
+    //         const edges = new vis.DataSet(props.graph.edges.filter(edge => edge.from > edge.to));
+    //         new vis.Network(graphVisRef.current, { nodes, edges }, {})
+    //     }
+    // }, [graphVisRef])
+    // return (<div ref={graphVisRef}></div>);
 };
 
 const Day06: React.FC = () => {
