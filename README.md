@@ -41,6 +41,7 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [ ] error management in case of weird API call content
 - [ ] make it responsive (it breaks on phone)
 - [ ] improve a11y
+- [ ] dockerize
 
 
 ## License
