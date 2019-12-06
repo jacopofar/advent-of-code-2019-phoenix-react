@@ -30,7 +30,9 @@ defmodule Advent2019Web.Day06ControllerTest do
              "K" => MapSet.new(["L"])
            }
 
-    assert transitive_closure(direct_representation) == %{
+    expanded_orbits = transitive_closure(direct_representation)
+
+    assert expanded_orbits == %{
              "B" => MapSet.new(["C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]),
              "C" => MapSet.new(["D", "E", "F", "I", "J", "K", "L"]),
              "COM" => MapSet.new(["B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]),
@@ -40,5 +42,7 @@ defmodule Advent2019Web.Day06ControllerTest do
              "J" => MapSet.new(["K", "L"]),
              "K" => MapSet.new(["L"])
            }
+
+    assert count_orbits(expanded_orbits) == 42
   end
 end
