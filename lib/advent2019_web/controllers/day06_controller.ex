@@ -149,4 +149,21 @@ defmodule Advent2019Web.Day06Controller do
       all_orbits: all_orbits |> Enum.map(fn {k, v} -> [k, MapSet.to_list(v)] end)
     })
   end
+
+  def solve2(conn, params) do
+    edges = represent_as_bidirectional_map(params["_json"])
+    shortest_path = shortest_path(edges, "YOU", "SAN")
+
+    json(conn, %{
+      # we count the "orbital transfers", not the objects!
+      result: length(shortest_path) - 1,
+      shortest_path: shortest_path,
+      nodes: edges |> Enum.map(fn {k, v} -> k end),
+      edges:
+        edges
+        |> Enum.map(fn {k, v} -> Enum.map(v, fn v -> {k, v} end) end)
+        |> List.flatten()
+        |> Enum.map(fn {from, to} -> [from, to] end)
+    })
+  end
 end
