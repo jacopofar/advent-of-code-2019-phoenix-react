@@ -13,6 +13,10 @@ defmodule Advent2019Web.Day06Controller do
     end)
   end
 
+  @doc """
+  Given a list of orbits in the form X)Y, represent them as a map of connections.
+  The map represent all the direct connections, irregardless of what orbits on what.
+  """
   def represent_as_bidirectional_map(orbits) do
     reversed_orbits =
       orbits
@@ -24,6 +28,55 @@ defmodule Advent2019Web.Day06Controller do
     Map.merge(represent_as_map(orbits), represent_as_map(reversed_orbits), fn _k, v1, v2 ->
       MapSet.union(v1, v2)
     end)
+  end
+
+  @doc """
+  Return the shortest path between two nodes in the given connection map.
+  If there are multiple paths, an arbitrary one is returned.
+  The source and target nodes are not included.
+  """
+  def shortest_path(bidi_map, source, target) do
+    find_paths_from(bidi_map, [source], %{source => []})[target] |> List.delete_at(0)
+  end
+
+  @doc """
+  Calculate the shortest path between a source node and every node in the
+  connection map.
+  Return the map where the key is the target node and the value is the list of
+  nodes inthe shortest path to reach it, including the source node.
+  """
+  def find_paths_from(bidi_map, border, known_paths) do
+    # which new nodes can be reached from the edge, and are NOT already explored?
+    edges_to_the_unknown =
+      border
+      |> Enum.map(fn node ->
+        Enum.map(bidi_map[node], fn reachme -> {node, reachme} end)
+      end)
+      |> List.flatten()
+      # ignore edges leading to elements we already know how to reach
+      |> Enum.filter(&(not Map.has_key?(known_paths, elem(&1, 1))))
+      # the same node can be reached multiple ways from the edges, so we pick one of them
+      # they are all equivalent because the distance here is the same
+      |> Enum.uniq_by(fn {_, x} -> x end)
+
+    if edges_to_the_unknown == [] do
+      # nothing new to explore, all the possible paths have been found
+      known_paths
+    else
+      # new paths, calculate the new nodes we'll reach next
+      new_border = Enum.map(edges_to_the_unknown, fn {_, s} -> s end)
+      # add new paths for the nodes just explored
+      # we have an edge from X to Y and we know how to reach X, so to reach Y
+      # is just the path to X plus a step more
+      additional_paths =
+        edges_to_the_unknown
+        |> Enum.map(fn {edge_start, edge_end} ->
+          {edge_end, known_paths[edge_start] ++ [edge_start]}
+        end)
+        |> Map.new()
+
+      find_paths_from(bidi_map, new_border, Map.merge(additional_paths, known_paths))
+    end
   end
 
   @doc """
