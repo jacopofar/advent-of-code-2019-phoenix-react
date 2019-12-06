@@ -163,7 +163,7 @@ defmodule Advent2019Web.Day06Controller do
         edges
         |> Enum.map(fn {k, v} -> Enum.map(v, fn v -> {k, v} end) end)
         |> List.flatten()
-        |> Enum.map(fn {from, to} -> [from, to] end)
+        |> Enum.map(fn {from, to} -> %{from: from, to: to} end)
     })
   end
 end
