@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Day06: React.FC = () => {
+const Day07: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const classes = useStyles();
@@ -44,7 +44,7 @@ const Day06: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 06 - Universal Orbit Map</h2>
+                <h2>Day 06 - TBD</h2>
             </header>
             <Typography component="div">
                 <Box>This problem has not been published yet</Box>
@@ -72,4 +72,4 @@ const Day06: React.FC = () => {
     );
 };
 
-export default Day06;
+export default Day07;
