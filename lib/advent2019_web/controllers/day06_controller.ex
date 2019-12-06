@@ -19,6 +19,7 @@ defmodule Advent2019Web.Day06Controller do
   is in the corresponding MapSet
   """
   def transitive_closure(orbits) do
+    # IO.inspect orbits
     # create a map of newly found indirect orbits
     # if the map is empty, the closure is done, if not merge it
     # and recursively work on the merged map until it's done
@@ -59,5 +60,27 @@ defmodule Advent2019Web.Day06Controller do
       # nothing more to add
       orbits
     end
+  end
+
+  @doc """
+  Count the total number of orbits in a map
+  """
+  def count_orbits(orbits) do
+    for {_, satellites} <- orbits do
+      MapSet.size(satellites)
+    end
+    |> Enum.sum()
+  end
+
+  def solve1(conn, params) do
+    all_orbits =
+      params["_json"]
+      |> represent_as_map
+      |> transitive_closure
+
+    json(conn, %{
+      result: count_orbits(all_orbits),
+      all_orbits: all_orbits
+    })
   end
 end

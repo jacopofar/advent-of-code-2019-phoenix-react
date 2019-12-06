@@ -19,6 +19,9 @@ it will be visible at localhost:4000
 
 To run in dev mode (that is, the frontend reloads on the fly), use `yarn start` in the `assets` folder (will expose the app at port 3000) and `mix phx.server` to run the backend at port 4000. The `proxy` option in the package.json will redirect requests to port 3000 to the actual backend.
 
+## Performance profiling
+Use `mix Exprof` to profile the most critical parts of the backend.
+
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
 

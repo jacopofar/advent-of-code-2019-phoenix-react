@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
         textField: {
             marginLeft: theme.spacing(1),
             marginRight: theme.spacing(1),
-            width: 500
+            width: 200
         },
     }),
 );
@@ -33,10 +33,9 @@ const Day06: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
-            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
-            //setProblemSolution(solution.data.result)
-            setProblemSolution(42)
+            const values = problemInput.split('\n').filter(k=>k.length)
+            const solution: {data: {result: number}} = await axios.post('/day06/' + part, values);
+            setProblemSolution(solution.data.result)
         };
         sendInput();
     };
@@ -47,13 +46,15 @@ const Day06: React.FC = () => {
                 <h2>Day 06 - Universal Orbit Map</h2>
             </header>
             <Typography component="div">
-                <Box>This problem has not been published yet</Box>
+                <Box>Given a list of orbits in the form A)B meaning that B orbits around A, the first part asks to find how many "orbit relationships" are there.</Box>
+                <Box>This requires to count not only the given orbits, but also the indirect ones, so if A)B and B)C and C)D then the orbits A)C, B)D and A)D are counted as well</Box>
+
             </Typography>
             <TextField
                 id="outlined-multiline-static"
                 multiline
                 fullWidth
-                rows="2"
+                rows="20"
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
