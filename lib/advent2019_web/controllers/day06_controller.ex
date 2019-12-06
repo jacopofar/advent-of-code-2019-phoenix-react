@@ -13,6 +13,19 @@ defmodule Advent2019Web.Day06Controller do
     end)
   end
 
+  def represent_as_bidirectional_map(orbits) do
+    reversed_orbits =
+      orbits
+      |> Enum.map(fn o ->
+        [center, satellite] = String.split(o, ")")
+        "#{satellite})#{center}"
+      end)
+
+    Map.merge(represent_as_map(orbits), represent_as_map(reversed_orbits), fn _k, v1, v2 ->
+      MapSet.union(v1, v2)
+    end)
+  end
+
   @doc """
   Given orbits represented as maps (element => MapSet of satellites),
   calculate the transitive closure so that every indirect orbit of an element
