@@ -15,8 +15,6 @@ defmodule Advent2019Web.Day01Controller do
   end
 
   def fuelCost(i) do
-    IO.puts("required to calculate fuel cost for #{i}")
-
     if i <= 0 do
       0
     else

@@ -30,6 +30,15 @@ defmodule Advent2019Web.Day06ControllerTest do
              "K" => MapSet.new(["L"])
            }
 
-    assert transitive_closure(direct_representation) == 4
+    assert transitive_closure(direct_representation) == %{
+             "B" => MapSet.new(["C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]),
+             "C" => MapSet.new(["D", "E", "F", "I", "J", "K", "L"]),
+             "COM" => MapSet.new(["B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]),
+             "D" => MapSet.new(["E", "F", "I", "J", "K", "L"]),
+             "E" => MapSet.new(["F", "J", "K", "L"]),
+             "G" => MapSet.new(["H"]),
+             "J" => MapSet.new(["K", "L"]),
+             "K" => MapSet.new(["L"])
+           }
   end
 end
