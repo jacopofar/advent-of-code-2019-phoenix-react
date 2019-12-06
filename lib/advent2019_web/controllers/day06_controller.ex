@@ -80,7 +80,7 @@ defmodule Advent2019Web.Day06Controller do
 
     json(conn, %{
       result: count_orbits(all_orbits),
-      all_orbits: all_orbits
+      all_orbits: all_orbits |> Enum.map(fn {k, v} -> [k, MapSet.to_list(v)] end)
     })
   end
 end
