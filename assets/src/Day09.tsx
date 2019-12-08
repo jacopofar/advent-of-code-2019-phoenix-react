@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Day07: React.FC = () => {
+const Day09: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const classes = useStyles();
@@ -33,9 +33,10 @@ const Day07: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const values = problemInput.split(',').filter(k => k.length).map(Number);
-            const solution: {data: {result: number}} = await axios.post('/day07/' + part, values);
-            setProblemSolution(solution.data.result)
+            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
+            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
+            //setProblemSolution(solution.data.result)
+            setProblemSolution(42)
         };
         sendInput();
     };
@@ -43,10 +44,10 @@ const Day07: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 07 - Amplification Circuit</h2>
+                <h2>Day 06 - TBD</h2>
             </header>
             <Typography component="div">
-                <Box>We have a set of "computers" like the one implemented in day 5. Now each one has an initial input before 0 and 4, plus a secxond input given as an output by the preceding computer.</Box>
+                <Box>This problem has not been published yet</Box>
             </Typography>
             <TextField
                 id="outlined-multiline-static"
@@ -71,4 +72,4 @@ const Day07: React.FC = () => {
     );
 };
 
-export default Day07;
+export default Day09;

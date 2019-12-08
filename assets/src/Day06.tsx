@@ -49,7 +49,7 @@ const ChartDisplay: React.FC<GraphProps> = (props) => {
     //NOTE trying to draw this chart basically breaks the browser
     //so it's commented out
 
-    return <div></div>
+    return null;
     // const graphVisRef = useRef<HTMLDivElement>(null);
 
     // useEffect(() => {
