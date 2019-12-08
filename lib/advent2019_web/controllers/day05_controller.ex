@@ -1,6 +1,12 @@
 defmodule Advent2019Web.Day05Controller do
   use Advent2019Web, :controller
 
+  @doc """
+  Given a list of operations, a position, an input list and the history of
+   previous operations and output, runs the program until completion. It returns
+   the final position, list of outputs and history of operations including
+   the given ones.
+  """
   def execute1(op_data_map, position, input, output, history) do
     op_str = String.pad_leading("#{op_data_map[position]}", 5, "0")
     # the three modes
@@ -79,15 +85,16 @@ defmodule Advent2019Web.Day05Controller do
         )
 
       3 ->
+        [consumed_input | remaining_input] = input
         # input
         execute1(
           Map.replace!(
             op_data_map,
             arg1_imm,
-            input
+            consumed_input
           ),
           position + 2,
-          input,
+          remaining_input,
           output,
           history ++
             [
@@ -102,6 +109,8 @@ defmodule Advent2019Web.Day05Controller do
         )
 
       4 ->
+        "output"
+
         execute1(
           op_data_map,
           position + 2,
@@ -244,7 +253,7 @@ defmodule Advent2019Web.Day05Controller do
   end
 
   def solve1(conn, params) do
-    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, 1, [], [])
+    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, [1], [], [])
     IO.puts("Day 05.1 result: #{processed_map[0]}")
 
     json(conn, %{
@@ -256,7 +265,7 @@ defmodule Advent2019Web.Day05Controller do
   end
 
   def solve2(conn, params) do
-    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, 5, [], [])
+    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, [5], [], [])
     IO.puts("Day 05.2 result: #{processed_map[0]}")
 
     json(conn, %{
