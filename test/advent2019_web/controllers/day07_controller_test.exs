@@ -41,4 +41,14 @@ defmodule Advent2019Web.Day07ControllerTest do
              [[1, 0], [0], [4], [3], [2]]
            ) == [65210]
   end
+
+  test "can list permutations" do
+    all_permutations = permutations([0, 1, 2, 3, 4])
+    # two samples are there
+
+    assert Enum.member?(all_permutations, [0, 1, 2, 3, 4])
+    assert Enum.member?(all_permutations, [1, 2, 0, 4, 3])
+    # no duplicates
+    assert Enum.uniq(all_permutations) == all_permutations
+  end
 end

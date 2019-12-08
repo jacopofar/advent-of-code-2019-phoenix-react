@@ -9,7 +9,6 @@ defmodule Advent2019Web.Day07Controller do
    to build more complex structures involving multiple computers.
   """
   def run_computing_element(program, input) do
-    IO.inspect(input)
     {_, _, output, _} = Day05.execute1(Day05.list_to_map(program), 0, input, [], [])
     output
   end
@@ -31,7 +30,33 @@ defmodule Advent2019Web.Day07Controller do
       # prepare the new input for the program
       [next_input | other_inputs] = remaining_inputs
       intermediate_input = run_computing_element(program, this_input)
-      run_computing_pipeline(program, [next_input ++ intermediate_input] ++ other_inputs)
+      run_computing_pipeline(program, [next_input ++ intermediate_input | other_inputs])
     end
+  end
+
+  # more readable version of
+  # https://stackoverflow.com/questions/33756396/how-can-i-get-permutations-of-a-list
+
+  def permutations(list) do
+    if list == [] do
+      [[]]
+    else
+      # recursively call itself on every element picked on the list and the remaining ones
+      for h <- list, t <- permutations(list -- [h]) do
+        [h | t]
+      end
+    end
+  end
+
+  def solve1(conn, params) do
+    program = params["_json"]
+    run_computing_pipeline(program, [])
+
+    # json(conn, %{
+    #   result: List.last(output),
+    #   final_map: processed_map,
+    #   history: history,
+    #   output: output
+    # })
   end
 end
