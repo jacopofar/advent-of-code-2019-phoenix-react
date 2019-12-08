@@ -25,6 +25,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const Day07: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
+    const [bestInput, setBestInput] = useState<null | number[]>(null);
+
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,8 +36,14 @@ const Day07: React.FC = () => {
     const solve = (part: number) => {
         const sendInput = async () => {
             const values = problemInput.split(',').filter(k => k.length).map(Number);
-            const solution: {data: {result: number}} = await axios.post('/day07/' + part, values);
-            setProblemSolution(solution.data.result)
+            const solution: {
+                data: {
+                    result: number,
+                    best_input: number[]
+                }
+            } = await axios.post('/day07/' + part, values);
+            setProblemSolution(solution.data.result);
+            setBestInput(solution.data.best_input);
         };
         sendInput();
     };
@@ -65,7 +73,7 @@ const Day07: React.FC = () => {
             <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
             <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
 
-            <Typography variant="h5">{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</Typography>
+            <Typography variant="h5">{problemSolution && bestInput ? `Solution: ${problemSolution}, from input ${bestInput.join(',')}` : 'Press Solve to get the solution'}</Typography>
 
         </div>
     );

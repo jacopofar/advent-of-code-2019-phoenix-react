@@ -51,4 +51,21 @@ defmodule Advent2019Web.Day07ControllerTest do
     # no duplicates
     assert Enum.uniq(all_permutations) == all_permutations
   end
+
+  test "can arrange permutation in usable input list of lists" do
+    assert inputs_from_permutation([1, 2, 3, 4]) == [[1, 0], [2], [3], [4]]
+  end
+
+  test "POST /day07/1", %{conn: conn} do
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> post("/day07/1", %{
+        _json:
+          [3, 31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31, 0, 33] ++
+            [1002, 33, 7, 33, 1, 33, 31, 31, 1, 32, 31, 31, 4, 31, 99, 0, 0, 0]
+      })
+
+    assert json_response(conn, 200) == %{"best_input" => [1, 0, 4, 3, 2], "result" => [65210]}
+  end
 end

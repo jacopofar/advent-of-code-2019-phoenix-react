@@ -3,7 +3,7 @@
 
 Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a React frontend written in Typescript.
 
-Current state: __everything OK__ (up to day 6 part 2)
+Current state: __everything OK__ (up to day 7 part 1)
 
 👌Comments are welcome, it's my first project using Phoenix and also Typescript :)
 

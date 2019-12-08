@@ -48,15 +48,26 @@ defmodule Advent2019Web.Day07Controller do
     end
   end
 
+  def inputs_from_permutation(list) do
+    [initial | others] = list
+    other_inputs = for o <- others, do: [o]
+    inputs_lists = [[initial | [0]] | other_inputs]
+  end
+
   def solve1(conn, params) do
     program = params["_json"]
-    run_computing_pipeline(program, [])
+    all_candidate_solutions = permutations([0, 1, 2, 3, 4])
 
-    # json(conn, %{
-    #   result: List.last(output),
-    #   final_map: processed_map,
-    #   history: history,
-    #   output: output
-    # })
+    best_input =
+      Enum.max_by(all_candidate_solutions, fn sol ->
+        run_computing_pipeline(program, inputs_from_permutation(sol))
+      end)
+
+    result = run_computing_pipeline(program, inputs_from_permutation(best_input))
+
+    json(conn, %{
+      result: result,
+      best_input: best_input
+    })
   end
 end
