@@ -34,6 +34,13 @@ defmodule Advent2019Web.Day07Controller do
     end
   end
 
+  def run_pipeline_with_loop_and_hanging(program, inputs) do
+    # first, the state of each step of the loop is initialized separately, from now on they will evolve indipendently
+    # when a program hangs, it simply returns its current state, the (empty) input list, the output and the position
+    # so that the loop can continue and at the next step will fill the input and keep running
+    # TODO the machine at day 5 must return its own parameters when it hangs waiting for input, instead of an error
+  end
+
   # more readable version of
   # https://stackoverflow.com/questions/33756396/how-can-i-get-permutations-of-a-list
 

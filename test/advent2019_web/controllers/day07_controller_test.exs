@@ -42,6 +42,16 @@ defmodule Advent2019Web.Day07ControllerTest do
            ) == [65210]
   end
 
+  # not ready yet, see the comment in function about next steps
+  @tag :skip
+  test "can run a pipeline with a loop and occasional hangs" do
+    assert run_pipeline_with_loop_and_hanging(
+             [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27] ++
+               [26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5],
+             [[9, 0], [8], [7], [6], [5]]
+           ) == [139_629_729]
+  end
+
   test "can list permutations" do
     all_permutations = permutations([0, 1, 2, 3, 4])
     # two samples are there
