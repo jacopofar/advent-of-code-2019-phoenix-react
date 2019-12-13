@@ -35,7 +35,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Day08: React.FC = () => {
-    const [problemImageInput, setProblemImageInput] = useState('123456789012');
+    const [problemImageInput, setProblemImageInput] = useState(`123
+456
+
+789
+012`);
     const [problemImageSize, setProblemImageSize] = useState<string>('3x2');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const [problemInput, setProblemInput] = useState<{ w: number, h: number, rawImage: string }>({ w: 0, h: 0, rawImage: '' });
@@ -51,14 +55,19 @@ const Day08: React.FC = () => {
     };
 
     useEffect(() => {
-        const inputRaw = problemImageInput.replace(/(\r\n|\n|\r)/gm, "");
         const [w, h] = problemImageSize.split('x').map((i) => parseInt(i));
-        if (inputRaw.length % (w * h) !== 0) {
-            setInputErrorMessage(`Wrong input: the input length is ${inputRaw.length} which is not multiple of ${w * h} (${w} x ${h})`);
+        const cleanInput = problemImageInput.replace(/(\s|\r|\t)/g, '')
+        if (cleanInput.length % (w * h) !== 0) {
+            setInputErrorMessage(`Wrong input: the input length is ${cleanInput.length} which is not multiple of ${w * h} (${w} x ${h})`);
         }
         else {
-            setInputErrorMessage(null);
-            setProblemInput({ w, h, rawImage: inputRaw });
+            if (!/^\d+$/.test(cleanInput)) {
+                setInputErrorMessage(`Wrong input: should be only digits!`);
+            }
+            else{
+                setInputErrorMessage(null);
+                setProblemInput({ w, h, rawImage: cleanInput });
+            }
         }
     }, [problemImageInput, problemImageSize]);
 
@@ -85,7 +94,7 @@ const Day08: React.FC = () => {
                 id="outlined-multiline-static"
                 multiline
                 fullWidth
-                rows="2"
+                rows="5"
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
