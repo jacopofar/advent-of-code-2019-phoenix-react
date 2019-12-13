@@ -54,7 +54,10 @@ const Day07: React.FC = () => {
                 <h2>Day 07 - Amplification Circuit</h2>
             </header>
             <Typography component="div">
-                <Box>We have a set of "computers" like the one implemented in day 5. Now each one has an initial input before 0 and 4, plus a secxond input given as an output by the preceding computer.</Box>
+                <Box>We have a set of "computers" like the one implemented in day 5. </Box>
+                <Box>Now each one has an initial input before 0 and 4, plus a secxond input given as an output by the preceding computer.</Box>
+                <Box>The first part is implemented, the second one requires some redesign to allow the IntCode computer to stop and emit a continuation when there's no input available.</Box>
+
             </Typography>
             <TextField
                 id="outlined-multiline-static"

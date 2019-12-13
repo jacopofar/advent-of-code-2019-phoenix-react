@@ -3,6 +3,9 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import axios from 'axios';
@@ -23,20 +26,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Day08: React.FC = () => {
-    const [problemInput, setProblemInput] = useState('');
+    const [problemImageInput, setProblemImageInput] = useState('123456789012');
+    const [problemImageSize, setProblemImageSize] = useState<string>('3x2');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
+    const [problemInput, setProblemInput] = useState<{ w: number, h: number, rawImage: string }>({ w: 0, h: 0, rawImage: '' });
+
     const classes = useStyles();
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setProblemInput(event.target.value);
+    const handleProblemInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setProblemImageInput(event.target.value);
+        checkInputConsistency();
+    };
+    const handleImageSizeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setProblemImageSize(event.target.value as string);
+        checkInputConsistency();
+    };
+
+    const checkInputConsistency = () => {
+        const inputRaw = problemImageInput.replace(/(\r\n|\n|\r)/gm, "");
+        const [w, h] = problemImageSize.split('x').map((i) => parseInt(i));
+        if (inputRaw.length % (w * h) !== 0) {
+            // TODO do something to tell the user about the error and disable the button
+        }
+        else {
+            setProblemInput({ w, h, rawImage: inputRaw });
+        }
     };
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
-            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
-            //setProblemSolution(solution.data.result)
-            setProblemSolution(42)
+            const solution: {data: {result: number}} = await axios.post('/day08/' + part, problemInput);
+            setProblemSolution(solution.data.result)
         };
         sendInput();
     };
@@ -44,10 +64,12 @@ const Day08: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 06 - TBD</h2>
+                <h2>Day 08 - Space Image Format</h2>
             </header>
             <Typography component="div">
-                <Box>This problem has not been published yet</Box>
+                <Box>A list of digits is arranged in a grid of a given size by filling it left to right and then top to bottom.</Box>
+                <Box>When the digits fill the grid, another layer is created and eventually some number of layers are filled.</Box>
+                <Box>The first part asks to find the layer with fewest 0 digits and on that multiply the amount of 1 and 2</Box>
             </Typography>
             <TextField
                 id="outlined-multiline-static"
@@ -58,9 +80,18 @@ const Day08: React.FC = () => {
                 margin="normal"
                 variant="outlined"
                 placeholder="Insert here the problem input"
-                value={problemInput}
-                onChange={handleChange}
+                value={problemImageInput}
+                onChange={handleProblemInputChange}
             />
+            <InputLabel id="space-image-size-select-label">Space Image Size</InputLabel>
+            <Select
+                labelId="space-image-size-select-label"
+                value={problemImageSize}
+                onChange={handleImageSizeChange}
+            >
+                <MenuItem value={'3x2'}>3 x 2</MenuItem>
+                <MenuItem value={'25x6'}>25 x 6</MenuItem>
+            </Select>
             <br />
 
             <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>

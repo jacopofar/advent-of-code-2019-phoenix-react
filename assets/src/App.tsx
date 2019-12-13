@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const App: React.FC = () => {
-    const [day, setDay] = React.useState(6);
+    const [day, setDay] = React.useState(7);
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
