@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import axios from 'axios';
@@ -22,6 +23,14 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: theme.spacing(1),
             width: 500
         },
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
+        errorNote: {
+            color: theme.palette.error.main,
+            fontWeight: 'bold'
+        }
     }),
 );
 
@@ -30,32 +39,33 @@ const Day08: React.FC = () => {
     const [problemImageSize, setProblemImageSize] = useState<string>('3x2');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const [problemInput, setProblemInput] = useState<{ w: number, h: number, rawImage: string }>({ w: 0, h: 0, rawImage: '' });
+    const [inputErrorMessage, setInputErrorMessage] = useState<string | null>(null);
 
     const classes = useStyles();
 
     const handleProblemInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setProblemImageInput(event.target.value);
-        checkInputConsistency();
     };
     const handleImageSizeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setProblemImageSize(event.target.value as string);
-        checkInputConsistency();
     };
 
-    const checkInputConsistency = () => {
+    useEffect(() => {
         const inputRaw = problemImageInput.replace(/(\r\n|\n|\r)/gm, "");
         const [w, h] = problemImageSize.split('x').map((i) => parseInt(i));
         if (inputRaw.length % (w * h) !== 0) {
-            // TODO do something to tell the user about the error and disable the button
+            setInputErrorMessage(`Wrong input: the input length is ${inputRaw.length} which is not multiple of ${w * h} (${w} x ${h})`);
         }
         else {
+            setInputErrorMessage(null);
             setProblemInput({ w, h, rawImage: inputRaw });
         }
-    };
+    }, [problemImageInput, problemImageSize]);
+
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const solution: {data: {result: number}} = await axios.post('/day08/' + part, problemInput);
+            const solution: { data: { result: number } } = await axios.post('/day08/' + part, problemInput);
             setProblemSolution(solution.data.result)
         };
         sendInput();
@@ -83,19 +93,22 @@ const Day08: React.FC = () => {
                 value={problemImageInput}
                 onChange={handleProblemInputChange}
             />
-            <InputLabel id="space-image-size-select-label">Space Image Size</InputLabel>
-            <Select
-                labelId="space-image-size-select-label"
-                value={problemImageSize}
-                onChange={handleImageSizeChange}
-            >
-                <MenuItem value={'3x2'}>3 x 2</MenuItem>
-                <MenuItem value={'25x6'}>25 x 6</MenuItem>
-            </Select>
             <br />
-
-            <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
-            <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
+            <FormControl variant="filled" className={classes.formControl}>
+                <InputLabel id="space-image-size-select-label">Image Size</InputLabel>
+                <Select
+                    labelId="space-image-size-select-label"
+                    value={problemImageSize}
+                    onChange={handleImageSizeChange}
+                >
+                    <MenuItem value={'3x2'}>3 x 2</MenuItem>
+                    <MenuItem value={'25x6'}>25 x 6</MenuItem>
+                </Select>
+            </FormControl>
+            <br />
+            <Typography className={classes.errorNote} variant="overline" display="block" gutterBottom>{inputErrorMessage}</Typography>
+            <Button variant="contained" disabled={inputErrorMessage !== null} color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
+            <Button variant="contained" disabled={inputErrorMessage !== null} color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
 
             <Typography variant="h5">{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</Typography>
 
