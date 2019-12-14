@@ -24,18 +24,15 @@ Use `mix Exprof` to profile the most critical parts of the backend.
 
 ## current state
 
-* day 1: [x]
-* day 2: [x]
-* day 3: [x]
-* day 4: [x]
-* day 5: [x]
-* day 6: [x] - performance issue, the `mix profile` task profiles it. The graph representation in the frontend doesn't scale with so many edges and is disabled.
-* day 7: [ ] - part 1 done, part 2 requires some refactoring of the intCode computer
-* day 8: [x] - performance issue in the parsing of space image format
+- day 1 ok!
+- day 2 ok!
+- day 3 ok!
+- day 4 ok!
+- day 5 ok!
+- day 6 performance issue, the `mix profile` task profiles it. The graph representation in the frontend doesn't scale with so many edges and is disabled.
+- day 7 part 1 done, part 2 requires some refactoring of the intCode computer
+- day 8 it runs, but the space image parsing is too slow
 
-
-
-Current state: __everything OK__ (up to day 7 part 1)
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
