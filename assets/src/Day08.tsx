@@ -30,7 +30,17 @@ const useStyles = makeStyles((theme: Theme) =>
         errorNote: {
             color: theme.palette.error.main,
             fontWeight: 'bold'
-        }
+        },
+        table: {
+            "& td": {
+                border: '1px solid #555',
+                padding: '3px',
+                width: '1em',
+            },
+            "& th": {
+                border: '1px solid black',
+            },
+        },
     }),
 );
 
@@ -44,6 +54,7 @@ const Day08: React.FC = () => {
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const [problemInput, setProblemInput] = useState<{ w: number, h: number, rawImage: string }>({ w: 0, h: 0, rawImage: '' });
     const [inputErrorMessage, setInputErrorMessage] = useState<string | null>(null);
+    const [problemImage, setProblemImage] = useState<null | number[][]>(null);
 
     const classes = useStyles();
 
@@ -64,7 +75,7 @@ const Day08: React.FC = () => {
             if (!/^\d+$/.test(cleanInput)) {
                 setInputErrorMessage(`Wrong input: should be only digits!`);
             }
-            else{
+            else {
                 setInputErrorMessage(null);
                 setProblemInput({ w, h, rawImage: cleanInput });
             }
@@ -74,8 +85,14 @@ const Day08: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const solution: { data: { result: number } } = await axios.post('/day08/' + part, problemInput);
-            setProblemSolution(solution.data.result)
+            if (part === 1) {
+                const solution: { data: { result: number } } = await axios.post('/day08/1', problemInput);
+                setProblemSolution(solution.data.result);
+            }
+            if (part === 2) {
+                const solution: { data: { result: number[][] } } = await axios.post('/day08/2', problemInput);
+                setProblemImage(solution.data.result);
+            }
         };
         sendInput();
     };
@@ -118,8 +135,17 @@ const Day08: React.FC = () => {
             <Typography className={classes.errorNote} variant="overline" display="block" gutterBottom>{inputErrorMessage}</Typography>
             <Button variant="contained" disabled={inputErrorMessage !== null} color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
             <Button variant="contained" disabled={inputErrorMessage !== null} color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
-
-            <Typography variant="h5">{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</Typography>
+            <Typography variant="h5">{(problemSolution || problemImage) ? `Solution: ${problemSolution ? problemSolution : ''}` : 'Press Solve to get the solution'}</Typography>
+            {problemImage ?
+                <table className={classes.table}>
+                    {problemImage.map(row => <tr>
+                        {row.map(e => <td style={{
+                            backgroundColor: (e == 1 ? 'white': 'black'),
+                            color: (e == 1 ? 'black': 'white'),
+                            }}>{e}</td>)}
+                    </tr>)}
+                </table>
+                : null}
 
         </div>
     );

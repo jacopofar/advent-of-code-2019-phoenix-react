@@ -92,13 +92,12 @@ defmodule Advent2019Web.Day08Controller do
         for x <- 0..(w - 1) do
           overlapping_pixels =
             for l <- layers do
-              l |> Enum.at(x) |> Enum.at(y)
+              l |> Enum.at(y) |> Enum.at(x)
             end
 
           combine_pixels(overlapping_pixels)
         end
       end
-
     json(conn, %{
       result: combined_images
     })
