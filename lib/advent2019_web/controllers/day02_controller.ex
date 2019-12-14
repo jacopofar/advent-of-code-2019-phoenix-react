@@ -63,7 +63,6 @@ defmodule Advent2019Web.Day02Controller do
       |> Map.new()
 
     {processed_map, _, history} = execute1(result, 0, [])
-    IO.puts("Day 02.1 result: #{processed_map[0]}")
     json(conn, %{result: processed_map[0], final_map: processed_map, history: history})
   end
 
