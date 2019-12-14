@@ -45,6 +45,15 @@ defmodule Advent2019Web.Day08Controller do
     Enum.min_by(0..(length(layers) - 1), &count_digits_in_layer(layers, &1, 0))
   end
 
+  @doc """
+  Combine pixels to get the resulting color.
+  Pixels 1 and 0 are are a color, 2 is transparent.
+  The first non-2 value determines the color.
+  """
+  def combine_pixels(pixels) do
+    Enum.find(pixels, &(&1 != 2))
+  end
+
   def solve1(conn, params) do
     layers = space_image_as_lists(params)
     less_zeros_id = layer_with_fewest_zeros(layers)
@@ -56,6 +65,42 @@ defmodule Advent2019Web.Day08Controller do
     json(conn, %{
       result: result,
       chosen_layer: Enum.at(layers, less_zeros_id)
+    })
+  end
+
+  def solve1(conn, params) do
+    layers = space_image_as_lists(params)
+    less_zeros_id = layer_with_fewest_zeros(layers)
+
+    result =
+      count_digits_in_layer(layers, less_zeros_id, 1) *
+        count_digits_in_layer(layers, less_zeros_id, 2)
+
+    json(conn, %{
+      result: result,
+      chosen_layer: Enum.at(layers, less_zeros_id)
+    })
+  end
+
+  def solve2(conn, params) do
+    layers = space_image_as_lists(params)
+    w = params["w"]
+    h = params["h"]
+
+    combined_images =
+      for y <- 0..(h - 1) do
+        for x <- 0..(w - 1) do
+          overlapping_pixels =
+            for l <- layers do
+              l |> Enum.at(x) |> Enum.at(y)
+            end
+
+          combine_pixels(overlapping_pixels)
+        end
+      end
+
+    json(conn, %{
+      result: combined_images
     })
   end
 end
