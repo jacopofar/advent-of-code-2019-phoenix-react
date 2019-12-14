@@ -10,26 +10,52 @@ defmodule Advent2019Web.Day08Controller do
   The "image" is returned as a list of lists of lists.
   """
   def space_image_as_lists(space_image) do
-    w = space_image[:w]
-    h = space_image[:h]
+    w = space_image["w"]
+    h = space_image["h"]
+    raw_image = space_image["rawImage"]
     # it's all digits, so 1 character = 1 byte
-    layers = String.length(space_image[:rawImage])
-    # TODO not pssing the test, something is wrong
+    layers = Integer.floor_div(String.length(raw_image), w * h)
+
     for l <- 0..(layers - 1) do
-      for y <- 0..(w - 1) do
-        for x <- 0..(h - 1) do
-          String.to_integer(String.at(l * w * h + h * x + y, space_image))
+      for y <- 0..(h - 1) do
+        for x <- 0..(w - 1) do
+          String.to_integer(String.at(raw_image, l * w * h + w * y + x))
         end
       end
     end
   end
 
   @doc """
-  Given a space image tell which layer has fewest 0.
-  The input map has the w and h parameters telling the size and the raw
-  string containing the digits in reading order
+  Count how many times a given digit is in a given layer.
   """
-  def layer_with_fewest_zeros(space_image) do
-    # implement this...
+  def count_digits_in_layer(layers, layer_number, digit) do
+    Enum.at(layers, layer_number)
+    |> List.flatten()
+    |> Enum.count(fn cell ->
+      cell == digit
+    end)
+  end
+
+  @doc """
+  Given a space image tell which layer has fewest 0.
+  The image is represented as a list of layers, every layer is a list of lists
+  representing the single layer as a 2D matrix
+  """
+  def layer_with_fewest_zeros(layers) do
+    Enum.min_by(0..(length(layers) - 1), &count_digits_in_layer(layers, &1, 0))
+  end
+
+  def solve1(conn, params) do
+    layers = space_image_as_lists(params)
+    less_zeros_id = layer_with_fewest_zeros(layers)
+
+    result =
+      count_digits_in_layer(layers, less_zeros_id, 1) *
+        count_digits_in_layer(layers, less_zeros_id, 2)
+
+    json(conn, %{
+      result: result,
+      chosen_layer: Enum.at(layers, less_zeros_id)
+    })
   end
 end

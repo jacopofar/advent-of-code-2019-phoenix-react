@@ -4,13 +4,24 @@ defmodule Advent2019Web.Day08ControllerTest do
 
   test "can represent a space image as list of lists" do
     assert space_image_as_lists(%{
-             h: 2,
-             w: 3,
-             rawImage: "123456789012"
+             "h" => 2,
+             "w" => 3,
+             "rawImage" => "123456789012"
            }) == [
              [[1, 2, 3], [4, 5, 6]],
              [[7, 8, 9], [0, 1, 2]]
            ]
+  end
+
+  test "can tell how many times a digit is in a layer" do
+    assert count_digits_in_layer(
+             [
+               [[1, 9, 3], [4, 5, 6]],
+               [[7, 8, 9], [0, 9, 2]]
+             ],
+             1,
+             9
+           ) == 2
   end
 
   test "can find layer with fewest 0s" do
@@ -25,11 +36,11 @@ defmodule Advent2019Web.Day08ControllerTest do
       conn
       |> put_req_header("accept", "application/json")
       |> post("/day08/1", %{
-        h: 2,
-        w: 3,
-        rawImage: "123456789012"
+        "h" => 2,
+        "w" => 3,
+        "rawImage" => "123456789012"
       })
 
-    assert json_response(conn, 200) == %{"result" => 1}
+    assert json_response(conn, 200)["result"] == 1
   end
 end
