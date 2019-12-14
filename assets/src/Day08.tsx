@@ -88,10 +88,12 @@ const Day08: React.FC = () => {
             if (part === 1) {
                 const solution: { data: { result: number } } = await axios.post('/day08/1', problemInput);
                 setProblemSolution(solution.data.result);
+                setProblemImage(null);
             }
             if (part === 2) {
                 const solution: { data: { result: number[][] } } = await axios.post('/day08/2', problemInput);
                 setProblemImage(solution.data.result);
+                setProblemSolution(null);
             }
         };
         sendInput();
@@ -140,9 +142,9 @@ const Day08: React.FC = () => {
                 <table className={classes.table}>
                     {problemImage.map(row => <tr>
                         {row.map(e => <td style={{
-                            backgroundColor: (e == 1 ? 'white': 'black'),
-                            color: (e == 1 ? 'black': 'white'),
-                            }}>{e}</td>)}
+                            backgroundColor: (e === 1 ? 'white' : 'black'),
+                            color: (e === 1 ? 'black' : 'white'),
+                        }}>{e}</td>)}
                     </tr>)}
                 </table>
                 : null}
