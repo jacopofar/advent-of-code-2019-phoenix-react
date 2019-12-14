@@ -3,12 +3,12 @@
 
 Attempt at solving Advent of code 2019 with an app using a Phoenix backend and a React frontend written in Typescript.
 
-Current state: __everything OK__ (up to day 7 part 1)
 
 👌Comments are welcome, it's my first project using Phoenix and also Typescript :)
 
 ## Screenshot
 ![How it looks like](screenshot.png)
+
 
 ## How to run
 You need a recent Elixir and Node.js. Then run:
@@ -21,6 +21,21 @@ To run in dev mode (that is, the frontend reloads on the fly), use `yarn start` 
 
 ## Performance profiling
 Use `mix Exprof` to profile the most critical parts of the backend.
+
+## current state
+
+* day 1: [x]
+* day 2: [x]
+* day 3: [x]
+* day 4: [x]
+* day 5: [x]
+* day 6: [x] - performance issue, the `mix profile` task profiles it
+* day 7: [ ] - part 1 done, part 2 requires some refactoring of the intCode computer
+* day 8: [x] - performance issue in the parsing of space image format
+
+
+
+Current state: __everything OK__ (up to day 7 part 1)
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
