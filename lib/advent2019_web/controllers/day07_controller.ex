@@ -68,27 +68,29 @@ defmodule Advent2019Web.Day07Controller do
         state[:history]
       )
 
+    # note that new_output is the COMPLETE output by this computer across loops
+    extra_output = new_output -- state[:output]
     IO.puts("Exit state was: #{exit_state}")
 
-    IO.puts(
-      "Input was: '#{to_charlist(state[:input] ++ output_from_previous_step)}' of length #{
-        length(state[:input] ++ output_from_previous_step)
-      }"
-    )
+    # IO.puts(
+    #   "Input was: '#{state[:input] ++ output_from_previous_step}' of length #{
+    #     length(state[:input] ++ output_from_previous_step)
+    #   }"
+    # )
 
-    IO.puts("output was: '#{to_charlist(new_output)}'")
+    # IO.puts("output was: '#{extra_output}'")
     is_last_one = index_to_run == length(computer_states) - 1
 
     if exit_state == :finished and is_last_one do
       # the last one finished and is successful, this is the end
-      new_output
+      extra_output
     else
       # update the states and continue from the next step
       new_states =
         List.replace_at(computer_states, index_to_run, %{
           heap: new_heap,
           position: new_position,
-          # it ended, so the input is empty or will never used
+          # it ended, so the input is either empty or will never used
           input: [],
           output: new_output,
           history: new_history
@@ -101,7 +103,7 @@ defmodule Advent2019Web.Day07Controller do
         else
           index_to_run + 1
         end,
-        new_output
+        extra_output
       )
     end
   end
