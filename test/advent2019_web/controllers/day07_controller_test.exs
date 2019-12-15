@@ -5,7 +5,7 @@ defmodule Advent2019Web.Day07ControllerTest do
   import Advent2019Web.Day05Controller
 
   test "multi input" do
-    {final_map, _, output, _} =
+    {final_map, _, output, _, finished: true} =
       execute1(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1, 42], [999], [])
 
     assert final_map == list_to_map([2, 9, 3, 10, 1, 9, 4, 0, 99, 1, 42])

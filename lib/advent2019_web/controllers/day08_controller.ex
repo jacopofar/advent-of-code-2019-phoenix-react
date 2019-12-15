@@ -98,6 +98,7 @@ defmodule Advent2019Web.Day08Controller do
           combine_pixels(overlapping_pixels)
         end
       end
+
     json(conn, %{
       result: combined_images
     })

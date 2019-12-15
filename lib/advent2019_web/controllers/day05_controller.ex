@@ -84,7 +84,7 @@ defmodule Advent2019Web.Day05Controller do
             ]
         )
 
-      3 ->
+      3 when input != [] ->
         [consumed_input | remaining_input] = input
         # input
         execute1(
@@ -107,6 +107,9 @@ defmodule Advent2019Web.Day05Controller do
               }
             ]
         )
+
+      3 when input == [] ->
+        {op_data_map, position, output, history, finished: false}
 
       4 ->
         "output"
@@ -241,7 +244,7 @@ defmodule Advent2019Web.Day05Controller do
         )
 
       99 ->
-        {op_data_map, position, output, history}
+        {op_data_map, position, output, history, finished: true}
     end
   end
 

@@ -9,7 +9,9 @@ defmodule Advent2019Web.Day07Controller do
    to build more complex structures involving multiple computers.
   """
   def run_computing_element(program, input) do
-    {_, _, output, _} = Day05.execute1(Day05.list_to_map(program), 0, input, [], [])
+    {_, _, output, _, finished: true} =
+      Day05.execute1(Day05.list_to_map(program), 0, input, [], [])
+
     output
   end
 
@@ -38,7 +40,6 @@ defmodule Advent2019Web.Day07Controller do
     # first, the state of each step of the loop is initialized separately, from now on they will evolve indipendently
     # when a program hangs, it simply returns its current state, the (empty) input list, the output and the position
     # so that the loop can continue and at the next step will fill the input and keep running
-    # TODO the machine at day 5 must return its own parameters when it hangs waiting for input, instead of an error
   end
 
   # more readable version of
