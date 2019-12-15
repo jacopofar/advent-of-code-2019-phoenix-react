@@ -42,6 +42,19 @@ defmodule Advent2019Web.Day07ControllerTest do
            ) == [65210]
   end
 
+  test "can run a program that hangs for missing input and resume later" do
+    # it returns finished: false to indicate it's waiting for input to continue
+    {current_map, position, output, history, finished: false} =
+      execute1(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1], [999], [])
+
+    # now the execution can continue, providing some more input, and the result is the same as before
+    {final_map, _, output, _, finished: true} =
+      execute1(current_map, position, [42], output, history)
+
+    assert final_map == list_to_map([2, 9, 3, 10, 1, 9, 4, 0, 99, 1, 42])
+    assert output == [999]
+  end
+
   # not ready yet, see the comment in function about next steps
   @tag :skip
   test "can run a pipeline with a loop and occasional hangs" do

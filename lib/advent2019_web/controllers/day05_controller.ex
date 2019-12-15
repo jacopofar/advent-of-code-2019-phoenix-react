@@ -6,6 +6,9 @@ defmodule Advent2019Web.Day05Controller do
    previous operations and output, runs the program until completion. It returns
    the final position, list of outputs and history of operations including
    the given ones.
+
+   It returns as a last element finished: true if it finished or false if it
+   is hanging waiting for more input
   """
   def execute1(op_data_map, position, input, output, history) do
     op_str = String.pad_leading("#{op_data_map[position]}", 5, "0")
