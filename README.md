@@ -32,7 +32,8 @@ Use `mix Exprof` to profile the most critical parts of the backend.
 - day 6 performance issue, the `mix profile` task profiles it. The graph representation in the frontend doesn't scale with so many edges and is disabled.
 - day 7 part 1 done, part 2 gives invalid results but don't know where the error is
 - day 8 it runs, but the space image parsing is too slow
-- 9 based on intcode computer, skipped
+- 9 based on intcode computer, skipped for a better day
+- 10 started, nice problem
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
