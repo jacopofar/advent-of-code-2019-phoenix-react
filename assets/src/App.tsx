@@ -15,6 +15,7 @@ import Day06 from './Day06';
 import Day07 from './Day07';
 import Day08 from './Day08';
 import Day09 from './Day09';
+import Day10 from './Day10';
 
 
 // interface for the single day element
@@ -56,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const App: React.FC = () => {
-    const [day, setDay] = React.useState(7);
+    const [day, setDay] = React.useState(9);
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -82,6 +83,7 @@ const App: React.FC = () => {
                 <Tab label="Day 7" />
                 <Tab label="Day 8" />
                 <Tab label="Day 9" />
+                <Tab label="Day 10" />
 
             </Tabs>
             <TabPanel value={day} index={0}>
@@ -111,6 +113,9 @@ const App: React.FC = () => {
             </TabPanel>
             <TabPanel value={day} index={8}>
                 <Day09></Day09>
+            </TabPanel>
+            <TabPanel value={day} index={9}>
+                <Day10></Day10>
             </TabPanel>
         </div>
     );

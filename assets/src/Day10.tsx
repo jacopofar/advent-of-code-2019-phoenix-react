@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-const Day09: React.FC = () => {
+const Day10: React.FC = () => {
     const [problemInput, setProblemInput] = useState('');
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const classes = useStyles();
@@ -33,10 +33,9 @@ const Day09: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            //const values = problemInput.split('\n').filter(k=>k.length).map(Number)
-            //const solution: {data: {result: number}} = await axios.post('/day01/' + part, values);
-            //setProblemSolution(solution.data.result)
-            setProblemSolution(42)
+            const values: number[][] = problemInput.split('\n').filter(k=>k.length).map(l => l.split('').map(e => e == '#' ? 1 : 0))
+            const solution: {data: {result: number}} = await axios.post('/day10/' + part, values);
+            setProblemSolution(solution.data.result)
         };
         sendInput();
     };
@@ -44,16 +43,17 @@ const Day09: React.FC = () => {
     return (
         <div className={classes.root}>
             <header>
-                <h2>Day 09 - TBD</h2>
+                <h2>Day 10 - Monitoring Station</h2>
             </header>
             <Typography component="div">
-                <Box>This problem is not implemented yet</Box>
+                <Box>An orthogonal grid where some cell are asteroids is given. The goal is to find the one that can "see" the most asteroids (itself included).</Box>
+                <Box>An asteroid is visible from another when it's possible to draw a segment between them that doesn't contain another asteroid.</Box>
             </Typography>
             <TextField
                 id="outlined-multiline-static"
                 multiline
                 fullWidth
-                rows="2"
+                rows="30"
                 className={classes.textField}
                 margin="normal"
                 variant="outlined"
@@ -65,11 +65,10 @@ const Day09: React.FC = () => {
 
             <Button variant="contained" color="primary" onClick={() => solve(1)}>Solve part 1!</Button>
             <Button variant="contained" color="secondary" onClick={() => solve(2)}>Solve part 2!</Button>
-
             <Typography variant="h5">{problemSolution ? `Solution: ${problemSolution}` : 'Press Solve to get the solution'}</Typography>
 
         </div>
     );
 };
 
-export default Day09;
+export default Day10;
