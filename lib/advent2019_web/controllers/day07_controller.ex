@@ -9,8 +9,7 @@ defmodule Advent2019Web.Day07Controller do
    to build more complex structures involving multiple computers.
   """
   def run_computing_element(program, input) do
-    {_, _, output, _, finished: true} =
-      Day05.execute1(Day05.list_to_map(program), 0, input, [], [])
+    {_, _, output, _, :finished} = Day05.run_intcode(Day05.list_to_map(program), 0, input, [], [])
 
     output
   end
@@ -36,10 +35,36 @@ defmodule Advent2019Web.Day07Controller do
     end
   end
 
-  def run_pipeline_with_loop_and_hanging(program, inputs) do
+  def pipeline_initial_states(program, inputs) do
     # first, the state of each step of the loop is initialized separately, from now on they will evolve indipendently
     # when a program hangs, it simply returns its current state, the (empty) input list, the output and the position
     # so that the loop can continue and at the next step will fill the input and keep running
+    for input <- inputs do
+      %{
+        heap: program,
+        position: 0,
+        input: input,
+        output: [],
+        history: []
+      }
+    end
+  end
+
+  def run_pipeline_with_loop(computer_states) do
+    run_pipeline_with_loop(computer_states, 0, [])
+  end
+
+  def run_pipeline_with_loop(computer_states, next_to_run, output_from_previous_step) do
+    state = Enum.at(computer_states, next_to_run)
+
+    {new_map, new_position, new_output, history, finished} =
+      Day05.run_intcode(
+        state[:heap],
+        state[:position],
+        state[:input],
+        state[:output],
+        state[:history]
+      )
   end
 
   # more readable version of

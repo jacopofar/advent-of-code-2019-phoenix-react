@@ -7,10 +7,10 @@ defmodule Advent2019Web.Day05Controller do
    the final position, list of outputs and history of operations including
    the given ones.
 
-   It returns as a last element finished: true if it finished or false if it
+   It returns as a last element :finished if it finished or :hanging if it
    is hanging waiting for more input
   """
-  def execute1(op_data_map, position, input, output, history) do
+  def run_intcode(op_data_map, position, input, output, history) do
     op_str = String.pad_leading("#{op_data_map[position]}", 5, "0")
     # the three modes
     [_m3, m2, m1 | _] = String.codepoints(op_str)
@@ -43,7 +43,7 @@ defmodule Advent2019Web.Day05Controller do
     case op do
       1 ->
         # sum
-        execute1(
+        run_intcode(
           Map.replace!(
             op_data_map,
             arg3_imm,
@@ -66,7 +66,7 @@ defmodule Advent2019Web.Day05Controller do
 
       2 ->
         # mul
-        execute1(
+        run_intcode(
           Map.replace!(
             op_data_map,
             arg3_imm,
@@ -90,7 +90,7 @@ defmodule Advent2019Web.Day05Controller do
       3 when input != [] ->
         [consumed_input | remaining_input] = input
         # input
-        execute1(
+        run_intcode(
           Map.replace!(
             op_data_map,
             arg1_imm,
@@ -112,12 +112,12 @@ defmodule Advent2019Web.Day05Controller do
         )
 
       3 when input == [] ->
-        {op_data_map, position, output, history, finished: false}
+        {op_data_map, position, output, history, :hanging}
 
       4 ->
         "output"
 
-        execute1(
+        run_intcode(
           op_data_map,
           position + 2,
           input,
@@ -143,7 +143,7 @@ defmodule Advent2019Web.Day05Controller do
             position + 3
           end
 
-        execute1(
+        run_intcode(
           op_data_map,
           next_position,
           input,
@@ -169,7 +169,7 @@ defmodule Advent2019Web.Day05Controller do
             position + 3
           end
 
-        execute1(
+        run_intcode(
           op_data_map,
           next_position,
           input,
@@ -195,7 +195,7 @@ defmodule Advent2019Web.Day05Controller do
             0
           end
 
-        execute1(
+        run_intcode(
           Map.replace!(
             op_data_map,
             arg3_imm,
@@ -225,7 +225,7 @@ defmodule Advent2019Web.Day05Controller do
             0
           end
 
-        execute1(
+        run_intcode(
           Map.replace!(
             op_data_map,
             arg3_imm,
@@ -247,7 +247,7 @@ defmodule Advent2019Web.Day05Controller do
         )
 
       99 ->
-        {op_data_map, position, output, history, finished: true}
+        {op_data_map, position, output, history, :finished}
     end
   end
 
@@ -259,7 +259,9 @@ defmodule Advent2019Web.Day05Controller do
   end
 
   def solve1(conn, params) do
-    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, [1], [], [])
+    {processed_map, _, output, history, :finished} =
+      run_intcode(list_to_map(params["_json"]), 0, [1], [], [])
+
     IO.puts("Day 05.1 result: #{processed_map[0]}")
 
     json(conn, %{
@@ -271,7 +273,9 @@ defmodule Advent2019Web.Day05Controller do
   end
 
   def solve2(conn, params) do
-    {processed_map, _, output, history} = execute1(list_to_map(params["_json"]), 0, [5], [], [])
+    {processed_map, _, output, history, :finished} =
+      run_intcode(list_to_map(params["_json"]), 0, [5], [], [])
+
     IO.puts("Day 05.2 result: #{processed_map[0]}")
 
     json(conn, %{

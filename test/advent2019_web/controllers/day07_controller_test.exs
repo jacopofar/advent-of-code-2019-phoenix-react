@@ -5,8 +5,8 @@ defmodule Advent2019Web.Day07ControllerTest do
   import Advent2019Web.Day05Controller
 
   test "multi input" do
-    {final_map, _, output, _, finished: true} =
-      execute1(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1, 42], [999], [])
+    {final_map, _, output, _, :finished} =
+    run_intcode(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1, 42], [999], [])
 
     assert final_map == list_to_map([2, 9, 3, 10, 1, 9, 4, 0, 99, 1, 42])
     assert output == [999]
@@ -43,13 +43,12 @@ defmodule Advent2019Web.Day07ControllerTest do
   end
 
   test "can run a program that hangs for missing input and resume later" do
-    # it returns finished: false to indicate it's waiting for input to continue
-    {current_map, position, output, history, finished: false} =
-      execute1(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1], [999], [])
+    # it returns :hanging to indicate it's waiting for input to continue
+    {current_map, position, output, history, :hanging} =
+    run_intcode(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1], [999], [])
 
     # now the execution can continue, providing some more input, and the result is the same as before
-    {final_map, _, output, _, finished: true} =
-      execute1(current_map, position, [42], output, history)
+    {final_map, _, output, _, :finished} = run_intcode(current_map, position, [42], output, history)
 
     assert final_map == list_to_map([2, 9, 3, 10, 1, 9, 4, 0, 99, 1, 42])
     assert output == [999]
@@ -58,11 +57,14 @@ defmodule Advent2019Web.Day07ControllerTest do
   # not ready yet, see the comment in function about next steps
   @tag :skip
   test "can run a pipeline with a loop and occasional hangs" do
-    assert run_pipeline_with_loop_and_hanging(
-             [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27] ++
-               [26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5],
-             [[9, 0], [8], [7], [6], [5]]
-           ) == [139_629_729]
+    states =
+      pipeline_initial_states(
+        [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27] ++
+          [26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5],
+        [[9, 0], [8], [7], [6], [5]]
+      )
+
+    assert run_pipeline_with_loop(states) == [139_629_729]
   end
 
   test "can list permutations" do
