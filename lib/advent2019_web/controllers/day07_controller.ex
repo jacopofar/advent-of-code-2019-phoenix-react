@@ -54,17 +54,56 @@ defmodule Advent2019Web.Day07Controller do
     run_pipeline_with_loop(computer_states, 0, [])
   end
 
-  def run_pipeline_with_loop(computer_states, next_to_run, output_from_previous_step) do
-    state = Enum.at(computer_states, next_to_run)
+  def run_pipeline_with_loop(computer_states, index_to_run, output_from_previous_step) do
+    state = Enum.at(computer_states, index_to_run)
 
-    {new_map, new_position, new_output, history, finished} =
+    IO.puts("Running machine number #{index_to_run}")
+
+    {new_heap, new_position, new_output, new_history, exit_state} =
       Day05.run_intcode(
         state[:heap],
         state[:position],
-        state[:input],
+        state[:input] ++ output_from_previous_step,
         state[:output],
         state[:history]
       )
+
+    IO.puts("Exit state was: #{exit_state}")
+
+    IO.puts(
+      "Input was: '#{to_charlist(state[:input] ++ output_from_previous_step)}' of length #{
+        length(state[:input] ++ output_from_previous_step)
+      }"
+    )
+
+    IO.puts("output was: '#{to_charlist(new_output)}'")
+    is_last_one = index_to_run == length(computer_states) - 1
+
+    if exit_state == :finished and is_last_one do
+      # the last one finished and is successful, this is the end
+      new_output
+    else
+      # update the states and continue from the next step
+      new_states =
+        List.replace_at(computer_states, index_to_run, %{
+          heap: new_heap,
+          position: new_position,
+          # it ended, so the input is empty or will never used
+          input: [],
+          output: new_output,
+          history: new_history
+        })
+
+      run_pipeline_with_loop(
+        new_states,
+        if is_last_one do
+          0
+        else
+          index_to_run + 1
+        end,
+        new_output
+      )
+    end
   end
 
   # more readable version of
@@ -84,7 +123,7 @@ defmodule Advent2019Web.Day07Controller do
   def inputs_from_permutation(list) do
     [initial | others] = list
     other_inputs = for o <- others, do: [o]
-    inputs_lists = [[initial | [0]] | other_inputs]
+    [[initial | [0]] | other_inputs]
   end
 
   def solve1(conn, params) do

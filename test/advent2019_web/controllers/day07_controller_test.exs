@@ -6,7 +6,7 @@ defmodule Advent2019Web.Day07ControllerTest do
 
   test "multi input" do
     {final_map, _, output, _, :finished} =
-    run_intcode(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1, 42], [999], [])
+      run_intcode(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1, 42], [999], [])
 
     assert final_map == list_to_map([2, 9, 3, 10, 1, 9, 4, 0, 99, 1, 42])
     assert output == [999]
@@ -45,22 +45,26 @@ defmodule Advent2019Web.Day07ControllerTest do
   test "can run a program that hangs for missing input and resume later" do
     # it returns :hanging to indicate it's waiting for input to continue
     {current_map, position, output, history, :hanging} =
-    run_intcode(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1], [999], [])
+      run_intcode(list_to_map([3, 9, 3, 10, 1, 9, 4, 0, 99, -1, 8]), 0, [1], [999], [])
 
     # now the execution can continue, providing some more input, and the result is the same as before
-    {final_map, _, output, _, :finished} = run_intcode(current_map, position, [42], output, history)
+    {final_map, _, output, _, :finished} =
+      run_intcode(current_map, position, [42], output, history)
 
     assert final_map == list_to_map([2, 9, 3, 10, 1, 9, 4, 0, 99, 1, 42])
     assert output == [999]
   end
 
-  # not ready yet, see the comment in function about next steps
+  # not ready yet, the intCode unit works and has tests
+  # something is wrong in arranging the i/o between steps, probably
   @tag :skip
   test "can run a pipeline with a loop and occasional hangs" do
     states =
       pipeline_initial_states(
-        [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27] ++
-          [26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5],
+        list_to_map(
+          [3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27] ++
+            [26, 27, 4, 27, 1001, 28, -1, 28, 1005, 28, 6, 99, 0, 0, 5]
+        ),
         [[9, 0], [8], [7], [6], [5]]
       )
 

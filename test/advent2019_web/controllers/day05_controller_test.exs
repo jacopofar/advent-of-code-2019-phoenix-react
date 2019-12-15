@@ -5,7 +5,7 @@ defmodule Advent2019Web.Day05ControllerTest do
   test "execution with jumps" do
     # these examples are directly from the AoC instructions
     {_, _, output, _, :finished} =
-    run_intcode(list_to_map([3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8]), 0, [8], [], [])
+      run_intcode(list_to_map([3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8]), 0, [8], [], [])
 
     assert output == [1]
 
