@@ -24,6 +24,25 @@ defmodule Advent2019Web.Day08ControllerTest do
              ])
   end
 
+  test "can calculate the limits of the asteroids field" do
+    asteroids =
+      MapSet.new([
+        {0, 1},
+        {0, 4},
+        {2, 0},
+        {2, 1},
+        {2, 2},
+        {2, 3},
+        {2, 4},
+        {3, 4},
+        {4, 3},
+        {4, 4},
+        {42, 3}
+      ])
+
+    assert bounding_box(asteroids) == {42, 4}
+  end
+
   test "can tell whether there is an asteroid in a direction or not" do
     asteroids =
       MapSet.new([
@@ -39,13 +58,14 @@ defmodule Advent2019Web.Day08ControllerTest do
         {4, 4}
       ])
 
-    assert first_visible_from(asteroids, {4, 4}, {-1, -1}) == {2, 2}
+    bb = bounding_box(asteroids)
+    assert first_visible_from(asteroids, {4, 4}, {-1, -1}, bb) == {2, 2}
     # no other asteroid in that direction
-    assert first_visible_from(asteroids, {4, 4}, {-4, -1}) == nil
+    assert first_visible_from(asteroids, {4, 4}, {-4, -1}, bb) == nil
     # below
-    assert first_visible_from(asteroids, {0, 1}, {1, 0}) == {2, 1}
+    assert first_visible_from(asteroids, {0, 1}, {1, 0}, bb) == {2, 1}
     # below, but only the first one
-    assert first_visible_from(asteroids, {0, 4}, {1, 0}) == {2, 4}
+    assert first_visible_from(asteroids, {0, 4}, {1, 0}, bb) == {2, 4}
   end
 
   @tag :skip
