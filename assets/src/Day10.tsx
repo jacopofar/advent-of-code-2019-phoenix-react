@@ -33,9 +33,15 @@ const Day10: React.FC = () => {
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const values: number[][] = problemInput.split('\n').filter(k=>k.length).map(l => l.split('').map(e => e == '#' ? 1 : 0))
-            const solution: {data: {result: number}} = await axios.post('/day10/' + part, values);
-            setProblemSolution(solution.data.result)
+            const values: number[][] = problemInput.split('\n').filter(k => k.length).map(l => l.split('').map(e => e === '#' ? 1 : 0));
+            if (part === 1) {
+                const solution: { data: { result: number } } = await axios.post('/day10/' + part, values);
+                setProblemSolution(solution.data.result);
+            }
+            else {
+                const solution: { data: { vaporized: number[][] } } = await axios.post('/day10/' + part, values);
+                setProblemSolution(solution.data.vaporized[199][0] * 100 + solution.data.vaporized[199][1]);
+            }
         };
         sendInput();
     };

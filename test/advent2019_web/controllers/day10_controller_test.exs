@@ -307,6 +307,9 @@ defmodule Advent2019Web.Day10ControllerTest do
 
     all_hits = enumerate_all_vaporizations(asteroids_part_2)
     # just check the length, -1 because the base station stays there
-    assert length(all_hits) == length(asteroids_part_2) -1
+    assert length(all_hits) == MapSet.size(asteroids_part_2) - 1
+    # check the 200th value, the solution of the example
+    # NOTE: coordinates are swapped in the code, the first is the row and then the column
+    assert Enum.at(all_hits, 199) == {2, 8}
   end
 end

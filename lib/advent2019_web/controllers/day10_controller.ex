@@ -149,6 +149,29 @@ defmodule Advent2019Web.Day10Controller do
     sort_clockwise({ox, oy}, to_be_vaporized)
   end
 
+  @doc """
+  Given a list of coordinates, find the best observing station and gives the
+  list of asteroids to be vaporized in order. It calculates the first round,
+  then the second round assuming the ones from the first round have been removed,
+  and so on until there are no asteroids but the base station.
+  """
+  def enumerate_all_vaporizations(coordinates) do
+    enumerate_all_vaporizations(coordinates, [])
+  end
+
+  def enumerate_all_vaporizations(coordinates, vaporized_so_far) do
+    to_vaporize = next_vaporization(coordinates)
+
+    if length(to_vaporize) == 0 do
+      vaporized_so_far
+    else
+      enumerate_all_vaporizations(
+        MapSet.difference(coordinates, MapSet.new(to_vaporize)),
+        vaporized_so_far ++ to_vaporize
+      )
+    end
+  end
+
   def solve1(conn, params) do
     visibilities =
       params["_json"]
@@ -161,6 +184,19 @@ defmodule Advent2019Web.Day10Controller do
       result: max_visibility,
       best_x: x,
       best_y: y
+    })
+  end
+
+  def solve2(conn, params) do
+    asteroid_list =
+      params["_json"]
+      |> asteroids_list
+
+    vaporized_list = enumerate_all_vaporizations(asteroid_list)
+
+    json(conn, %{
+      # NOTE: coordinates are swapped here because the backend uses {row, column} not {x, y}
+      vaporized: Enum.map(vaporized_list, fn {x, y} -> [y, x] end)
     })
   end
 end

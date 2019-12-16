@@ -33,7 +33,7 @@ Use `mix Exprof` to profile the most critical parts of the backend.
 - day 7 part 1 done, part 2 gives invalid results but don't know where the error is
 - day 8 it runs, but the space image parsing is too slow
 - 9 based on intcode computer, skipped for a better day
-- 10 started, nice problem
+- 10 completed, visualization could be fun to add later
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
