@@ -154,4 +154,31 @@ defmodule Advent2019Web.Day08ControllerTest do
 
     assert json_response(conn, 200)["result"] == 8
   end
+
+  test "can list all the asteroids visible from a given one" do
+    asteroids =
+      MapSet.new([
+        {0, 1},
+        {0, 4},
+        {2, 0},
+        {2, 1},
+        {2, 2},
+        {2, 3},
+        {2, 4},
+        {3, 4},
+        {4, 3},
+        {4, 4}
+      ])
+
+    assert enumerate_visibles(asteroids, {4, 4}) ==
+             MapSet.new([
+               {0, 1},
+               {2, 0},
+               {2, 1},
+               {2, 2},
+               {2, 3},
+               {3, 4},
+               {4, 3}
+             ])
+  end
 end

@@ -107,6 +107,17 @@ defmodule Advent2019Web.Day10Controller do
     |> Map.new()
   end
 
+  def enumerate_visibles(asteroid_coords, {x, y}) do
+    bb = bounding_box(asteroid_coords)
+    directions = directions(bb)
+
+    for direction <- directions do
+      first_visible_from(asteroid_coords, {x, y}, direction, bb)
+    end
+    |> Enum.filter(fn x -> x != nil end)
+    |> MapSet.new()
+  end
+
   def solve1(conn, params) do
     visibilities =
       params["_json"]
