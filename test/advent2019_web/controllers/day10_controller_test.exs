@@ -24,6 +24,30 @@ defmodule Advent2019Web.Day08ControllerTest do
              ])
   end
 
+  test "can tell whether there is an asteroid in a direction or not" do
+    asteroids =
+      MapSet.new([
+        {0, 1},
+        {0, 4},
+        {2, 0},
+        {2, 1},
+        {2, 2},
+        {2, 3},
+        {2, 4},
+        {3, 4},
+        {4, 3},
+        {4, 4}
+      ])
+
+    assert first_visible_from(asteroids, {4, 4}, {-1, -1}) == {2, 2}
+    # no other asteroid in that direction
+    assert first_visible_from(asteroids, {4, 4}, {-4, -1}) == nil
+    # below
+    assert first_visible_from(asteroids, {0, 1}, {1, 0}) == {2, 1}
+    # below, but only the first one
+    assert first_visible_from(asteroids, {0, 4}, {1, 0}) == {2, 4}
+  end
+
   @tag :skip
   test "can transform a matrix of asteroids into a visibility count matrix" do
     assert asteroids_visibility(
