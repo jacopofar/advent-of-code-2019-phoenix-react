@@ -1,4 +1,4 @@
-defmodule Advent2019Web.Day08ControllerTest do
+defmodule Advent2019Web.Day10ControllerTest do
   use Advent2019Web.ConnCase
   import Advent2019Web.Day10Controller
 
@@ -235,4 +235,5 @@ defmodule Advent2019Web.Day08ControllerTest do
              {0, 7}
            ]
   end
+
 end

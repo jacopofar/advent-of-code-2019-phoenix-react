@@ -10,8 +10,7 @@ env:
 before_script:
   - mix deps.get
 script:
-  - mix test
-  - cd assets && npm install && npm test
+  - make test
 # not really used now, but good to remember:
 cache:
   directories:
