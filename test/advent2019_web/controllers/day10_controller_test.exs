@@ -68,6 +68,53 @@ defmodule Advent2019Web.Day08ControllerTest do
     assert first_visible_from(asteroids, {0, 4}, {1, 0}, bb) == {2, 4}
   end
 
+  test "can generate a list of unique directions offset" do
+    directions = directions({3, 2})
+
+    # check that no directions overlap and have the same sign
+    assert length(
+             Enum.uniq_by(
+               directions,
+               fn {ox, oy} ->
+                 if oy == 0 do
+                   {Inf, ox > 0, oy > 0}
+                 else
+                   {ox / oy, ox > 0, oy > 0}
+                 end
+               end
+             )
+           ) == length(directions)
+
+    # compare them with the list obtained with pen and paper in meatspace
+    assert MapSet.new(directions) ==
+             MapSet.new([
+               {-3, -2},
+               {-3, -1},
+               {-3, 1},
+               {-3, 2},
+               {-2, -1},
+               {-2, 1},
+               {-1, -2},
+               {-1, -1},
+               {-1, 0},
+               {-1, 1},
+               {-1, 2},
+               {0, -1},
+               {0, 1},
+               {1, -2},
+               {1, -1},
+               {1, 0},
+               {1, 1},
+               {1, 2},
+               {2, -1},
+               {2, 1},
+               {3, -2},
+               {3, -1},
+               {3, 1},
+               {3, 2}
+             ])
+  end
+
   @tag :skip
   test "can transform a matrix of asteroids into a visibility count matrix" do
     assert asteroids_visibility(
@@ -79,7 +126,6 @@ defmodule Advent2019Web.Day08ControllerTest do
                [0, 0, 0, 1, 1]
              ])
            ) == %{
-             {0, 1} => 7,
              {0, 1} => 7,
              {2, 0} => 6,
              {2, 1} => 7,

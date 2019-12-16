@@ -28,24 +28,65 @@ defmodule Advent2019Web.Day10Controller do
   the limits of the asteroids field, calculates the coordinate of the first
   asteroid found from the source in that direction, nil if not found.
   """
-  def first_visible_from(asteroids, source, direction, max_coords) do
-    if elem(source, 0) > elem(max_coords, 0) or elem(source, 1) > elem(max_coords, 1) or
-         elem(source, 0) < 0 or elem(source, 1) < 0 do
+  def first_visible_from(asteroids, {sx, sy}, {ox, oy}, {mx, my}) do
+    if sx > mx or sy > my or
+         sx < 0 or sy < 0 do
       # outside the box
       nil
     else
       new_source = {
-        elem(source, 0) + elem(direction, 0),
-        elem(source, 1) + elem(direction, 1)
+        sx + ox,
+        sy + oy
       }
 
       # is there? found. Otherwise it's the new source
       if MapSet.member?(asteroids, new_source) do
         new_source
       else
-        first_visible_from(asteroids, new_source, direction, max_coords)
+        first_visible_from(asteroids, new_source, {ox, oy}, {mx, my})
       end
     end
+  end
+
+  @doc """
+  Given an asteroids field size, calculate all the possible directions that are
+  distinct and allow some movement in this field.
+  For example given {20, 2} the offset {20, 1} allows some movement inside the
+  field, while e.g. {10, 3} does not.
+  Also, overlapping values like {1, 2} and {2, 4} are not returned, only the
+  first one is kept since it implies the second.
+  """
+  def directions({mx, my}) do
+    # It works like this:
+    # 1. enumerate all couples of positive values lower than the BB
+    #    {0, 0} is excluded
+    # 2. sort them by sum of the two offsets (manhattan distance)
+    # 3. use Enum.uniq_by to exclude duplicate directions.
+    #    Since it's sorted the minimum possible movement is kept for each one.
+    # 4. the resulting list are all the distinct movement in the positive x,y sector.
+    #    Change the signs to have the corresponding ones in other sectors
+    #    of the cartesian plane
+    positive_directions =
+      for ox <- 0..mx, oy <- 0..my do
+        {ox, oy}
+      end
+      |> Enum.filter(fn {ox, oy} -> ox != 0 or oy != 0 end)
+      |> Enum.sort_by(fn {ox, oy} -> ox + oy end)
+      |> Enum.uniq_by(fn {ox, oy} ->
+        if oy == 0 do
+          Inf
+        else
+          ox / oy
+        end
+      end)
+
+    for {ox, oy} <- positive_directions do
+      for {sx, sy} <- [{1, 1}, {-1, -1}, {1, -1}, {-1, 1}] do
+        {ox * sx, oy * sy}
+      end
+    end
+    |> List.flatten()
+    |> Enum.uniq()
   end
 
   @doc """
