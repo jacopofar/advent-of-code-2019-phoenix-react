@@ -94,6 +94,16 @@ defmodule Advent2019Web.Day10Controller do
   asteroids are visible from each one.
   """
   def asteroids_visibility(asteroid_coords) do
-    "implement me!"
+    bb = bounding_box(asteroid_coords)
+    directions = directions(bb)
+
+    for asteroid <- asteroid_coords do
+      {asteroid,
+       for direction <- directions do
+         first_visible_from(asteroid_coords, asteroid, direction, bb)
+       end
+       |> Enum.count(fn x -> x != nil end)}
+    end
+    |> Map.new()
   end
 end

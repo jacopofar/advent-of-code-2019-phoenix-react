@@ -115,7 +115,6 @@ defmodule Advent2019Web.Day08ControllerTest do
              ])
   end
 
-  @tag :skip
   test "can transform a matrix of asteroids into a visibility count matrix" do
     assert asteroids_visibility(
              asteroids_list([
@@ -127,6 +126,7 @@ defmodule Advent2019Web.Day08ControllerTest do
              ])
            ) == %{
              {0, 1} => 7,
+             {0, 4} => 7,
              {2, 0} => 6,
              {2, 1} => 7,
              {2, 2} => 7,
