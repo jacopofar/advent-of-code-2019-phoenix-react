@@ -138,7 +138,6 @@ defmodule Advent2019Web.Day08ControllerTest do
            }
   end
 
-  @tag :skip
   test "POST /day10/1", %{conn: conn} do
     conn =
       conn

@@ -106,4 +106,19 @@ defmodule Advent2019Web.Day10Controller do
     end
     |> Map.new()
   end
+
+  def solve1(conn, params) do
+    visibilities =
+      params["_json"]
+      |> asteroids_list
+      |> asteroids_visibility
+
+    {{x, y}, max_visibility} = Enum.max_by(visibilities, fn {{x, y}, v} -> v end)
+
+    json(conn, %{
+      result: max_visibility,
+      best_x: x,
+      best_y: y
+    })
+  end
 end
