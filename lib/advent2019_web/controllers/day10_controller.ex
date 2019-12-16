@@ -135,6 +135,20 @@ defmodule Advent2019Web.Day10Controller do
     end)
   end
 
+  @doc """
+  Given a list of coordinates, find the best observing station and gives the
+  list of asteroids to be vaporized from it, in the proper order.
+  """
+  def next_vaporization(coordinates) do
+    {{ox, oy}, _} =
+      coordinates
+      |> asteroids_visibility
+      |> Enum.max_by(fn {_, v} -> v end)
+
+    to_be_vaporized = enumerate_visibles(coordinates, {ox, oy})
+    sort_clockwise({ox, oy}, to_be_vaporized)
+  end
+
   def solve1(conn, params) do
     visibilities =
       params["_json"]
