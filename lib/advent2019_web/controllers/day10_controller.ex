@@ -107,6 +107,10 @@ defmodule Advent2019Web.Day10Controller do
     |> Map.new()
   end
 
+  @doc """
+  Given a list of asteroids coordinates and PoV, return the list of asteroids
+  visible from that PoV.
+  """
   def enumerate_visibles(asteroid_coords, {x, y}) do
     bb = bounding_box(asteroid_coords)
     directions = directions(bb)
@@ -118,13 +122,26 @@ defmodule Advent2019Web.Day10Controller do
     |> MapSet.new()
   end
 
+  @doc """
+  Given a list of coordinates "around" an origin, returns them clockwise and
+  starting from the one on the top.
+  In case of overlapping coordinates, the behavior is undefined.
+  """
+  def sort_clockwise({ox, oy}, coordinates) do
+    Enum.sort_by(coordinates, fn {x, y} ->
+      dx = x - ox
+      dy = y - oy
+      -:math.atan2(dy, dx)
+    end)
+  end
+
   def solve1(conn, params) do
     visibilities =
       params["_json"]
       |> asteroids_list
       |> asteroids_visibility
 
-    {{x, y}, max_visibility} = Enum.max_by(visibilities, fn {{x, y}, v} -> v end)
+    {{x, y}, max_visibility} = Enum.max_by(visibilities, fn {_, v} -> v end)
 
     json(conn, %{
       result: max_visibility,

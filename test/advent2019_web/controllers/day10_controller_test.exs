@@ -170,15 +170,69 @@ defmodule Advent2019Web.Day08ControllerTest do
         {4, 4}
       ])
 
-    assert enumerate_visibles(asteroids, {4, 4}) ==
+    assert enumerate_visibles(asteroids, {2, 1}) ==
              MapSet.new([
                {0, 1},
+               {0, 4},
                {2, 0},
-               {2, 1},
                {2, 2},
-               {2, 3},
                {3, 4},
-               {4, 3}
+               {4, 3},
+               {4, 4}
              ])
+  end
+
+  test "can order asteroids surrounding a given one clockwise from the UP one" do
+    # this is straight from the part 2 example
+    asteroids_part_2 =
+      asteroids_list([
+        [0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0],
+        [1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1],
+        [1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0],
+        [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0],
+        [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1]
+      ])
+
+    visible_part_2 = enumerate_visibles(asteroids_part_2, {3, 8})
+
+    assert sort_clockwise(
+             {3, 8},
+             visible_part_2
+           ) == [
+             # immediately UP
+             {1, 8},
+             {0, 9},
+             {1, 9},
+             {0, 10},
+             {2, 9},
+             {1, 11},
+             {1, 12},
+             {2, 11},
+             {1, 15},
+             {2, 12},
+             {2, 13},
+             {2, 14},
+             {2, 15},
+             {3, 12},
+             # end of the up-right quadrant
+             {4, 16},
+             {4, 15},
+             {4, 10},
+             # end of the bottom-right quadrant
+             {4, 4},
+             {4, 2},
+             # end of the bottom-left quadrant
+             {3, 2},
+             {2, 0},
+             {2, 1},
+             {1, 0},
+             {1, 1},
+             {2, 5},
+             {0, 1},
+             {1, 5},
+             {1, 6},
+             {0, 6},
+             {0, 7}
+           ]
   end
 end
