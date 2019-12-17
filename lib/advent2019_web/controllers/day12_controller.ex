@@ -23,16 +23,17 @@ defmodule Advent2019Web.Day12Controller do
   """
   def accelerations(coordinates) do
     for %{x: x, y: y, z: z} <- coordinates do
-        for %{x: ox, y: oy, z: oz} <- coordinates -- [%{x: x, y: y, z: z}] do
-          {
-            acc_value(x, ox),
-            acc_value(y, oy),
-            acc_value(z, oz)
-          }
-        end
-        |> Enum.reduce({0, 0, 0}, fn {dx, dy, dz}, {totx, toty, totz} ->
-          {dx + totx, dy + toty, dz + totz}
-        end)
+      for %{x: ox, y: oy, z: oz} <- coordinates -- [%{x: x, y: y, z: z}] do
+        %{
+          ax: acc_value(x, ox),
+          ay: acc_value(y, oy),
+          az: acc_value(z, oz)
+        }
+      end
+      |> Enum.reduce(%{ax: 0, ay: 0, az: 0}, fn %{ax: dx, ay: dy, az: dz},
+                                                %{ax: totx, ay: toty, az: totz} ->
+        %{ax: dx + totx, ay: dy + toty, az: dz + totz}
+      end)
     end
   end
 end
