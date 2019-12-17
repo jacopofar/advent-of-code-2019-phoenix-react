@@ -10,7 +10,7 @@ defmodule Advent2019.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
-      dialyzer: [plt_add_deps: :transitive]
+      dialyzer: [plt_add_deps: :transitive, plt_add_apps: [:mix]]
     ]
   end
 

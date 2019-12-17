@@ -2,6 +2,7 @@
 
 build-and-serve:
 	cd assets && yarn install && yarn build
+	mix do deps.get, deps.compile
 	mix phx.server
 
 test:
@@ -9,4 +10,4 @@ test:
 	cd assets && yarn install && yarn test
 
 dialyze:
-	mix dialyze
+	mix dialyzer
