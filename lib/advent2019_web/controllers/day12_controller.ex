@@ -19,7 +19,10 @@ defmodule Advent2019Web.Day12Controller do
   end
 
   @doc """
-  write the doc!
+  Given a list of coordinates of masses, calculate the total acceleration for
+  each one.
+  The acceleration between two masses is 0,1,-1 on each axis, they are composed
+  by axis-wide sum.
   """
   def accelerations(coordinates) do
     for %{x: x, y: y, z: z} <- coordinates do
