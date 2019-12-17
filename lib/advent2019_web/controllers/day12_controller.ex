@@ -34,9 +34,9 @@ defmodule Advent2019Web.Day12Controller do
           az: acc_value(z, oz)
         }
       end
-      |> Enum.reduce(%{ax: 0, ay: 0, az: 0}, fn %{ax: dx, ay: dy, az: dz},
-                                                %{ax: totx, ay: toty, az: totz} ->
-        %{ax: dx + totx, ay: dy + toty, az: dz + totz}
+      |> Enum.reduce(%{ax: 0, ay: 0, az: 0, x: x, y: y, z: z}, fn %{ax: dx, ay: dy, az: dz},
+                                                                  %{ax: totx, ay: toty, az: totz} ->
+        %{ax: dx + totx, ay: dy + toty, az: dz + totz, x: x, y: y, z: z}
       end)
     end
   end
