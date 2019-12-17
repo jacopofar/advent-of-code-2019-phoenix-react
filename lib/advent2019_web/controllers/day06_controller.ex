@@ -158,7 +158,7 @@ defmodule Advent2019Web.Day06Controller do
       # we count the "orbital transfers", not the objects!
       result: length(shortest_path) - 1,
       shortest_path: shortest_path,
-      nodes: edges |> Enum.map(fn {k, v} -> k end),
+      nodes: edges |> Enum.map(fn {k, _} -> k end),
       edges:
         edges
         |> Enum.map(fn {k, v} -> Enum.map(v, fn v -> {k, v} end) end)
