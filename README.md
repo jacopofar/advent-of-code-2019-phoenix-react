@@ -22,7 +22,10 @@ To run in dev mode (that is, the frontend reloads on the fly), use `yarn start` 
 ## Performance profiling
 Use `mix Exprof` to profile the most critical parts of the backend.
 
-## current state
+## Dialyze check
+Use `mix dialyze` to statically check the types n the whole project
+
+## Current state
 
 - day 1 ok!
 - day 2 ok!

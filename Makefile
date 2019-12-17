@@ -7,3 +7,6 @@ build-and-serve:
 test:
 	mix test
 	cd assets && yarn install && yarn test
+
+dialyze:
+	mix dialyze

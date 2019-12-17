@@ -68,20 +68,6 @@ defmodule Advent2019Web.Day08Controller do
     })
   end
 
-  def solve1(conn, params) do
-    layers = space_image_as_lists(params)
-    less_zeros_id = layer_with_fewest_zeros(layers)
-
-    result =
-      count_digits_in_layer(layers, less_zeros_id, 1) *
-        count_digits_in_layer(layers, less_zeros_id, 2)
-
-    json(conn, %{
-      result: result,
-      chosen_layer: Enum.at(layers, less_zeros_id)
-    })
-  end
-
   def solve2(conn, params) do
     layers = space_image_as_lists(params)
     w = params["w"]
