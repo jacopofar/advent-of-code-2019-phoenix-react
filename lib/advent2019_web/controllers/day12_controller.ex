@@ -24,6 +24,7 @@ defmodule Advent2019Web.Day12Controller do
   The acceleration between two masses is 0,1,-1 on each axis, they are composed
   by axis-wide sum.
   """
+  @spec accelerations([%{x: integer, y: integer, z: integer}]) :: [%{ax: integer}]
   def accelerations(coordinates) do
     for %{x: x, y: y, z: z} <- coordinates do
       for %{x: ox, y: oy, z: oz} <- coordinates -- [%{x: x, y: y, z: z}] do
