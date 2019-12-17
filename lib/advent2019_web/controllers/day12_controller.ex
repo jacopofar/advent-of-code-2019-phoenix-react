@@ -1,22 +1,18 @@
 defmodule Advent2019Web.Day12Controller do
   use Advent2019Web, :controller
 
+  @type input :: %{x: number, y: number, z: number}
+  @type output :: %{x: number, y: number, z: number, ax: number, ay: number, az: number}
+
   @doc """
   Calculate the acceleration according to the instruction.
   The accelerations given to v is +/- 1 to tend to ov, or 0 when the values are
   identical.
   """
-  def acc_value(v, ov) do
-    if v == ov do
-      0
-    else
-      if v > ov do
-        -1
-      else
-        1
-      end
-    end
-  end
+  @spec acc_value(number, number) :: number
+  def acc_value(v, v), do: 0
+  def acc_value(v, ov) when v > ov, do: -1
+  def acc_value(_, _), do: 1
 
   @doc """
   Given a list of coordinates of masses, calculate the total acceleration for
@@ -24,20 +20,31 @@ defmodule Advent2019Web.Day12Controller do
   The acceleration between two masses is 0,1,-1 on each axis, they are composed
   by axis-wide sum.
   """
-  @spec accelerations([%{x: integer, y: integer, z: integer}]) :: [%{ax: integer}]
+  @spec accelerations([input]) :: [output]
   def accelerations(coordinates) do
-    for %{x: x, y: y, z: z} <- coordinates do
-      for %{x: ox, y: oy, z: oz} <- coordinates -- [%{x: x, y: y, z: z}] do
-        %{
-          ax: acc_value(x, ox),
-          ay: acc_value(y, oy),
-          az: acc_value(z, oz)
+    Enum.map(coordinates, fn %{x: x, y: y, z: z} = c ->
+      coordinates
+      |> Enum.reject(&(&1 == c))
+      |> Enum.map(
+        &%{
+          ax: acc_value(x, Map.get(&1, :x)),
+          ay: acc_value(y, Map.get(&1, :y)),
+          az: acc_value(z, Map.get(&1, :z))
         }
-      end
-      |> Enum.reduce(%{ax: 0, ay: 0, az: 0, x: x, y: y, z: z}, fn %{ax: dx, ay: dy, az: dz},
-                                                                  %{ax: totx, ay: toty, az: totz} ->
-        %{ax: dx + totx, ay: dy + toty, az: dz + totz, x: x, y: y, z: z}
+      )
+      |> Enum.reduce(%{ax: 0, ay: 0, az: 0, x: x, y: y, z: z}, fn curr, acc ->
+        %{
+          ax: sum(curr, acc, :ax),
+          ay: sum(curr, acc, :ay),
+          az: sum(curr, acc, :az),
+          x: x,
+          y: y,
+          z: z
+        }
       end)
-    end
+    end)
   end
+
+  @spec sum(output, output, atom) :: number
+  defp sum(x, y, key), do: Map.get(x, key) + Map.get(y, key)
 end
