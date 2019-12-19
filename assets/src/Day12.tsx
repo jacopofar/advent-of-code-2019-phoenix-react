@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Slider from '@material-ui/core/Slider';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import axios from 'axios';
@@ -10,6 +11,7 @@ import axios from 'axios';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
+            width: 500,
             '& > *': {
                 margin: theme.spacing(1),
             },
@@ -23,24 +25,37 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Day12: React.FC = () => {
-    const [problemInput, setProblemInput] = useState('');
+    const [problemInput, setProblemInput] = useState(`<x=-6, y=2, z=-9>
+<x=12, y=-14, z=-4>
+<x=9, y=5, z=-6>
+<x=-1, y=-4, z=9>
+    `);
+    const [simulationSteps, setSimulationSteps] = useState(1000);
+
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
     const classes = useStyles();
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setProblemInput(event.target.value);
+    };
+
+    const updateSimulationSteps = (event: React.ChangeEvent<{}>, value: number | number[]) => {
+        setSimulationSteps(value as number);
     };
 
     const solve = (part: number) => {
         const sendInput = async () => {
-            const values: number[][] = problemInput.split('\n').filter(k => k.length).map(l => l.split('').map(e => e === '#' ? 1 : 0));
+            const moons = problemInput
+                .split('\n')
+                .map(s => {
+                    const match = /<x=(.+), y=(.+), z=(.+)>/.exec(s);
+                    if (match)
+                        return { x: Number(match[1]), y: Number(match[2]), z: Number(match[3]) }
+                    else return null;
+                }).filter(k => k);
             if (part === 1) {
-                const solution: { data: { result: number } } = await axios.post('/day10/' + part, values);
+                const solution: { data: { result: number } } = await axios.post('/day12/' + part, { moons, simulationSteps });
                 setProblemSolution(solution.data.result);
-            }
-            else {
-                const solution: { data: { vaporized: number[][] } } = await axios.post('/day10/' + part, values);
-                setProblemSolution(solution.data.vaporized[199][0] * 100 + solution.data.vaporized[199][1]);
             }
         };
         sendInput();
@@ -65,7 +80,19 @@ const Day12: React.FC = () => {
                 variant="outlined"
                 placeholder="Insert here the problem input"
                 value={problemInput}
-                onChange={handleChange}
+                onChange={handleInputChange}
+            />
+            <div className={classes.root}></div>
+
+            <Slider
+                defaultValue={1000}
+                aria-labelledby="discrete-slider"
+                valueLabelDisplay="on"
+                step={100}
+                marks
+                min={0}
+                max={1100}
+                onChange={updateSimulationSteps}
             />
             <br />
 
