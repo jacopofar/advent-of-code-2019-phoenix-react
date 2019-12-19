@@ -2,8 +2,6 @@ defmodule Advent2019Web.Day01Controller do
   use Advent2019Web, :controller
 
   def solve1(conn, params) do
-    IO.inspect(params["_json"])
-
     result =
       params["_json"]
       |> Stream.map(fn i -> trunc(i / 3) - 2 end)
@@ -20,8 +18,6 @@ defmodule Advent2019Web.Day01Controller do
   end
 
   def solve2(conn, params) do
-    IO.inspect(params["_json"])
-
     result =
       params["_json"]
       |> Stream.map(fn i -> fuelCost(trunc(i)) end)
