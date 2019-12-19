@@ -9,23 +9,14 @@ defmodule Advent2019Web.Day01Controller do
       |> Stream.map(fn i -> trunc(i / 3) - 2 end)
       |> Enum.sum()
 
-    IO.puts("Day 01.1 result: #{result}")
-
     json(conn, %{result: result})
   end
 
-  def fuelCost(i) do
-    if i <= 0 do
-      0
-    else
-      ret = trunc(i / 3) - 2
+  def fuelCost(i) when i <= 0, do: 0
 
-      if ret > 0 do
-        ret
-      else
-        0
-      end + fuelCost(ret)
-    end
+  def fuelCost(i) do
+    ret = trunc(i / 3) - 2
+    max(ret, 0) + fuelCost(ret)
   end
 
   def solve2(conn, params) do
@@ -35,8 +26,6 @@ defmodule Advent2019Web.Day01Controller do
       params["_json"]
       |> Stream.map(fn i -> fuelCost(trunc(i)) end)
       |> Enum.sum()
-
-    IO.puts("Day 01.2 result: #{result}")
 
     json(conn, %{result: result})
   end

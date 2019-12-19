@@ -61,6 +61,8 @@ The normal build with `yarn build` can be then exposed by modifying `plug Plug.S
 - [ ] make it responsive (it breaks on phone)
 - [ ] improve a11y
 - [ ] dockerize
+- [ ] use proper logging for the BE
+- [ ] code review based on experienced Elixir users and comparison with other people solutions, subsequent Anki deck creation (maybe a shared deck and a link to it?)
 
 
 ## License
