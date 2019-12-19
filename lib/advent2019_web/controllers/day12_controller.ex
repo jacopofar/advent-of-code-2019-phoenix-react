@@ -57,6 +57,13 @@ defmodule Advent2019Web.Day12Controller do
     end)
   end
 
+  def physics_step(coordinates) do
+    coordinates
+    |> accelerations
+    |> velocities
+    |> positions
+  end
+
   @spec sum(output, output, atom) :: number
   defp sum(x, y, key), do: Map.get(x, key) + Map.get(y, key)
 end
