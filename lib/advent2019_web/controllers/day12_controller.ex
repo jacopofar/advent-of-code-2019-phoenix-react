@@ -1,7 +1,7 @@
 defmodule Advent2019Web.Day12Controller do
   use Advent2019Web, :controller
 
-  @type input :: %{x: number, y: number, z: number}
+  @type input :: %{x: number, y: number, z: number, vx: number, vy: number, vz: number}
   @type output :: %{x: number, y: number, z: number, ax: number, ay: number, az: number}
 
   @doc """
@@ -42,6 +42,18 @@ defmodule Advent2019Web.Day12Controller do
           z: z
         }
       end)
+    end)
+  end
+
+  def velocities(coordinates) do
+    Enum.map(coordinates, fn %{vx: vx, vy: vy, vz: vz, ax: ax, ay: ay, az: az} = c ->
+      Map.merge(c, %{vx: vx + ax, vy: vy + ay, vz: vz + az})
+    end)
+  end
+
+  def positions(coordinates) do
+    Enum.map(coordinates, fn %{vx: vx, vy: vy, vz: vz, x: x, y: y, z: z} = c ->
+      Map.merge(c, %{x: vx + x, y: vy + y, z: vz + z})
     end)
   end
 
