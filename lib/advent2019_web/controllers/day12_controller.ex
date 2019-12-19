@@ -33,27 +33,31 @@ defmodule Advent2019Web.Day12Controller do
         }
       )
       |> Enum.reduce(%{ax: 0, ay: 0, az: 0, x: x, y: y, z: z}, fn curr, acc ->
-        %{
+        Map.merge(c, %{
           ax: sum(curr, acc, :ax),
           ay: sum(curr, acc, :ay),
-          az: sum(curr, acc, :az),
-          x: x,
-          y: y,
-          z: z
-        }
+          az: sum(curr, acc, :az)
+        })
       end)
     end)
   end
 
   def velocities(coordinates) do
-    Enum.map(coordinates, fn %{vx: vx, vy: vy, vz: vz, ax: ax, ay: ay, az: az} = c ->
-      Map.merge(c, %{vx: vx + ax, vy: vy + ay, vz: vz + az})
+    Enum.map(coordinates, fn c ->
+      case c do
+        %{vx: vx, vy: vy, vz: vz, ax: ax, ay: ay, az: az} ->
+          Map.merge(c, %{vx: vx + ax, vy: vy + ay, vz: vz + az})
+
+        # in case of no velocitities, assume 0
+        %{ax: ax, ay: ay, az: az} ->
+          Map.merge(c, %{vx: ax, vy: ay, vz: az})
+      end
     end)
   end
 
   def positions(coordinates) do
-    Enum.map(coordinates, fn %{vx: vx, vy: vy, vz: vz, x: x, y: y, z: z} = c ->
-      Map.merge(c, %{x: vx + x, y: vy + y, z: vz + z})
+    Enum.map(coordinates, fn %{vx: vx, vy: vy, vz: vz, x: x, y: y, z: z} = original ->
+      Map.merge(original, %{x: vx + x, y: vy + y, z: vz + z})
     end)
   end
 

@@ -6,7 +6,7 @@ defmodule Advent2019Web.Day12ControllerTest do
     assert accelerations([
              %{x: -1, y: 0, z: 2},
              %{x: 2, y: -10, z: -7},
-             # ensure an extra value is simply preserved
+             # ensure an extra value is simply preserved:
              %{x: 4, y: -8, z: 8, something: 9},
              %{x: 3, y: 5, z: -1}
            ]) ==
@@ -58,10 +58,10 @@ defmodule Advent2019Web.Day12ControllerTest do
              %{x: 4, y: -8, z: 8},
              %{x: 3, y: 5, z: -1}
            ]) == [
-             %{x: 2, y: -1, z: 1, vx: 3, y: -1, vz: -1},
-             %{x: 3, y: -7, z: -4, vx: 1, y: 3, vz: 3},
-             %{x: 1, y: -7, z: 5, vx: -3, y: 1, vz: -3},
-             %{x: 2, y: 2, z: 0, vx: -1, y: -3, vz: 1}
+             %{x: 2, y: -1, z: 1, vx: 3, vy: -1, vz: -1, ax: 3, ay: -1, az: -1},
+             %{x: 3, y: -7, z: -4, vx: 1, vy: 3, vz: 3, ax: 1, ay: 3, az: 3},
+             %{x: 1, y: -7, z: 5, vx: -3, vy: 1, vz: -3, ax: -3, ay: 1, az: -3},
+             %{x: 2, y: 2, z: 0, vx: -1, vy: -3, vz: 1, ax: -1, ay: -3, az: 1}
            ]
   end
 end
