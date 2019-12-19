@@ -74,6 +74,15 @@ defmodule Advent2019Web.Day12Controller do
     physics_after(physics_step(coordinates), steps - 1)
   end
 
+  def moon_energy(moon_state) do
+    (abs(moon_state[:x]) +
+       abs(moon_state[:y]) +
+       abs(moon_state[:z])) *
+      (abs(moon_state[:vx]) +
+         abs(moon_state[:vy]) +
+         abs(moon_state[:vz]))
+  end
+
   @spec sum(output, output, atom) :: number
   defp sum(x, y, key), do: Map.get(x, key) + Map.get(y, key)
 end

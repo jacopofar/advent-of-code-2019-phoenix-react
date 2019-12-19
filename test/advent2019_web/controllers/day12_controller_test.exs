@@ -82,4 +82,8 @@ defmodule Advent2019Web.Day12ControllerTest do
              %{x: 2, y: 0, z: 4, vx: 1, vy: -1, vz: -1, ax: 1, ay: -1, az: -3}
            ]
   end
+
+  test "can calculate moon total energy" do
+    assert moon_energy(%{x: 2, y: 1, z: -3, vx: -3, vy: -2, vz: 1, ax: -3, ay: -3, az: 3}) == 36
+  end
 end
