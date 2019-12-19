@@ -85,4 +85,15 @@ defmodule Advent2019Web.Day12Controller do
 
   @spec sum(output, output, atom) :: number
   defp sum(x, y, key), do: Map.get(x, key) + Map.get(y, key)
+
+  def solve1(conn, params) do
+    moon_positions =
+      params["moons"] |> Enum.map(fn %{"x" => x, "y" => y, "z" => z} -> %{x: x, y: y, z: z} end)
+
+    moons_state = physics_after(moon_positions, params["simulationSteps"])
+
+    json(conn, %{
+      result: moons_state |> Enum.map(&moon_energy(&1)) |> Enum.sum()
+    })
+  end
 end
