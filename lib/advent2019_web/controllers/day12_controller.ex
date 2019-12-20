@@ -42,6 +42,9 @@ defmodule Advent2019Web.Day12Controller do
     end)
   end
 
+  @doc """
+  Calculate the new velocities by adding the accelerations.
+  """
   def velocities(coordinates) do
     Enum.map(coordinates, fn c ->
       case c do
@@ -55,12 +58,18 @@ defmodule Advent2019Web.Day12Controller do
     end)
   end
 
+  @doc """
+  Calculate the new velocities by adding the velocities.
+  """
   def positions(coordinates) do
     Enum.map(coordinates, fn %{vx: vx, vy: vy, vz: vz, x: x, y: y, z: z} = original ->
       Map.merge(original, %{x: vx + x, y: vy + y, z: vz + z})
     end)
   end
 
+  @doc """
+  Calculate a single temporal step of the whole system.
+  """
   def physics_step(coordinates) do
     coordinates
     |> accelerations
@@ -68,12 +77,18 @@ defmodule Advent2019Web.Day12Controller do
     |> positions
   end
 
+  @doc """
+  Calculate a number of temporal steps of the whole system.
+  """
   def physics_after(coordinates, 0), do: coordinates
 
   def physics_after(coordinates, steps) do
     physics_after(physics_step(coordinates), steps - 1)
   end
 
+  @doc """
+  Calculate the "energy" as defined by the problem description.
+  """
   def moon_energy(moon_state) do
     (abs(moon_state[:x]) +
        abs(moon_state[:y]) +
@@ -85,6 +100,37 @@ defmodule Advent2019Web.Day12Controller do
 
   @spec sum(output, output, atom) :: number
   defp sum(x, y, key), do: Map.get(x, key) + Map.get(y, key)
+
+  @spec accelerations([input]) :: number
+  def moons_hash(moons) do
+    string_repr =
+      moons
+      |> Enum.map(fn m ->
+        [
+          Map.get(m, :x),
+          Map.get(m, :y),
+          Map.get(m, :z),
+          Map.get(m, :vx, 0),
+          Map.get(m, :vy, 0),
+          Map.get(m, :vz, 0)
+        ]
+        |> Enum.map(&Integer.to_string/1)
+        |> Enum.join(",")
+      end)
+      |> Enum.join("-")
+
+    :crypto.hash(:sha256, string_repr)
+  end
+
+  @doc """
+  Calculate after how many steps a system reaches again an already seen state..
+  """
+  def steps_before_repeating(coordinates),
+    do: steps_before_repeating(coordinates, MapSet.new([]), 0)
+
+  def steps_before_repeating(coordinates, already_seen, steps_count) do
+    "implement me"
+  end
 
   def solve1(conn, params) do
     moon_positions =

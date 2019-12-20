@@ -37,7 +37,7 @@ Use `mix dialyze` to statically check the types n the whole project
 - day 8 it runs, but the space image parsing is too slow
 - 9 based on intcode computer, skipped for a better day
 - 10 completed, visualization could be fun to add later
-
+- 12 done part 1
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
 

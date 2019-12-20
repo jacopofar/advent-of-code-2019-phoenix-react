@@ -86,4 +86,24 @@ defmodule Advent2019Web.Day12ControllerTest do
   test "can calculate moon total energy" do
     assert moon_energy(%{x: 2, y: 1, z: -3, vx: -3, vy: -2, vz: 1, ax: -3, ay: -3, az: 3}) == 36
   end
+
+  test "can calculate an hash of the system position and velocities" do
+    hash1 = moons_hash([%{x: 2, y: 1, z: -3, vx: -3, vy: -2, vz: 1, ax: -3, ay: -3, az: 3}])
+    # same but without accelerations
+    hash2 = moons_hash([%{x: 2, y: 1, z: -3, vx: -3, vy: -2, vz: 1}])
+    assert hash1 == hash2
+    # different system
+    hash3 = moons_hash([%{x: 2, y: 1, z: -3, vx: -5, vy: -2, vz: 1}])
+    assert hash1 != hash3
+  end
+
+  test "can find when the initial state repeats itself" do
+    assert steps_before_repeating([
+             %{x: -1, y: 0, z: 2},
+             %{x: 2, y: -10, z: -7},
+             # ensure an extra value is simply preserved:
+             %{x: 4, y: -8, z: 8, something: 9},
+             %{x: 3, y: 5, z: -1}
+           ]) == 2722
+  end
 end
