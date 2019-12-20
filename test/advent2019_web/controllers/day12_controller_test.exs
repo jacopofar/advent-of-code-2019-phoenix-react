@@ -104,6 +104,6 @@ defmodule Advent2019Web.Day12ControllerTest do
              # ensure an extra value is simply preserved:
              %{x: 4, y: -8, z: 8, something: 9},
              %{x: 3, y: 5, z: -1}
-           ]) == 2722
+           ]) == 2772
   end
 end

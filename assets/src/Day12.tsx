@@ -53,10 +53,9 @@ const Day12: React.FC = () => {
                         return { x: Number(match[1]), y: Number(match[2]), z: Number(match[3]) }
                     else return null;
                 }).filter(k => k);
-            if (part === 1) {
-                const solution: { data: { result: number } } = await axios.post('/day12/' + part, { moons, simulationSteps });
-                setProblemSolution(solution.data.result);
-            }
+            const solution: { data: { result: number } } = await axios.post('/day12/' + part, { moons, simulationSteps });
+            setProblemSolution(solution.data.result);
+
         };
         sendInput();
     };

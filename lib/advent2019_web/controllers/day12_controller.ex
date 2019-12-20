@@ -129,7 +129,20 @@ defmodule Advent2019Web.Day12Controller do
     do: steps_before_repeating(coordinates, MapSet.new([]), 0)
 
   def steps_before_repeating(coordinates, already_seen, steps_count) do
-    "implement me"
+    next_state = physics_step(coordinates)
+    next_state_hash = moons_hash(next_state)
+    if Integer.mod(steps_count, 1000) == 0 do
+        IO.puts(steps_count)
+    end
+    if MapSet.member?(already_seen, next_state_hash) do
+      steps_count
+    else
+      steps_before_repeating(
+        next_state,
+        MapSet.put(already_seen, next_state_hash),
+        steps_count + 1
+      )
+    end
   end
 
   def solve1(conn, params) do
@@ -140,6 +153,17 @@ defmodule Advent2019Web.Day12Controller do
 
     json(conn, %{
       result: moons_state |> Enum.map(&moon_energy(&1)) |> Enum.sum()
+    })
+  end
+
+  def solve2(conn, params) do
+    moon_positions =
+      params["moons"] |> Enum.map(fn %{"x" => x, "y" => y, "z" => z} -> %{x: x, y: y, z: z} end)
+
+    cycle_size = steps_before_repeating(moon_positions)
+
+    json(conn, %{
+      result: cycle_size
     })
   end
 end
