@@ -167,18 +167,15 @@ defmodule Advent2019Web.Day12Controller do
   @spec cycle_sizes([input]) :: [number]
   def cycle_sizes(system_state) do
     # the systems projected over a single dimension
-
-    calculations =
-      [
-        zero_dimensions(system_state, 0),
-        zero_dimensions(system_state, 1),
-        zero_dimensions(system_state, 2)
-      ]
-      |> Enum.map(fn projection ->
-        Task.async(fn -> steps_before_repeating(projection) end)
-      end)
-
-    Enum.map(calculations, &Task.await(&1, 30000))
+    [
+      zero_dimensions(system_state, 0),
+      zero_dimensions(system_state, 1),
+      zero_dimensions(system_state, 2)
+    ]
+    |> Enum.map(fn projection ->
+      Task.async(fn -> steps_before_repeating(projection) end)
+    end)
+    |> Enum.map(&Task.await(&1, 30000))
   end
 
   @doc """
