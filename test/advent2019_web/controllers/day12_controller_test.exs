@@ -106,4 +106,44 @@ defmodule Advent2019Web.Day12ControllerTest do
              %{x: 3, y: 5, z: -1}
            ]) == 2772
   end
+
+  test "can set to 0 all dimensions except one" do
+    all_dimensions = [
+      %{x: -1, y: 0, z: 2, vx: -3, vy: -2, vz: 1},
+      %{x: 2, y: -10, z: -7, vx: -7, vy: -2, vz: -1},
+      %{x: 4, y: -8, z: 8, vx: 1, vy: 5, vz: 1},
+      %{x: 3, y: 5, z: -1, vx: -7, vy: -2, vz: -1}
+    ]
+
+    assert zero_dimensions(
+             all_dimensions,
+             0
+           ) == [
+             %{x: -1, y: 0, z: 0, vx: -3, vy: 0, vz: 0},
+             %{x: 2, y: 0, z: 0, vx: -7, vy: 0, vz: 0},
+             %{x: 4, y: 0, z: 0, vx: 1, vy: 0, vz: 0},
+             %{x: 3, y: 0, z: 0, vx: -7, vy: 0, vz: 0}
+           ]
+
+    assert zero_dimensions(
+             all_dimensions,
+             1
+           ) == [
+             %{x: 0, y: 0, z: 0, vx: 0, vy: -2, vz: 0},
+             %{x: 0, y: -10, z: 0, vx: 0, vy: -2, vz: 0},
+             %{x: 0, y: -8, z: 0, vx: 0, vy: 5, vz: 0},
+             %{x: 0, y: 5, z: 0, vx: 0, vy: -2, vz: 0}
+           ]
+  end
+
+  test "can find cycle size in each dimension" do
+    all_dimensions = [
+      %{x: -1, y: 0, z: 2},
+      %{x: 2, y: -10, z: -7},
+      %{x: 4, y: -8, z: 8},
+      %{x: 3, y: 5, z: -1}
+    ]
+
+    assert cycle_sizes(all_dimensions) == [18, 28, 44]
+  end
 end

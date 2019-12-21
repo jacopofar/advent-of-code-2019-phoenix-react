@@ -123,17 +123,16 @@ defmodule Advent2019Web.Day12Controller do
   end
 
   @doc """
-  Calculate after how many steps a system reaches again an already seen state..
+  Calculate after how many steps a system reaches again an already seen state.
   """
+  @spec steps_before_repeating([input]) :: number
   def steps_before_repeating(coordinates),
     do: steps_before_repeating(coordinates, MapSet.new([]), 0)
 
   def steps_before_repeating(coordinates, already_seen, steps_count) do
     next_state = physics_step(coordinates)
     next_state_hash = moons_hash(next_state)
-    if Integer.mod(steps_count, 1000) == 0 do
-        IO.puts(steps_count)
-    end
+
     if MapSet.member?(already_seen, next_state_hash) do
       steps_count
     else
@@ -143,6 +142,43 @@ defmodule Advent2019Web.Day12Controller do
         steps_count + 1
       )
     end
+  end
+
+  @doc """
+  Set to 0 speed and position in all dimensions except the chosen one
+  """
+  @spec zero_dimensions([input], number) :: [output]
+  def zero_dimensions(system_state, dimension_to_keep) do
+    Enum.map(system_state, fn original ->
+      mask =
+        case dimension_to_keep do
+          0 -> %{y: 0, z: 0, vy: 0, vz: 0}
+          1 -> %{x: 0, z: 0, vx: 0, vz: 0}
+          2 -> %{x: 0, y: 0, vx: 0, vy: 0}
+        end
+
+      Map.merge(original, mask)
+    end)
+  end
+
+  @doc """
+  Given a moon system finds the size of the period in each dimension
+  """
+  @spec cycle_sizes([input]) :: [number]
+  def cycle_sizes(system_state) do
+    # the systems projected over a single dimension
+
+    calculations =
+      [
+        zero_dimensions(system_state, 0),
+        zero_dimensions(system_state, 1),
+        zero_dimensions(system_state, 2)
+      ]
+      |> Enum.map(fn projection ->
+        Task.async(fn -> steps_before_repeating(projection) end)
+      end)
+
+    Enum.map(calculations, &Task.await(&1, 30000))
   end
 
   def solve1(conn, params) do
@@ -160,10 +196,10 @@ defmodule Advent2019Web.Day12Controller do
     moon_positions =
       params["moons"] |> Enum.map(fn %{"x" => x, "y" => y, "z" => z} -> %{x: x, y: y, z: z} end)
 
-    cycle_size = steps_before_repeating(moon_positions)
+    result = cycle_sizes(moon_positions)
 
     json(conn, %{
-      result: cycle_size
+      result: result
     })
   end
 end
