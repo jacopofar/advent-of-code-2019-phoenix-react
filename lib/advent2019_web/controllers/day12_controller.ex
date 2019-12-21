@@ -181,6 +181,18 @@ defmodule Advent2019Web.Day12Controller do
     Enum.map(calculations, &Task.await(&1, 30000))
   end
 
+  @doc """
+  Given a list of numbers find the Least Common Multiple.
+  This is done by calculating the GCD and "discounting" every new value by it
+  """
+  @spec lcm([number]) :: number
+  def lcm(nums) do
+    Enum.reduce(nums, 1, fn n, acc ->
+      common = Integer.gcd(acc, n)
+      common * div(acc, common) * div(n, common)
+    end)
+  end
+
   def solve1(conn, params) do
     moon_positions =
       params["moons"] |> Enum.map(fn %{"x" => x, "y" => y, "z" => z} -> %{x: x, y: y, z: z} end)
@@ -196,10 +208,11 @@ defmodule Advent2019Web.Day12Controller do
     moon_positions =
       params["moons"] |> Enum.map(fn %{"x" => x, "y" => y, "z" => z} -> %{x: x, y: y, z: z} end)
 
-    result = cycle_sizes(moon_positions)
+    cycles = cycle_sizes(moon_positions)
 
     json(conn, %{
-      result: result
+      result: lcm(cycles),
+      cycles: cycles
     })
   end
 end

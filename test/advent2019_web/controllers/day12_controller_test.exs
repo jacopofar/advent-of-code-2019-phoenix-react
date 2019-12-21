@@ -146,4 +146,9 @@ defmodule Advent2019Web.Day12ControllerTest do
 
     assert cycle_sizes(all_dimensions) == [18, 28, 44]
   end
+
+  test "can calculate LCM of a list of integers" do
+    assert lcm([18, 28, 44]) == 2772
+    assert lcm([10, 20, 30]) == 60
+  end
 end
