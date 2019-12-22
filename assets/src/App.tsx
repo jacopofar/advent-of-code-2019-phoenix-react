@@ -17,6 +17,8 @@ import Day08 from './Day08';
 import Day09 from './Day09';
 import Day10 from './Day10';
 import Day12 from './Day12';
+import Day13 from './Day13';
+import Day14 from './Day14';
 
 
 // interface for the single day element
@@ -50,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexGrow: 1,
         backgroundColor: theme.palette.background.paper,
         display: 'flex',
-        height: 600,
+        height: '100%',
     },
     tabs: {
         borderRight: `1px solid ${theme.palette.divider}`,
@@ -58,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 const App: React.FC = () => {
-    const [day, setDay] = React.useState(11);
+    const [day, setDay] = React.useState(13);
     const classes = useStyles();
 
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -87,6 +89,8 @@ const App: React.FC = () => {
                 <Tab label="Day 10" />
                 <Tab label="Day 11" />
                 <Tab label="Day 12" />
+                <Tab label="Day 13" />
+                <Tab label="Day 14" />
 
             </Tabs>
             <TabPanel value={day} index={0}>
@@ -122,6 +126,12 @@ const App: React.FC = () => {
             </TabPanel>
             <TabPanel value={day} index={11}>
                 <Day12></Day12>
+            </TabPanel>
+            <TabPanel value={day} index={12}>
+                <Day13></Day13>
+            </TabPanel>
+            <TabPanel value={day} index={13}>
+                <Day14></Day14>
             </TabPanel>
         </div>
     );
