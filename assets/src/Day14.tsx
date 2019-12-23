@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Day14: React.FC = () => {
     const [problemInput, setProblemInput] = useState(``);
-    const [simulationSteps, setSimulationSteps] = useState(1000);
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
 
     const classes = useStyles();
@@ -55,11 +54,6 @@ const Day14: React.FC = () => {
                 const solution: { data: { result: number } } = await axios.post('/day14/' + part, reactions);
                 setProblemSolution(solution.data.result);
             }
-            if (part === 2) {
-                const solution: { data: { result: number, cycles: [number] } } = await axios.post('/day14/' + part, { simulationSteps });
-                setProblemSolution(solution.data.result);
-            }
-
         };
         sendInput();
     };
