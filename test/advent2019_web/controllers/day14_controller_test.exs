@@ -56,6 +56,6 @@ defmodule Advent2019Web.Day14ControllerTest do
       "FUEL" => {1, [{"A", 7}, {"E", 1}]}
     }
 
-    minimum_to_get(reactions, "ORE", "FUEL") == 31
+    assert minimum_to_get(reactions, "ORE", "FUEL") == 31
   end
 end
