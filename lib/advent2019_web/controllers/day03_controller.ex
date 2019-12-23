@@ -67,14 +67,10 @@ defmodule Advent2019Web.Day03Controller do
     %{:x1 => x1a, :x2 => x2a, :y1 => y1a, :y2 => y2a} = segment_a
     %{:x1 => x1b, :x2 => x2b, :y1 => y1b, :y2 => y2b} = segment_b
 
-    max_ya = Enum.max([y1a, y2a])
-    max_xb = Enum.max([x1b, x2b])
-    max_xa = Enum.max([x1a, x2a])
-    max_yb = Enum.max([y1b, y2b])
-    min_xa = Enum.min([x1a, x2a])
-    min_xb = Enum.min([x1b, x2b])
-    min_yb = Enum.min([y1b, y2b])
-    min_ya = Enum.min([y1a, y2a])
+    {min_ya, max_ya} = Enum.min_max([y1a, y2a])
+    {min_xb, max_xb} = Enum.min_max([x1b, x2b])
+    {min_xa, max_xa} = Enum.min_max([x1a, x2a])
+    {min_yb, max_yb} = Enum.min_max([y1b, y2b])
 
     case {x1a, y1a, x2a, y2a, x1b, y1b, x2b, y2b} do
       # a is vertical, b horizontal
