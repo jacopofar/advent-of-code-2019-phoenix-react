@@ -36,10 +36,14 @@ Use `mix dialyze` to statically check the types n the whole project
 - day 7 part 1 done, part 2 gives invalid results but don't know where the error is
 - day 8 it runs, but the space image parsing is too slow
 - 9 based on intcode computer, skipped for a better day
-- 10 completed, visualization could be fun to add later
+- 10 completed, visualization could be fun to add
 - 12 done, a concurrent solution allows to explore the system periodicity in different axis quicker.
 - 13 skipped for now because of IntCode computer
-- day 14 skipped, needs some trick to optimize stechiometry and reuse reagents
+- day 14 skipped, needs some trick to optimize stoichiometry and reuse reagents
+- day 15 skipped because intcode
+- day 16 skipped for now as the problem definition is quite complex
+- day 17 skipped because intcode
+- day 18 is intriguing :)
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
