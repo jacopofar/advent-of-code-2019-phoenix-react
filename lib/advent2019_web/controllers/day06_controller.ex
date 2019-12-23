@@ -138,12 +138,6 @@ defmodule Advent2019Web.Day06Controller do
     |> Enum.sum()
   end
 
-  @doc """
-  Count how many distinct paths are there from the starting point to
-  """
-  def count_paths(orbits, start_point) do
-  end
-
   def solve1(conn, params) do
     all_orbits =
       params["_json"]
