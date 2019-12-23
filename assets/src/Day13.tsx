@@ -25,17 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Day13: React.FC = () => {
     const [problemInput, setProblemInput] = useState(``);
-    const [simulationSteps, setSimulationSteps] = useState(1000);
     const [problemSolution, setProblemSolution] = useState<null | number>(null);
 
     const classes = useStyles();
 
     const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setProblemInput(event.target.value);
-    };
-
-    const updateSimulationSteps = (event: React.ChangeEvent<{}>, value: number | number[]) => {
-        setSimulationSteps(value as number);
     };
 
     const solve = (part: number) => {
@@ -49,8 +44,8 @@ const Day13: React.FC = () => {
                     else return null;
                 }).filter(k => k);
 
-                const solution: { data: { result: number } } = await axios.post('/day13/' + part, { moons, simulationSteps });
-                setProblemSolution(solution.data.result);
+            const solution: { data: { result: number } } = await axios.post('/day13/' + part, { moons, simulationSteps: 1000 });
+            setProblemSolution(solution.data.result);
 
 
         };
