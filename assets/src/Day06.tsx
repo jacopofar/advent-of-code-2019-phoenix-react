@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ChartDisplay: React.FC<GraphProps> = (props) => {
     //NOTE trying to draw this chart basically breaks the browser
-    //so it's commented out
+    //so it's commented out. There are indeed a lot of nodes, maybe it
+    // just makes no sense to try and draw a chart?
 
     return null;
     // const graphVisRef = useRef<HTMLDivElement>(null);
