@@ -3,6 +3,11 @@ defmodule Advent2019Web.Day06ControllerTest do
   import Advent2019Web.Day06Controller
 
   test "transitive closure" do
+    # note that the transitive_closure is slow and not really required.
+    # The exercise only want the count of the orbits, not to enumerate them!
+    # So, here it is implemented that way but the closure is kept as well
+    # NOTE: Erlang has a digraph module but I discovered it after implementing this :/
+    # Good to know for the future...
     input = [
       "COM)B",
       "B)C",

@@ -82,30 +82,32 @@ defmodule Advent2019Web.Day06Controller do
   @doc """
   Given orbits represented as maps (element => MapSet of satellites),
   calculate the transitive closure so that every indirect orbit of an element
-  is in the corresponding MapSet
+  is in the corresponding MapSet.
+
+  NOTE: this is much slower than simply doing what the problem is asking,
+  that is, to just count the indirect orbits.
   """
   def transitive_closure(orbits) do
-    # IO.inspect orbits
     # create a map of newly found indirect orbits
     # if the map is empty, the closure is done, if not merge it
     # and recursively work on the merged map until it's done
     new_connections =
-      for {center, satellites} <- orbits do
-        for satellite <- satellites do
+      Enum.map(orbits, fn {center, satellites} ->
+        Enum.map(satellites, fn satellite ->
           if orbits[satellite] == nil do
             # "terminal" satellite, empty list of indirect orbits
             []
           else
-            for indirect_satellite <- orbits[satellite] do
+            Enum.map(orbits[satellite], fn indirect_satellite ->
               if not MapSet.member?(orbits[center], indirect_satellite) do
                 {center, indirect_satellite}
               end
-            end
+            end)
           end
-        end
-      end
+        end)
+      end)
       |> List.flatten()
-      |> Enum.filter(&(&1 != nil))
+      |> Enum.reject(&(&1 == nil))
       |> Enum.reduce(%{}, fn {center, found_indirect_satellite}, acc ->
         Map.update(
           acc,
@@ -132,10 +134,14 @@ defmodule Advent2019Web.Day06Controller do
   Count the total number of orbits in a map
   """
   def count_orbits(orbits) do
-    for {_, satellites} <- orbits do
-      MapSet.size(satellites)
-    end
+    Enum.map(orbits, fn {_, satellites} -> MapSet.size(satellites) end)
     |> Enum.sum()
+  end
+
+  @doc """
+  Count how many distinct paths are there from the starting point to
+  """
+  def count_paths(orbits, start_point) do
   end
 
   def solve1(conn, params) do
