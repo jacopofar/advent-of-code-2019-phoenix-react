@@ -39,6 +39,7 @@ Use `mix dialyze` to statically check the types n the whole project
 - 10 completed, visualization could be fun to add later
 - 12 done, a concurrent solution allows to explore the system periodicity in different axis quicker.
 - 13 skipped for now because of IntCode computer
+- day 14 skipped, needs some trick to optimize stechiometry and reuse reagents
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.

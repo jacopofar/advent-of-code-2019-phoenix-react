@@ -13,7 +13,9 @@ defmodule Advent2019Web.Day14Controller do
   end
 
   @doc """
-  Calculate how much of element of type source is needed to reach a given amount of element of type target.
+  Calculate how much of element of type source is needed to reach a given
+  amount of element of type target.
+  Note: It doesn't perform any trick to reuse reagents in excess...
   """
   def minimum_to_get(reactions, source, target) do
     unroll_recipe(reactions, [{target, 1}], source)
@@ -45,7 +47,7 @@ defmodule Advent2019Web.Day14Controller do
   end
 
   def solve1(conn, params) do
-    reactions = params["_json"]
+    _reactions = params["_json"]
 
     json(conn, %{
       result: 42
