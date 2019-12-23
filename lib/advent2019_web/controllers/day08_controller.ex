@@ -17,9 +17,10 @@ defmodule Advent2019Web.Day08Controller do
     layers = Integer.floor_div(String.length(raw_image), w * h)
 
     for l <- 0..(layers - 1) do
+      layer = String.slice(raw_image, l * w * h, (l + 1) * w * h)
       for y <- 0..(h - 1) do
         for x <- 0..(w - 1) do
-          String.to_integer(String.at(raw_image, l * w * h + w * y + x))
+          String.to_integer(String.at(layer, w * y + x))
         end
       end
     end
@@ -56,6 +57,7 @@ defmodule Advent2019Web.Day08Controller do
 
   def solve1(conn, params) do
     layers = space_image_as_lists(params)
+
     less_zeros_id = layer_with_fewest_zeros(layers)
 
     result =

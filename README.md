@@ -34,7 +34,7 @@ Use `mix dialyze` to statically check the types n the whole project
 - day 5 ok!
 - day 6 performance issue, the `mix profile` task profiles it. It is doing more than needed, the problem asks to *count* the paths and I'm enumerating them. The graph representation in the frontend doesn't scale with so many edges and is disabled.
 - day 7 part 1 done, part 2 gives invalid results but don't know where the error is
-- day 8 it runs, but the space image parsing is too slow
+- day 8 ok! The space image parsing was initially slow, now fixed
 - 9 based on intcode computer, skipped for a better day
 - 10 completed, visualization could be fun to add
 - 12 done, a concurrent solution allows to explore the system periodicity in different axis quicker.
