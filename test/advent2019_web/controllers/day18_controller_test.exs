@@ -110,4 +110,51 @@ defmodule Advent2019Web.Day18ControllerTest do
     assert element_position(labyrinth, "b") == {1, 16}
     assert element_position(labyrinth, "A") == {3, 16}
   end
+
+  test "can test whether a cell can be stepped on" do
+    labyrinth = labyrinth_string_to_map(@labyrinth_str)
+    assert can_cross?(labyrinth, {1, 17}, MapSet.new([]))
+    # cell with key
+    assert can_cross?(labyrinth, {1, 16}, MapSet.new([]))
+    # door, without the key
+    refute can_cross?(labyrinth, {1, 18}, MapSet.new([]))
+    # door, with the wrong the key
+    refute can_cross?(labyrinth, {1, 18}, MapSet.new(["d"]))
+    # door, with the key
+    assert can_cross?(labyrinth, {1, 18}, MapSet.new(["c"]))
+  end
+
+  test "can find cells adjacent to a given one" do
+    labyrinth = labyrinth_string_to_map(@labyrinth_str)
+    # on one side a door, on the other an empty cell, no key
+    assert reachable_cells(labyrinth, {1, 17}, MapSet.new([])) == MapSet.new([{1, 16}])
+    # same but with a wrong key
+    assert reachable_cells(labyrinth, {1, 17}, MapSet.new(["a"])) == MapSet.new([{1, 16}])
+    # now with the correct key
+    assert reachable_cells(labyrinth, {1, 17}, MapSet.new(["c"])) ==
+             MapSet.new([{1, 16}, {1, 18}])
+  end
+
+  test "can find the next move" do
+    labyrinth = labyrinth_string_to_map(@labyrinth_str)
+    start_pos = element_position(labyrinth, "@")
+
+    assert next_possible_moves(labyrinth, start_pos, MapSet.new()) ==
+             MapSet.new([
+               {"b", 22},
+               {"a", 2}
+             ])
+
+    # if a key is already in the inventory, do not pathfind it
+    assert next_possible_moves(labyrinth, start_pos, MapSet.new(["a"])) ==
+             MapSet.new([
+               {"b", 22}
+             ])
+
+    # new keys can be reached by opening the doors with given keys
+    assert next_possible_moves(labyrinth, start_pos, MapSet.new(["b", "a"])) ==
+             MapSet.new([
+               {"c", 6}
+             ])
+  end
 end
