@@ -18,6 +18,7 @@ defmodule Advent2019Web.Day08Controller do
 
     for l <- 0..(layers - 1) do
       layer = String.slice(raw_image, l * w * h, (l + 1) * w * h)
+
       for y <- 0..(h - 1) do
         for x <- 0..(w - 1) do
           String.to_integer(String.at(layer, w * y + x))
