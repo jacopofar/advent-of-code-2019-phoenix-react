@@ -2,16 +2,16 @@ defmodule Advent2019Web.Day18ControllerTest do
   use Advent2019Web.ConnCase
   import Advent2019Web.Day18Controller
 
-  test "can represent a labyrinth as a map" do
-    labyrinth = ~S"""
-    ########################
-    #...............b.C.D.f#
-    #.######################
-    #.....@.a.B.c.d.A.e.F.g#
-    ########################
-    """
+  @labyrinth_str ~S"""
+  ########################
+  #...............b.C.D.f#
+  #.######################
+  #.....@.a.B.c.d.A.e.F.g#
+  ########################
+  """
 
-    assert labyrinth_string_to_map(labyrinth) ==
+  test "can represent a labyrinth as a map" do
+    assert labyrinth_string_to_map(@labyrinth_str) ==
              %{
                {0, 0} => "#",
                {0, 1} => "#",
@@ -102,5 +102,12 @@ defmodule Advent2019Web.Day18ControllerTest do
                {4, 22} => "#",
                {4, 23} => "#"
              }
+  end
+
+  test "can find an element in the labyrinth" do
+    labyrinth = labyrinth_string_to_map(@labyrinth_str)
+    assert element_position(labyrinth, "@") == {3, 6}
+    assert element_position(labyrinth, "b") == {1, 16}
+    assert element_position(labyrinth, "A") == {3, 16}
   end
 end

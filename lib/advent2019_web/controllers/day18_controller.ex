@@ -22,6 +22,20 @@ defmodule Advent2019Web.Day18Controller do
     |> Map.new()
   end
 
+  @doc """
+  Given a map representation of a labyrinth, finds a given element in it.
+  """
+  @spec element_position(map, String.t()) :: {number, number}
+  def element_position(labyrinth, element) do
+    [{coord, _}] =
+      labyrinth
+      |> Stream.filter(fn {_, val} -> val == element end)
+      |> Stream.take(1)
+      |> Enum.to_list()
+
+    coord
+  end
+
   def solve1(conn, params) do
     _blabla = params["_json"]
     labyrinth_string_to_map(23)
