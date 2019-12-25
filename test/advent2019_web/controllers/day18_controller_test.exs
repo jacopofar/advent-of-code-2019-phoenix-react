@@ -156,5 +156,20 @@ defmodule Advent2019Web.Day18ControllerTest do
              MapSet.new([
                {"c", 6}
              ])
+
+    # if all keys are done, the result is an empty set
+    assert next_possible_moves(
+             labyrinth,
+             start_pos,
+             MapSet.new(["b", "a", "c", "d", "e", "f", "g"])
+           ) ==
+             MapSet.new()
+  end
+
+  test "can find the best sequence of keys" do
+    labyrinth = labyrinth_string_to_map(@labyrinth_str)
+
+    assert best_key_sequence(labyrinth, element_position(labyrinth, "@")) ==
+             {132, ["b", "a", "c", "d", "f", "e", "g"]}
   end
 end

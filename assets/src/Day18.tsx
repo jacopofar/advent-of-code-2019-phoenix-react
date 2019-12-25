@@ -41,7 +41,7 @@ const Day18: React.FC = () => {
         const sendInput = async () => {
             const labyrinth = problemInput.split('\n').map(l => l.trim()).join('\n');
             if (part === 1) {
-                const solution: { data: { result: number } } = await axios.post('/day14/' + part, { labyrinth });
+                const solution: { data: { result: number } } = await axios.post('/day18/' + part, { labyrinth });
                 setProblemSolution(solution.data.result);
             }
             if (part === 2) {

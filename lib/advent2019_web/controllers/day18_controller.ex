@@ -45,10 +45,10 @@ defmodule Advent2019Web.Day18Controller do
   within the equipped ones, the path search crosses the door.
   """
   @spec next_possible_moves(map, {number, number}, MapSet) :: MapSet
-  def next_possible_moves(labyrinth, {col, row}, equipped_keys) do
+  def next_possible_moves(labyrinth, start_cell, equipped_keys) do
     distances_from(
       labyrinth,
-      MapSet.new([{col, row}]),
+      MapSet.new([start_cell]),
       MapSet.new(),
       0,
       equipped_keys,
@@ -141,12 +141,42 @@ defmodule Advent2019Web.Day18Controller do
     |> MapSet.new()
   end
 
+  @doc """
+  Find the best sequence of keys to get from a labyrinth in order to minimize
+  the steps, and the corresponding amount of steps.
+  """
+  @spec best_key_sequence(map, {number, number}, MapSet) :: {number, List}
+  def best_key_sequence(labyrinth, start_pos, equipped_keys \\ MapSet.new()) do
+    candidates = next_possible_moves(labyrinth, start_pos, equipped_keys)
+    IO.inspect({"exploring sequence:", equipped_keys})
+
+    if MapSet.size(candidates) == 0 do
+      {0, []}
+    else
+      Enum.map(candidates, fn {key, distance} ->
+        # from the candidate {key, distance} try to complete
+        {extra_distance, next_keys} =
+          best_key_sequence(
+            labyrinth,
+            element_position(labyrinth, key),
+            MapSet.put(equipped_keys, key)
+          )
+
+        {distance + extra_distance, [key | next_keys]}
+      end)
+      |> Enum.min_by(fn {distance, _} -> distance end)
+    end
+  end
+
   def solve1(conn, params) do
-    _blabla = params["_json"]
-    labyrinth_string_to_map(23)
+    labyrinth_str = params["labyrinth"]
+    labyrinth = labyrinth_string_to_map(labyrinth_str)
+
+    {distance, keys} = best_key_sequence(labyrinth, element_position(labyrinth, "@"))
 
     json(conn, %{
-      result: 42
+      result: distance,
+      keys: keys
     })
   end
 end
