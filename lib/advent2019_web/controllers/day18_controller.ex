@@ -25,7 +25,7 @@ defmodule Advent2019Web.Day18Controller do
   @doc """
   Given a map representation of a labyrinth, finds a given element in it.
   """
-  @spec element_position(map, String.t()) :: {number, number}
+  @spec element_position(map, String.t()) :: {Integer, Integer}
   def element_position(labyrinth, element) do
     [{coord, _}] =
       labyrinth
@@ -44,7 +44,8 @@ defmodule Advent2019Web.Day18Controller do
   If a key is already equipped, it is ignored. If a door can be opened with a key
   within the equipped ones, the path search crosses the door.
   """
-  @spec next_possible_moves(map, {number, number}, MapSet) :: MapSet
+  @spec next_possible_moves(map, {Integer, Integer}, MapSet.t(String.t())) ::
+          MapSet.t({String.t(), Integer})
   def next_possible_moves(labyrinth, start_cell, equipped_keys) do
     distances_from(
       labyrinth,
@@ -56,7 +57,15 @@ defmodule Advent2019Web.Day18Controller do
     )
   end
 
-  @spec distances_from(map, MapSet, MapSet, number, MapSet, MapSet) :: MapSet
+  @spec distances_from(
+          map,
+          MapSet.t({Integer, Integer}),
+          MapSet.t({Integer, Integer}),
+          non_neg_integer,
+          MapSet.t(String.t()),
+          MapSet.t({Integer, Integer})
+        ) ::
+          MapSet.t({String.t(), Integer})
   defp distances_from(
          labyrinth,
          edge_cells,
@@ -145,16 +154,18 @@ defmodule Advent2019Web.Day18Controller do
   Find the best sequence of keys to get from a labyrinth in order to minimize
   the steps, and the corresponding amount of steps.
   """
-  @spec best_key_sequence(map, {number, number}, MapSet) :: {number, List}
+  @spec best_key_sequence(map, {Integer, Integer}, MapSet.t(String.t())) :: {Integer, List}
   def best_key_sequence(labyrinth, start_pos, equipped_keys \\ MapSet.new()) do
-    candidates = next_possible_moves(labyrinth, start_pos, equipped_keys)
-    IO.inspect({"exploring sequence:", equipped_keys})
+    candidates =
+      next_possible_moves(labyrinth, start_pos, equipped_keys)
+      |> Enum.sort_by(fn {_, distance} -> distance end)
 
-    if MapSet.size(candidates) == 0 do
+    IO.inspect(equipped_keys)
+
+    if length(candidates) == 0 do
       {0, []}
     else
       Enum.map(candidates, fn {key, distance} ->
-        # from the candidate {key, distance} try to complete
         {extra_distance, next_keys} =
           best_key_sequence(
             labyrinth,
