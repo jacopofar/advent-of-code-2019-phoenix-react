@@ -101,7 +101,7 @@ defmodule Advent2019Web.Day12Controller do
   @spec sum(output, output, atom) :: number
   defp sum(x, y, key), do: Map.get(x, key) + Map.get(y, key)
 
-  @spec accelerations([input]) :: number
+  @spec moons_hash([input]) :: String.t()
   def moons_hash(moons) do
     string_repr =
       moons
