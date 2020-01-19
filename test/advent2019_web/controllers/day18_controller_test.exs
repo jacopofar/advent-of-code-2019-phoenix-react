@@ -167,7 +167,7 @@ defmodule Advent2019Web.Day18ControllerTest do
   end
 
   @tag :skip
-  @tag timeout: :infinity
+  # TODO fix this! The pruning is incorrect
   test "can find the best sequence of keys" do
     labyrinth = labyrinth_string_to_map(@labyrinth_str)
 
@@ -175,14 +175,14 @@ defmodule Advent2019Web.Day18ControllerTest do
              {132, ["b", "a", "c", "d", "f", "e", "g"]}
 
     labyrinth2 = labyrinth_string_to_map(~S"#################
-#i.G..c...e..H.p#
-########.########
-#j.A..b...f..D.o#
-########@########
-#k.E..a...g..B.n#
-########.########
-#l.F..d...h..C.m#
-#################")
+    #i.G..c...e..H.p#
+    ########.########
+    #j.A..b...f..D.o#
+    ########@########
+    #k.E..a...g..B.n#
+    ########.########
+    #l.F..d...h..C.m#
+    #################")
 
     assert best_key_sequence(labyrinth2, element_position(labyrinth, "@")) ==
              {136, ~w(a, f, b, j, g, n, h, d, l, o, e, p, c, i, k, m)}

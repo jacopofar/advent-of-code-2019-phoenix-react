@@ -154,28 +154,57 @@ defmodule Advent2019Web.Day18Controller do
   Find the best sequence of keys to get from a labyrinth in order to minimize
   the steps, and the corresponding amount of steps.
   """
-  @spec best_key_sequence(map, {Integer, Integer}, MapSet.t(String.t())) :: {Integer, List}
-  def best_key_sequence(labyrinth, start_pos, equipped_keys \\ MapSet.new()) do
+  @spec best_key_sequence(map, {Integer, Integer}, MapSet.t(String.t()), Integer, Integer) ::
+          {Integer, List}
+  def best_key_sequence(
+        labyrinth,
+        start_pos,
+        equipped_keys \\ MapSet.new(),
+        distance_limit \\ Inf,
+        distance_so_far \\ 0
+      ) do
+    # all the possible next keys to retrieve
     candidates =
       next_possible_moves(labyrinth, start_pos, equipped_keys)
       |> Enum.sort_by(fn {_, distance} -> distance end)
 
-    IO.inspect(equipped_keys)
+    # only the ones that are not so distant that we already found a better path for sure
+    meaningful_candidates =
+      Enum.reject(candidates, fn {_, distance} -> distance + distance_so_far > distance_limit end)
 
+    IO.inspect(
+      {"keys:", equipped_keys, "distance so far:", distance_so_far, "limit:", distance_limit}
+    )
+
+    # nothing to be retrieved ? the path is complete, terminate it
     if length(candidates) == 0 do
       {0, []}
     else
-      Enum.map(candidates, fn {key, distance} ->
-        {extra_distance, next_keys} =
-          best_key_sequence(
-            labyrinth,
-            element_position(labyrinth, key),
-            MapSet.put(equipped_keys, key)
-          )
+      # maybe there was something to retrieve, but too distant and the search stops
+      if length(meaningful_candidates) == 0 do
+        {nil, nil}
+      else
+        # something to retrieve and not too distant, explore the possibility
+        Enum.reduce(candidates, {Inf, ~w(fake sequence)}, fn {key, distance},
+                                                             {best_distance_so_far,
+                                                              best_sequence_so_far} ->
+          {extra_distance, next_keys} =
+            best_key_sequence(
+              labyrinth,
+              element_position(labyrinth, key),
+              MapSet.put(equipped_keys, key),
+              best_distance_so_far,
+              distance_so_far + distance
+            )
 
-        {distance + extra_distance, [key | next_keys]}
-      end)
-      |> Enum.min_by(fn {distance, _} -> distance end)
+          # extra_distance can be nil if the search was interrupted
+          if extra_distance != nil and distance + extra_distance < best_distance_so_far do
+            {distance + extra_distance, [key | next_keys]}
+          else
+            {best_distance_so_far, best_sequence_so_far}
+          end
+        end)
+      end
     end
   end
 

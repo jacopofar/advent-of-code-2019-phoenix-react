@@ -43,7 +43,9 @@ Use `mix dialyze` to statically check the types n the whole project
 - day 15 skipped because intcode
 - day 16 skipped for now as the problem definition is quite complex
 - day 17 skipped because intcode
-- day 18 is intriguing :)
+- day 18 is intriguing :) Implemented a solution for part 1 but it's megaslow. Drafted an improvement based on pruning. Also, weird Dialyze issues.
+- day 19 skipped because intcode
+- day 20
 
 ## 📓 development notes
 These notes are here so I can remember how I built this in the future.
